@@ -1,0 +1,41 @@
+version: "3.9"
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile.local
+    volumes:
+      - ./:/usr/app
+      - /usr/app/node_modules/
+      - /usr/app/dist/
+    image: marketplace-api-order
+    depends_on:
+      - postgres
+      - redis
+    command: sh -c "${COMMAND}"
+    env_file: ${ENV_FILE}
+    ports:
+      - "10001:3000"
+    networks:
+      - marketplace-api-order
+  postgres:
+    image: postgres:13
+    container_name: allkons-pg-order
+    ports:
+      - "20000:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: mysecretpassword
+      POSTGRES_DB: shopdit_api_development
+    networks:
+      - marketplace-api-order
+  redis:
+    container_name: allkons-redis-order
+    image: redis:7.0-alpine
+    restart: always
+    ports:
+      - "26379:6379"
+    networks:
+      - marketplace-api-order
+networks:
+  marketplace-api-order:

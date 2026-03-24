@@ -1,0 +1,236 @@
+pipeline {
+    agent any
+    
+    options {
+        disableConcurrentBuilds()
+        timeout(time: 60, unit: 'MINUTES')
+    }
+
+    environment {
+        BRANCH_NAME = "${GIT_BRANCH.tokenize('/').last()}"
+        IS_TAG   = "${GIT_BRANCH?.startsWith('refs/tags/')}"
+        APP_NAME = "allkons-seller-platform"
+        APP_TYPE = "web"
+        DISCORD_URL = credentials('DISCORD_WEBHOOK')
+        SERVICE_PATH = 'apps/seller-platform'
+    }
+  
+    stages {
+        stage('Determine Changes') {
+            when {
+                anyOf {
+                    expression { env.BRANCH_NAME in ['develop', 'sit', 'uat'] }
+                    expression { env.IS_TAG == 'true' }
+                }
+            }
+            steps {
+                script {
+                    def serviceChanged = sh(
+                        script: """
+                            # Handle first commit by checking if HEAD^ exists
+                            if git rev-parse HEAD^ >/dev/null 2>&1; then
+                                git diff --name-only HEAD^ HEAD | grep -E '^(apps/seller-platform/|packages/|pnpm-lock.yaml|turbo.json)' || true
+                            else
+                                # First commit - check if service files exist
+                                git ls-files | grep -E '^(apps/seller-platform/|packages/|pnpm-lock.yaml|turbo.json)' || true
+                            fi
+                        """,
+                        returnStdout: true
+                    ).trim()
+
+                    env.SHOULD_BUILD = serviceChanged != "" ? 'true' : 'false'
+
+                    echo "Seller platform changes detected: ${env.SHOULD_BUILD}"
+                    if (env.SHOULD_BUILD == 'false') {
+                        echo "No changes in seller-platform or shared packages. Skipping build."
+                        currentBuild.result = 'NOT_BUILT'
+                    }
+                }
+            }
+        }
+
+        stage('Prepare Environment'){
+            when {
+                anyOf {
+                    expression { env.BRANCH_NAME in ['develop', 'sit', 'uat'] }
+                    expression { env.IS_TAG == 'true' }
+                }
+                expression { env.SHOULD_BUILD == 'true' }
+            }
+            steps{
+                script{
+                    if (env.BRANCH_NAME == 'develop'){
+                        env.APP_ENV = 'dev'
+                        env.APP_ENV_UPPER = 'DEV'
+                        env.DOMAIN_ENV = 'marketplace-seller-dev.allkons.com'
+                        env.NAMESPACE = 'mono-revamp'
+                        env.AWS_ECR = '637423196093.dkr.ecr.ap-southeast-1.amazonaws.com'
+                        env.VERSION = "v0.0.${BUILD_NUMBER}"
+                        env.CLUSTER_NAME = "eks-apse1-allkons-dev"
+                    }
+                    if (env.BRANCH_NAME == 'sit'){
+                        env.APP_ENV = 'sit'
+                        env.APP_ENV_UPPER = 'SIT'
+                        env.DOMAIN_ENV = 'marketplace-seller-sit.allkons.com'
+                        env.NAMESPACE = 'sit'
+                        env.AWS_ECR = '637423196093.dkr.ecr.ap-southeast-1.amazonaws.com'
+                        env.VERSION = "v0.0.${BUILD_NUMBER}"
+                        env.CLUSTER_NAME = "eks-apse1-allkons-dev"
+                    }
+                    if (env.BRANCH_NAME == 'uat'){
+                        env.APP_ENV = 'uat'
+                        env.APP_ENV_UPPER = 'UAT'
+                        env.DOMAIN_ENV = 'marketplace-seller-uat.allkons.com'
+                        env.NAMESPACE = 'uat'
+                        env.AWS_ECR = '590183989907.dkr.ecr.ap-southeast-1.amazonaws.com'
+                        env.VERSION = "v0.0.${BUILD_NUMBER}"
+                        env.CLUSTER_NAME = "eks-apse1-allkons-uat"
+                    }
+                    if (env.IS_TAG == 'true'){
+                        env.APP_ENV = 'prd'
+                        env.APP_ENV_UPPER = 'PRD'
+                        env.DOMAIN_ENV = 'marketplace-seller.allkons.com'
+                        env.NAMESPACE = 'prd'
+                        env.AWS_ECR = '339713172079.dkr.ecr.ap-southeast-1.amazonaws.com'
+                        env.VERSION = "${env.GIT_BRANCH.replaceFirst('refs/tags/', '')}"
+                        env.CLUSTER_NAME = "eks-apse1-allkons-prd" 
+                    }
+                }
+            }
+        }
+
+        stage('get_commit_msg') {
+            when {
+                anyOf {
+                    expression { env.BRANCH_NAME in ['develop', 'sit', 'uat'] }
+                    expression { env.IS_TAG == 'true' }
+                }
+                expression { env.SHOULD_BUILD == 'true' }
+            }
+            steps {
+                script {
+                    env.GIT_COMMIT_MSG = sh (script: 'git log -1 --pretty=%B ${GIT_COMMIT}', returnStdout: true).trim()
+                    env.GIT_AUTHOR_ID = sh (script: 'git show -s --pretty=%an', returnStdout: true).trim()
+                    env.GIT_COMMIT_HASH = sh(script: 'git rev-parse --short HEAD', returnStdout: true).trim()
+                    // discordSend description: "Started build #${BUILD_NUMBER}", footer: "Commit: ${GIT_COMMIT_HASH}\n${GIT_COMMIT_MSG}", link: env.BUILD_URL, result: 'UNSTABLE', title: JOB_NAME, webhookURL: DISCORD_URL
+                }
+            }
+        }
+
+        stage('Build and Push Docker Image') {
+            when {
+                anyOf {
+                    expression { env.BRANCH_NAME in ['develop', 'sit', 'uat'] }
+                    expression { env.IS_TAG == 'true' }
+                }
+                expression { env.SHOULD_BUILD == 'true' }
+            }
+            environment {
+                NEXT_PUBLIC_API_HOST_URL = credentials("ALLKONS_SELLER_PLATFORM_NEXT_PUBLIC_API_HOST_URL_${APP_ENV_UPPER}")
+                NEXT_PUBLIC_ALLKONS_APP_ID = credentials("ALLKONS_SELLER_PLATFORM_NEXT_PUBLIC_ALLKONS_APP_ID_${APP_ENV_UPPER}")
+            }
+            steps {
+                echo 'Build and Push Docker Image'
+                script{
+                    withCredentials([[$class: 'AmazonWebServicesCredentialsBinding',credentialsId: "AWS_ECR_${APP_ENV_UPPER}",accessKeyVariable: 'AWS_ACCESS_KEY_ID',secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) {
+                        sh '''
+                            export DOCKER_BUILDKIT=1
+                            cd ${WORKSPACE}
+                            docker build \
+                                --platform linux/amd64 \
+                                --build-arg NEXT_PUBLIC_API_HOST_URL=${NEXT_PUBLIC_API_HOST_URL} \
+                                --build-arg NEXT_PUBLIC_ALLKONS_APP_ID=${NEXT_PUBLIC_ALLKONS_APP_ID} \
+                                --no-cache \
+                                --force-rm \
+                                -f ${SERVICE_PATH}/Dockerfile \
+                                -t ${AWS_ECR}/${APP_TYPE}/${APP_NAME}-${APP_ENV}:${VERSION} \
+                                .
+                            aws ecr get-login-password --region ap-southeast-1 | docker --config ${WORKSPACE}/docker.login login --username AWS --password-stdin ${AWS_ECR}
+                            docker --config ${WORKSPACE}/docker.login push ${AWS_ECR}/${APP_TYPE}/${APP_NAME}-${APP_ENV}:${VERSION}
+                            sleep 3
+                            docker rmi ${AWS_ECR}/${APP_TYPE}/${APP_NAME}-${APP_ENV}:${VERSION}
+                        '''
+                    }
+                }
+            }
+        }
+
+        stage('Prepare KubeConfigure') {
+            when {
+                anyOf {
+                    expression { env.BRANCH_NAME in ['develop', 'sit', 'uat'] }
+                    expression { env.IS_TAG == 'true' }
+                }
+                expression { env.SHOULD_BUILD == 'true' }
+            }
+            steps {
+                echo 'Prepare KubeConfigure'
+                script {
+                    // เรียก AccessKey & SecretKey ของ AWS Account ที่ต้องการ ผ่าน plugin Credentials AWS
+                    withCredentials([[ $class: 'AmazonWebServicesCredentialsBinding', credentialsId: "AWS_EKS_${APP_ENV_UPPER}"]]) {
+                        sh('''
+                            export KUBECONFIG="${WORKSPACE}/kubeconfig"
+                            aws eks update-kubeconfig --region ap-southeast-1 --name ${CLUSTER_NAME}
+                            kubectl --kubeconfig ${KUBECONFIG} get ns
+                        ''')
+                    }
+                }
+            }
+        }
+
+        stage('Deploy Application') {
+            when {
+                anyOf {
+                    expression { env.BRANCH_NAME in ['develop', 'sit', 'uat'] }
+                    expression { env.IS_TAG == 'true' }
+                }
+                expression { env.SHOULD_BUILD == 'true' }
+            }
+            steps {
+                echo 'Deploy Application'
+                timeout(time: 5, unit: 'MINUTES'){
+                script {
+                    withCredentials([[ $class: 'AmazonWebServicesCredentialsBinding', credentialsId: "AWS_EKS_${APP_ENV_UPPER}"]]) {
+                        sh('''
+                            export KUBECONFIG="${WORKSPACE}/kubeconfig"
+                            rm -f ${SERVICE_PATH}/helm/charts/common/deployments/${APP_NAME}/environments.${APP_ENV}.yaml
+                                
+                            cat ${SERVICE_PATH}/helm/charts/common/deployments/${APP_NAME}/environments_byenv.yaml | envsubst > ${SERVICE_PATH}/helm/charts/common/deployments/${APP_NAME}/environments.${APP_ENV}.yaml
+                                
+                            helm upgrade --install -f ${SERVICE_PATH}/helm/charts/common/deployments/${APP_NAME}/values-${APP_ENV}.yaml \
+                            -f ${SERVICE_PATH}/helm/charts/common/deployments/${APP_NAME}/environments.${APP_ENV}.yaml \
+                            ${APP_NAME} ${SERVICE_PATH}/helm/charts/common \
+                            --namespace=${NAMESPACE} \
+                            --set nameOverride=${APP_NAME} \
+                            --set fullnameOverride=${APP_NAME} \
+                            --set image.registry=${AWS_ECR} \
+                            --set image.repository=${APP_TYPE}/${APP_NAME}-${APP_ENV} \
+                            --set image.tag=${VERSION} \
+                            --set ingress.hostname=${DOMAIN_ENV} \
+                            --wait --timeout 5m
+                        ''')
+                    }
+                }
+            }
+        }
+    }
+    }
+
+    post {
+        always {
+            echo "One way or another, The Jenkins has finished "
+            deleteDir() /* clean up our workspace */
+        }
+        success {
+            echo 'Result : succeeded!'
+            discordSend description: "Finished build #${BUILD_NUMBER}", footer: "Commit: ${GIT_COMMIT_HASH}\n${GIT_COMMIT_MSG}", link: env.BUILD_URL, result: currentBuild.currentResult, title: env.JOB_NAME, webhookURL: env.DISCORD_URL
+        }
+        unstable {
+            echo 'Result : unstable :/'
+        }
+        failure {
+            echo 'Result : failed :('
+            discordSend description: "Failed build #${BUILD_NUMBER}", footer: "Commit: ${GIT_COMMIT_HASH}\n${GIT_COMMIT_MSG}", link: env.BUILD_URL, result: currentBuild.currentResult, title: env.JOB_NAME, webhookURL: env.DISCORD_URL
+        }
+    }
+}

@@ -1,0 +1,173 @@
+
+.actionButton {
+  padding-top: 18px !important;
+  padding-bottom: 18px !important;
+  padding-left: 20px !important;
+  padding-right: 20px !important;
+  font-weight: 400 !important;
+  transition: none !important;
+}
+
+.actionButton:not(:disabled) {
+  transition: none !important;
+}
+
+.actionButton:not(:disabled):hover {
+  background-color: transparent !important;
+  transition: none !important;
+}
+
+.actionButton i {
+  font-size: 20px !important;
+  width: 20px !important;
+  height: 20px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  font-weight: 400 !important;
+  transition: none !important;
+}
+
+.actionButton span {
+  font-weight: 400 !important;
+}
+
+.actionButtonSuccess:not(:disabled) {
+  border-color: #00af43 !important;
+  border: 1px solid #00af43 !important;
+  color: #00af43 !important;
+  transition: none !important;
+}
+
+.actionButtonSuccess:not(:disabled) i,
+.actionButtonSuccess:not(:disabled) span {
+  color: #00af43 !important;
+  transition: none !important;
+}
+
+.actionButtonSuccess:not(:disabled):hover {
+  border-color: #00af43 !important;
+  border: 1px solid #00af43 !important;
+  color: #00af43 !important;
+  background-color: transparent !important;
+  transition: none !important;
+}
+
+.actionButtonSuccess:not(:disabled):hover i,
+.actionButtonSuccess:not(:disabled):hover span {
+  color: #00af43 !important;
+  transition: none !important;
+}
+
+.actionButtonDanger:not(:disabled) {
+  border-color: #ff4d4f !important;
+  border: 1px solid #ff4d4f !important;
+  color: #ff4d4f !important;
+  transition: none !important;
+}
+
+.actionButtonDanger:not(:disabled) i,
+.actionButtonDanger:not(:disabled) span {
+  color: #ff4d4f !important;
+  transition: none !important;
+}
+
+.actionButtonDanger:not(:disabled):hover {
+  border-color: #ff4d4f !important;
+  border: 1px solid #ff4d4f !important;
+  color: #ff4d4f !important;
+  background-color: transparent !important;
+  transition: none !important;
+}
+
+.actionButtonDanger:not(:disabled):hover i,
+.actionButtonDanger:not(:disabled):hover span {
+  color: #ff4d4f !important;
+  transition: none !important;
+}
+
+.actionButtonText {
+  font-weight: 700 !important; /* Bold */
+  font-size: 16px !important; /* Larger font size (expanded from default) */
+  display: inline !important;
+}
+
+.actionButtonIcon {
+  font-size: 20px !important;
+  width: 20px !important;
+  height: 20px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  font-weight: 400 !important;
+}
+
+.selectionIndicator {
+  padding-top: 18px !important;
+  padding-bottom: 18px !important;
+  padding-left: 12px !important;
+  padding-right: 12px !important;
+  color: #000000 !important;
+  border-color: #d9d9d9 !important;
+}
+
+.selectionIndicator i {
+  font-size: 20px !important;
+  width: 20px !important;
+  height: 20px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  font-weight: 400 !important;
+  color: #000000 !important;
+}
+
+.selectionIndicator span {
+  font-weight: 400 !important;
+  color: #000000 !important;
+}
+
+.selectionIndicator:hover {
+  color: #000000 !important;
+  border-color: #d9d9d9 !important;
+  background-color: transparent !important;
+}
+
+.selectionIndicator:hover i {
+  color: #000000 !important;
+}
+
+.selectionIndicator:hover span {
+  color: #000000 !important;
+}
+
+.selectionIndicatorText {
+  font-weight: 600 !important;
+  font-size: 16px !important;
+  line-height: 24px !important;
+  color: #37404f !important;
+}
+
+.actionButtonIconOnly {
+  padding: 18px 12px !important;
+}
+
+.actionButton:disabled,
+.actionButton[disabled] {
+  background-color: #ffffff !important;
+  border-color: #d9d9d9 !important;
+  color: #9da6b5 !important;
+}
+
+.actionButton:disabled i,
+.actionButton[disabled] i,
+.actionButton:disabled span,
+.actionButton[disabled] span {
+  color: #9da6b5 !important;
+}
+
+.actionButton:disabled .ant-btn-icon,
+.actionButton[disabled] .ant-btn-icon {
+  color: #9da6b5 !important;
+  opacity: 1 !important;
+}

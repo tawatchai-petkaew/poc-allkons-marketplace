@@ -1,0 +1,9 @@
+.custom-select-project-dropdown .ant-select-item-option {
+  padding: 8px !important;
+}
+
+.custom-select-project-dropdown
+  .ant-select-item-option.ant-select-item-option-active.ant-select-item-option-selected
+  .ant-select-item-option-state {
+  display: none !important;
+}

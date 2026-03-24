@@ -1,0 +1,64 @@
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# Lock files (only root pnpm-lock.yaml is allowed)
+package-lock.json
+yarn.lock
+apps/**/pnpm-lock.yaml
+services/**/pnpm-lock.yaml
+packages/**/pnpm-lock.yaml
+
+# Testing
+coverage/
+
+# Production
+dist/
+build/
+.next/
+out/
+
+# Environment variables
+.env
+.env*.local
+.env.development
+.env.staging
+.env.production
+
+# Security - SSH keys and certificates
+*.pem
+*.key
+*.p12
+*.pfx
+
+# IDE
+.vscode/
+!.vscode/tasks.json
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Turbo
+.turbo/
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+pnpm-debug.log*
+
+# Docker
+docker.login
+
+# Kubernetes
+kubeconfig
+
+# Claude Code
+.claude/
+services/api-order/secrets/
+services/api-customer/secrets/

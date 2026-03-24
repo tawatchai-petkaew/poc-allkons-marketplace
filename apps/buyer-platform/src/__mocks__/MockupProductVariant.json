@@ -1,0 +1,500 @@
+{
+  "imageGroup": [
+    {
+      "filePath": "https://stazseaprd.blob.core.windows.net/product/976/1667447040665-862160924.jpg"
+    }
+  ],
+  "productName": "BegerCool All Shield Plus สีน้ำอะคริลิค",
+  "dimension1": "Series",
+  "dimensionValue1": [
+    {
+      "productVaraintId": 6716,
+      "value": "BegerCool All Shield Plus 8 For Interior",
+      "productDimensionMasterId": 22,
+      "product_dimension_id": 3616
+    },
+    {
+      "productVaraintId": 6722,
+      "value": "BegerCool All Shield Plus 8 For Exterior",
+      "productDimensionMasterId": 22,
+      "product_dimension_id": 3616
+    },
+    {
+      "productVaraintId": 6727,
+      "value": "BegerCool All Shield Plus 8 For Exterior เบส",
+      "productDimensionMasterId": 22,
+      "product_dimension_id": 3616
+    },
+    {
+      "productVaraintId": 6744,
+      "value": "BegerCool All Shield Plus 8 For Interior เบส",
+      "productDimensionMasterId": 22,
+      "product_dimension_id": 3616
+    },
+    {
+      "productVaraintId": 6702,
+      "value": "BegerCool All Shield Plus 12 Semi-Gloss",
+      "productDimensionMasterId": 22,
+      "product_dimension_id": 3616
+    },
+    {
+      "productVaraintId": 6708,
+      "value": "BegerCool All Shield Plus 12 Semi-Gloss เบส",
+      "productDimensionMasterId": 22,
+      "product_dimension_id": 3616
+    }
+  ],
+  "dimension2": "Size",
+  "dimensionValue2": [
+    {
+      "productVaraintId": 6705,
+      "value": "1Gal",
+      "productDimensionMasterId": 3,
+      "product_dimension_id": 3617
+    },
+    {
+      "productVaraintId": 6702,
+      "value": "5Gal",
+      "productDimensionMasterId": 3,
+      "product_dimension_id": 3617
+    },
+    {
+      "productVaraintId": 6711,
+      "value": "2.5Gal",
+      "productDimensionMasterId": 3,
+      "product_dimension_id": 3617
+    }
+  ],
+  "dimension3": "Color",
+  "dimensionValue3": [
+    {
+      "productVaraintId": 6708,
+      "value": "กึ่งเงา เบสA",
+      "productDimensionMasterId": 20,
+      "product_dimension_id": 3618
+    },
+    {
+      "productVaraintId": 6709,
+      "value": "กึ่งเงา เบสB",
+      "productDimensionMasterId": 20,
+      "product_dimension_id": 3618
+    },
+    {
+      "productVaraintId": 6727,
+      "value": "ด้านพิเศษ เบสA",
+      "productDimensionMasterId": 20,
+      "product_dimension_id": 3618
+    },
+    {
+      "productVaraintId": 6710,
+      "value": "กึ่งเงา เบสC",
+      "productDimensionMasterId": 20,
+      "product_dimension_id": 3618
+    },
+    {
+      "productVaraintId": 6729,
+      "value": "ด้านพิเศษ เบสC",
+      "productDimensionMasterId": 20,
+      "product_dimension_id": 3618
+    },
+    {
+      "productVaraintId": 6712,
+      "value": "กึ่งเงา เบสD",
+      "productDimensionMasterId": 20,
+      "product_dimension_id": 3618
+    },
+    {
+      "productVaraintId": 6730,
+      "value": "ด้านพิเศษ เบสB",
+      "productDimensionMasterId": 20,
+      "product_dimension_id": 3618
+    },
+    {
+      "productVaraintId": 6731,
+      "value": "ด้านพิเศษ เบสD",
+      "productDimensionMasterId": 20,
+      "product_dimension_id": 3618
+    },
+    {
+      "productVaraintId": 6736,
+      "value": "ด้านพิเศษ #AI-1100 White",
+      "productDimensionMasterId": 20,
+      "product_dimension_id": 3618
+    },
+    {
+      "productVaraintId": 6738,
+      "value": "ด้านพิเศษ #AI-1712 Peal White",
+      "productDimensionMasterId": 20,
+      "product_dimension_id": 3618
+    },
+    {
+      "productVaraintId": 6737,
+      "value": "ด้านพิเศษ #AI-1713 Smozky Grey",
+      "productDimensionMasterId": 20,
+      "product_dimension_id": 3618
+    },
+    {
+      "productVaraintId": 6739,
+      "value": "ด้านพิเศษ #AI-1717 Lavender Petais",
+      "productDimensionMasterId": 20,
+      "product_dimension_id": 3618
+    },
+    {
+      "productVaraintId": 6742,
+      "value": "ด้านพิเศษ #AI-1717 Lavender Petals",
+      "productDimensionMasterId": 20,
+      "product_dimension_id": 3618
+    },
+    {
+      "productVaraintId": 6722,
+      "value": "ด้านพิเศษ #AE-2200 White",
+      "productDimensionMasterId": 20,
+      "product_dimension_id": 3618
+    },
+    {
+      "productVaraintId": 6723,
+      "value": "ด้านพิเศษ #AE-2712 Peal White",
+      "productDimensionMasterId": 20,
+      "product_dimension_id": 3618
+    },
+    {
+      "productVaraintId": 6724,
+      "value": "ด้านพิเศษ #AE-2715 Portland",
+      "productDimensionMasterId": 20,
+      "product_dimension_id": 3618
+    },
+    {
+      "productVaraintId": 6716,
+      "value": "ด้านพิเศษ #I-3511 Cool White",
+      "productDimensionMasterId": 20,
+      "product_dimension_id": 3618
+    },
+    {
+      "productVaraintId": 6717,
+      "value": "ด้านพิเศษ #I-3599 Smoky White",
+      "productDimensionMasterId": 20,
+      "product_dimension_id": 3618
+    },
+    {
+      "productVaraintId": 6702,
+      "value": "กึ่งเงา #A4151 Lily White",
+      "productDimensionMasterId": 20,
+      "product_dimension_id": 3618
+    },
+    {
+      "productVaraintId": 6703,
+      "value": "กึ่งเงา #A4400 White",
+      "productDimensionMasterId": 20,
+      "product_dimension_id": 3618
+    },
+    {
+      "productVaraintId": 6704,
+      "value": "กึ่งเงา #A4712 Peal White",
+      "productDimensionMasterId": 20,
+      "product_dimension_id": 3618
+    }
+  ],
+  "dimension4": "Model",
+  "dimensionValue4": [
+    {
+      "productVaraintId": 6734,
+      "value": "FAWSPE8HD",
+      "productDimensionMasterId": 4,
+      "product_dimension_id": 3619
+    },
+    {
+      "productVaraintId": 6750,
+      "value": "FAWSPI8HC",
+      "productDimensionMasterId": 4,
+      "product_dimension_id": 3619
+    },
+    {
+      "productVaraintId": 6735,
+      "value": "FAWSPE8HB",
+      "productDimensionMasterId": 4,
+      "product_dimension_id": 3619
+    },
+    {
+      "productVaraintId": 6753,
+      "value": "FAWSPI8HD",
+      "productDimensionMasterId": 4,
+      "product_dimension_id": 3619
+    },
+    {
+      "productVaraintId": 6727,
+      "value": "FAWSPE8GA",
+      "productDimensionMasterId": 4,
+      "product_dimension_id": 3619
+    },
+    {
+      "productVaraintId": 6744,
+      "value": "FAWSPI8GA",
+      "productDimensionMasterId": 4,
+      "product_dimension_id": 3619
+    },
+    {
+      "productVaraintId": 6745,
+      "value": "FAWSPI8GB",
+      "productDimensionMasterId": 4,
+      "product_dimension_id": 3619
+    },
+    {
+      "productVaraintId": 6729,
+      "value": "FAWSPE8GC",
+      "productDimensionMasterId": 4,
+      "product_dimension_id": 3619
+    },
+    {
+      "productVaraintId": 6730,
+      "value": "FAWSPE8GB",
+      "productDimensionMasterId": 4,
+      "product_dimension_id": 3619
+    },
+    {
+      "productVaraintId": 6746,
+      "value": "FAWSPI8GC",
+      "productDimensionMasterId": 4,
+      "product_dimension_id": 3619
+    },
+    {
+      "productVaraintId": 6731,
+      "value": "FAWSPE8GD",
+      "productDimensionMasterId": 4,
+      "product_dimension_id": 3619
+    },
+    {
+      "productVaraintId": 6747,
+      "value": "FAWSPI8HA",
+      "productDimensionMasterId": 4,
+      "product_dimension_id": 3619
+    },
+    {
+      "productVaraintId": 6732,
+      "value": "FAWSPE8HA",
+      "productDimensionMasterId": 4,
+      "product_dimension_id": 3619
+    },
+    {
+      "productVaraintId": 6748,
+      "value": "FAWSPI8GD",
+      "productDimensionMasterId": 4,
+      "product_dimension_id": 3619
+    },
+    {
+      "productVaraintId": 6733,
+      "value": "FAWSPE8HC",
+      "productDimensionMasterId": 4,
+      "product_dimension_id": 3619
+    },
+    {
+      "productVaraintId": 6749,
+      "value": "FAWSPI8HB",
+      "productDimensionMasterId": 4,
+      "product_dimension_id": 3619
+    },
+    {
+      "productVaraintId": 6710,
+      "value": "FAWSPS12GC",
+      "productDimensionMasterId": 4,
+      "product_dimension_id": 3619
+    },
+    {
+      "productVaraintId": 6711,
+      "value": "FAWSPS12HA",
+      "productDimensionMasterId": 4,
+      "product_dimension_id": 3619
+    },
+    {
+      "productVaraintId": 6712,
+      "value": "FAWSPS12GD",
+      "productDimensionMasterId": 4,
+      "product_dimension_id": 3619
+    },
+    {
+      "productVaraintId": 6713,
+      "value": "FAWSPS12HB",
+      "productDimensionMasterId": 4,
+      "product_dimension_id": 3619
+    },
+    {
+      "productVaraintId": 6714,
+      "value": "FAWSPS12HC",
+      "productDimensionMasterId": 4,
+      "product_dimension_id": 3619
+    },
+    {
+      "productVaraintId": 6715,
+      "value": "FAWSPS12HD",
+      "productDimensionMasterId": 4,
+      "product_dimension_id": 3619
+    },
+    {
+      "productVaraintId": 6708,
+      "value": "FAWSPS12GA",
+      "productDimensionMasterId": 4,
+      "product_dimension_id": 3619
+    },
+    {
+      "productVaraintId": 6709,
+      "value": "FAWSPS12GB",
+      "productDimensionMasterId": 4,
+      "product_dimension_id": 3619
+    },
+    {
+      "productVaraintId": 6736,
+      "value": "FAWSPI8D1100",
+      "productDimensionMasterId": 4,
+      "product_dimension_id": 3619
+    },
+    {
+      "productVaraintId": 6740,
+      "value": "FAWSPI8G1100",
+      "productDimensionMasterId": 4,
+      "product_dimension_id": 3619
+    },
+    {
+      "productVaraintId": 6738,
+      "value": "FAWSPI8D1712",
+      "productDimensionMasterId": 4,
+      "product_dimension_id": 3619
+    },
+    {
+      "productVaraintId": 6741,
+      "value": "FAWSPI8G1712",
+      "productDimensionMasterId": 4,
+      "product_dimension_id": 3619
+    },
+    {
+      "productVaraintId": 6743,
+      "value": "FAWSPI8G1713",
+      "productDimensionMasterId": 4,
+      "product_dimension_id": 3619
+    },
+    {
+      "productVaraintId": 6737,
+      "value": "FAWSPI8D1713",
+      "productDimensionMasterId": 4,
+      "product_dimension_id": 3619
+    },
+    {
+      "productVaraintId": 6742,
+      "value": "FAWSPI8G1717",
+      "productDimensionMasterId": 4,
+      "product_dimension_id": 3619
+    },
+    {
+      "productVaraintId": 6739,
+      "value": "FAWSPI8D1717",
+      "productDimensionMasterId": 4,
+      "product_dimension_id": 3619
+    },
+    {
+      "productVaraintId": 6722,
+      "value": "FAWSPE8D2200",
+      "productDimensionMasterId": 4,
+      "product_dimension_id": 3619
+    },
+    {
+      "productVaraintId": 6725,
+      "value": "FAWSPE8G2200",
+      "productDimensionMasterId": 4,
+      "product_dimension_id": 3619
+    },
+    {
+      "productVaraintId": 6728,
+      "value": "FAWSPE8G2712",
+      "productDimensionMasterId": 4,
+      "product_dimension_id": 3619
+    },
+    {
+      "productVaraintId": 6723,
+      "value": "FAWSPE8D2712",
+      "productDimensionMasterId": 4,
+      "product_dimension_id": 3619
+    },
+    {
+      "productVaraintId": 6726,
+      "value": "FAWSPE8G2715",
+      "productDimensionMasterId": 4,
+      "product_dimension_id": 3619
+    },
+    {
+      "productVaraintId": 6724,
+      "value": "FAWSPE8D2715",
+      "productDimensionMasterId": 4,
+      "product_dimension_id": 3619
+    },
+    {
+      "productVaraintId": 6718,
+      "value": "FAWSPA8G3511",
+      "productDimensionMasterId": 4,
+      "product_dimension_id": 3619
+    },
+    {
+      "productVaraintId": 6720,
+      "value": "FAWSPA8H3511",
+      "productDimensionMasterId": 4,
+      "product_dimension_id": 3619
+    },
+    {
+      "productVaraintId": 6716,
+      "value": "FAWSPA8D3511",
+      "productDimensionMasterId": 4,
+      "product_dimension_id": 3619
+    },
+    {
+      "productVaraintId": 6719,
+      "value": "FAWSPA8G3599",
+      "productDimensionMasterId": 4,
+      "product_dimension_id": 3619
+    },
+    {
+      "productVaraintId": 6721,
+      "value": "FAWSPA8H3599",
+      "productDimensionMasterId": 4,
+      "product_dimension_id": 3619
+    },
+    {
+      "productVaraintId": 6717,
+      "value": "FAWSPA8D3599",
+      "productDimensionMasterId": 4,
+      "product_dimension_id": 3619
+    },
+    {
+      "productVaraintId": 6702,
+      "value": "FAWSPS12D4151",
+      "productDimensionMasterId": 4,
+      "product_dimension_id": 3619
+    },
+    {
+      "productVaraintId": 6705,
+      "value": "FAWSPS12G4151",
+      "productDimensionMasterId": 4,
+      "product_dimension_id": 3619
+    },
+    {
+      "productVaraintId": 6703,
+      "value": "FAWSPS12D4400",
+      "productDimensionMasterId": 4,
+      "product_dimension_id": 3619
+    },
+    {
+      "productVaraintId": 6706,
+      "value": "FAWSPS12G4400",
+      "productDimensionMasterId": 4,
+      "product_dimension_id": 3619
+    },
+    {
+      "productVaraintId": 6704,
+      "value": "FAWSPS12D4712",
+      "productDimensionMasterId": 4,
+      "product_dimension_id": 3619
+    },
+    {
+      "productVaraintId": 6707,
+      "value": "FAWSPS12G4712",
+      "productDimensionMasterId": 4,
+      "product_dimension_id": 3619
+    }
+  ]
+}

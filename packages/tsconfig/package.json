@@ -1,0 +1,5 @@
+{
+  "name": "@allkons/tsconfig",
+  "version": "1.0.0",
+  "files": ["base.json", "nextjs.json", "nestjs.json"]
+}

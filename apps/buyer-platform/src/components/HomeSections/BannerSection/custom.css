@@ -1,0 +1,18 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.banner .slick-slider,
+.banner .slick-slide {
+  @apply !max-h-[720px] !h-auto !w-screen;
+}
+
+.banner .slick-track {
+  @apply !flex !items-center !justify-center;
+}
+
+.banner .slick-list,
+.banner .slick-track,
+.banner .slick-slide > div {
+  @apply !h-auto !flex;
+}

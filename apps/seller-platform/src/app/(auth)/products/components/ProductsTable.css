@@ -1,0 +1,36 @@
+
+.productsTable .ant-table-thead > tr > th {
+  font-weight: 500 !important;
+  color: #1f2937 !important;
+}
+
+.productsTable .ant-table-thead > tr > th .ant-table-column-title {
+  font-weight: 500 !important;
+}
+
+.productsTable .ant-table-selection-column .ant-checkbox-indeterminate .ant-checkbox-inner {
+  background-color: #00af43 !important;
+  border-color: #00af43 !important;
+}
+
+.productsTable .ant-table-selection-column .ant-checkbox-indeterminate .ant-checkbox-inner::after {
+  display: none !important;
+}
+
+.productsTable .ant-table-selection-column .ant-checkbox-indeterminate .ant-checkbox-inner::before {
+  content: '' !important;
+  position: absolute !important;
+  top: 50% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%) !important;
+  width: 12px !important;
+  height: 2px !important;
+  background-color: #ffffff !important;
+  border-radius: 1px !important;
+  display: block !important;
+}
+
+.productsTable .ant-table-selection-column .ant-checkbox-indeterminate:hover .ant-checkbox-inner {
+  background-color: #006928 !important;
+  border-color: #006928 !important;
+}

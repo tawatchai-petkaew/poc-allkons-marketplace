@@ -1,0 +1,69 @@
+.custom-allkons.custom-modal .ant-modal-content {
+  border-radius: 24px;
+}
+
+.custom-allkons.custom-modal .ant-modal-close {
+  border: 1px solid #dee1e6;
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.custom-allkons.custom-modal .ant-modal-close-x {
+  font-size: 16px;
+}
+
+.custom-allkons.custom-modal .ant-modal-close-x svg {
+  fill: #37404f;
+}
+
+/* Custom scrollbar for modal body */
+.custom-allkons.custom-modal .ant-modal-body {
+  scrollbar-width: thin;
+  scrollbar-color: #dee1e6 transparent;
+}
+
+.custom-allkons.custom-modal .ant-modal-body::-webkit-scrollbar {
+  width: 6px;
+}
+
+.custom-allkons.custom-modal .ant-modal-body::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.custom-allkons.custom-modal .ant-modal-body::-webkit-scrollbar-thumb {
+  background-color: #dee1e6 transparent;
+  border-radius: 3px;
+}
+
+.custom-allkons.custom-modal .ant-modal-body::-webkit-scrollbar-thumb:hover {
+  background-color: #9ca3af;
+}
+
+/* Drawer close button */
+.drawer-close-btn {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  border: 1px solid #dee1e6;
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  background-color: #ffffff;
+}
+
+.drawer-close-btn:hover {
+  background-color: #f7f8f9;
+}
+
+.drawer-close-btn:active {
+  background-color: #eff0f3;
+  transform: translateY(-50%) scale(0.95);
+}

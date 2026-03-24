@@ -1,0 +1,215 @@
+extraEnvVars:
+  - name: NODE_ENV
+    valueFrom:
+      configMapKeyRef:
+        name: shopdit-api-config
+        key: node-env
+  - name: PORT
+    valueFrom:
+      configMapKeyRef:
+        name: shopdit-api-config
+        key: port
+  - name: IS_ENABLE_SSH_TUNNEL
+    value: 'false'
+  - name: POSTGRES_HOST
+    valueFrom:
+      configMapKeyRef:
+        name: shopdit-api-config
+        key: postgres-host
+  - name: POSTGRES_PORT
+    valueFrom:
+      configMapKeyRef:
+        name: shopdit-api-config
+        key: postgres-port
+  - name: POSTGRES_USER
+    valueFrom:
+      configMapKeyRef:
+        name: shopdit-api-config
+        key: postgres-user
+  - name: POSTGRES_PASSWORD
+    valueFrom:
+      configMapKeyRef:
+        name: shopdit-api-config
+        key: postgres-password
+  - name: POSTGRES_DATABASE
+    valueFrom:
+      configMapKeyRef:
+        name: shopdit-api-config
+        key: postgres-database
+  - name: JWT_SECRET
+    valueFrom:
+      secretKeyRef:
+        name: shopdit-api-secret
+        key: jwt-secret
+  - name: AWS_ACCESS_KEY_ID
+    valueFrom:
+      configMapKeyRef:
+        name: shopdit-api-config
+        key: aws-access-key-id
+  - name: AWS_SECRET_ACCESS_KEY
+    valueFrom:
+      configMapKeyRef:
+        name: shopdit-api-config
+        key: aws-secret-access-key
+  - name: AWS_S3_BUCKET
+    valueFrom:
+      configMapKeyRef:
+        name: shopdit-api-config
+        key: aws-s3-bucket
+  - name: AWS_SES_REGION
+    valueFrom:
+      configMapKeyRef:
+        name: shopdit-api-config
+        key: aws-ses-region
+  - name: REDIS_HOST
+    valueFrom:
+      configMapKeyRef:
+        name: shopdit-api-config
+        key: redis-host
+  - name: REDIS_PORT
+    valueFrom:
+      configMapKeyRef:
+        name: shopdit-api-config
+        key: redis-port
+  - name: REDIS_PASSWORD
+    valueFrom:
+      configMapKeyRef:
+        name: shopdit-api-config
+        key: REDIS_PASSWORD
+  - name: GOOGLE_APPLICATION_CREDENTIALS
+    valueFrom:
+      configMapKeyRef:
+        name: shopdit-api-config
+        key: google-application-credentials
+  - name: GCP_PROJECT_ID
+    valueFrom:
+      configMapKeyRef:
+        name: shopdit-api-config
+        key: gcp-project-id
+  - name: AUTH_CENTER_URL
+    valueFrom:
+      configMapKeyRef:
+        name: shopdit-api-config
+        key: auth-center-url
+  - name: AUTH_CLIENT_ID
+    valueFrom:
+      configMapKeyRef:
+        name: shopdit-api-config
+        key: auth-client-id
+  - name: AUTH_CLIENT_SECRET
+    valueFrom:
+      configMapKeyRef:
+        name: shopdit-api-config
+        key: auth-client-secret
+  - name: APP_ID_SELLER
+    valueFrom:
+      configMapKeyRef:
+        name: shopdit-api-config
+        key: app-id-seller
+  - name: ENV_TYPE
+    valueFrom:
+      configMapKeyRef:
+        name: shopdit-api-config
+        key: ENV_TYPE
+  - name: KAFKA_REGION
+    valueFrom:
+      configMapKeyRef:
+        name: shopdit-api-config
+        key: kafka-region
+  - name: KAFKA_ACCESS_KEY
+    valueFrom:
+      configMapKeyRef:
+        name: shopdit-api-config
+        key: kafka-access-key
+  - name: KAFKA_SECRET_KEY
+    valueFrom:
+      configMapKeyRef:
+        name: shopdit-api-config
+        key: kafka-secret-key
+  - name: KAFKA_MECHANISM
+    valueFrom:
+      configMapKeyRef:
+        name: shopdit-api-config
+        key: kafka-mechanism
+  - name: KAFKA_BROKER1
+    valueFrom:
+      configMapKeyRef:
+        name: shopdit-api-config
+        key: kafka-broker1
+  - name: KAFKA_BROKER2
+    valueFrom:
+      configMapKeyRef:
+        name: shopdit-api-config
+        key: kafka-broker2
+  - name: APP_ID_BUYER
+    valueFrom:
+      configMapKeyRef:
+        name: shopdit-api-config
+        key: app-id-buyer
+  - name: KAFKA_CONSUMER
+    valueFrom:
+      configMapKeyRef:
+        key: kafka-consumer
+        name: shopdit-api-config
+  - name: OTEL_EXPORTER_OTLP_TRACES_ENDPOINT
+    valueFrom:
+      configMapKeyRef:
+        key: OTEL_EXPORTER_OTLP_TRACES_ENDPOINT
+        name: shopdit-api-config
+  - name: OTEL_PRODUCT_SERVICE_NAME
+    valueFrom:
+      configMapKeyRef:
+        key: OTEL_PRODUCT_SERVICE_NAME
+        name: shopdit-api-config
+  - name: ENABLE_JAEGER
+    valueFrom:
+      configMapKeyRef:
+        key: ENABLE_JAEGER
+        name: shopdit-api-config
+  - name: APP_ID_MARKETPLACE
+    valueFrom:
+      configMapKeyRef:
+        key: APP_ID_MARKETPLACE
+        name: shopdit-api-config
+  - name: SWAGGER_USER
+    valueFrom:
+      configMapKeyRef:
+        key: SWAGGER_USER
+        name: shopdit-api-config
+  - name: SWAGGER_PASSWORD
+    valueFrom:
+      configMapKeyRef:
+        key: SWAGGER_PASSWORD
+        name: shopdit-api-config
+  - name: BULL_BOARD_BASE_PATH
+    value: '/api-product'
+  - name: AUTH_CENTER_JWKS_URI
+    valueFrom:
+      configMapKeyRef:
+        key: AUTH_CENTER_JWKS_URI
+        name: shopdit-api-config
+  - name: PRODUCT_MATCHING_API_URL
+    valueFrom:
+      configMapKeyRef:
+        key: PRODUCT_MATCHING_API_URL
+        name: shopdit-api-config
+  - name: PRODUCT_MATCHING_API_KEY
+    valueFrom:
+      configMapKeyRef:
+        key: PRODUCT_MATCHING_API_KEY
+        name: shopdit-api-config
+  - name: ELASTICSEARCH_URI
+    valueFrom:
+      configMapKeyRef:
+        key: ELASTICSEARCH_URI
+        name: shopdit-api-config
+  - name: ELASTICSEARCH_API_KEY
+    valueFrom:
+      configMapKeyRef:
+        key: ELASTICSEARCH_API_KEY
+        name: shopdit-api-config
+  - name: ELASTICSEARCH_INDEX_PREFIX
+    valueFrom:
+      configMapKeyRef:
+        key: ELASTICSEARCH_INDEX_PREFIX
+        name: shopdit-api-config

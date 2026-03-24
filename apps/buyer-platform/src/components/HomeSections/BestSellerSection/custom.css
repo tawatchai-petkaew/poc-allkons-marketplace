@@ -1,0 +1,14 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.best-seller {
+  @apply md:!px-2 !px-0 !pr-2;
+}
+.best-seller .slick-track {
+  @apply !flex md:!gap-8 !gap-3 py-1;
+}
+
+.best-seller .slick-slide {
+  @apply !h-auto;
+}

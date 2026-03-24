@@ -1,0 +1,75 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.custom .ant-image > img {
+  width: 100% !important;
+  height: auto !important;
+  border-radius: 16px !important;
+}
+
+.custom .ant-image .ant-image-mask {
+  border-radius: 16px !important;
+  z-index: 20 !important;
+}
+
+.custom .slick-slider,
+.custom .slick-initialized,
+.custom .slick-list {
+  width: 100% !important;
+  display: flex !important;
+  justify-content: flex-start !important;
+}
+
+.custom .slick-track {
+  display: flex !important;
+  gap: 0.5rem !important;
+  margin: 0 !important;
+}
+
+.custom-tabs .ant-tabs-tab {
+  width: 100% !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  background-color: transparent !important;
+}
+
+.custom-tabs .ant-tabs-nav-list {
+  width: 100% !important;
+  background-color: transparent !important;
+}
+
+.custom-tabs .ant-tabs-tab.ant-tabs-tab-active {
+  background: white !important;
+  border-radius: 8px !important;
+  border-color: yellow !important;
+}
+
+.custom-tabs .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
+  @apply !text-primary-dark;
+}
+
+.custom-tabs .ant-tabs-ink-bar {
+  @apply !bg-primary;
+}
+
+.custom-tabs .ant-tabs-nav-wrap {
+  background-color: transparent !important;
+}
+
+.custom-tabs .ant-tabs-content-holder {
+  background-color: white !important;
+  padding-block: 2rem !important;
+  padding-inline: 16px !important;
+  padding-bottom: 4rem !important;
+  min-height: 30vh !important;
+}
+
+.custom-tabs .ant-tabs-nav {
+  margin: 0 !important;
+}
+
+.custom-drawer .ant-drawer-close {
+  @apply !absolute !top-4 !right-4;
+}

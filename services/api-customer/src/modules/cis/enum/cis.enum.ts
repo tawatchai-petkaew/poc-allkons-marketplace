@@ -1,0 +1,200 @@
+export enum PlatformCIS {
+  ALLKONS_M_BUYER = 1,
+  ALLKONS_M_SELLER = 2,
+}
+
+export enum ContactTypeCIS {
+  PHONE = 1,
+  EMAIL = 2,
+}
+
+export enum CustomerProfileType {
+  PERSONAL = 1,
+  JURISTIC = 2,
+  OFFICIAL_BRAND = 3,
+  OFFICE = 4,
+}
+
+export enum CustomerStatusCIS {
+  VISITOR = 1,
+  CUSTOMER = 2,
+}
+
+export enum JuristicTypeCIS {
+  PERSONAL = 1,
+  PUBLIC_LIMITED_COMPANY = 2,
+  LIMITED_COMPANY = 3,
+  LIMITED_PARTNERSHIP = 4,
+  GENERAL_PARTNERSHIP = 5,
+  OTHER = 6,
+  REGISTERED_INDIVIDUAL = 7,
+}
+
+export enum OrganizeTypeCIS {
+  HEAD_OFFICE = 1,
+  BRANCH = 2,
+}
+
+export enum KycStatusCIS {
+  NONE = 'NONE',
+  WAIT_FOR_APPROVE = 'WAIT_FOR_APPROVE',
+  REQUEST_MORE = 'REQUEST_MORE',
+  APPROVE = 'APPROVE',
+  REJECT = 'REJECT',
+}
+
+export enum RelationTypeCIS {
+  BUYER = 1,
+  BRANCH = 2,
+  EMPLOYEE = 3,
+  COMPANY_GROUP = 4,
+  SUPPLIER = 5,
+}
+
+export enum UsagePurposeTypeCIS {
+  NONE_SPECIFIED = 1,
+  KYC_CONTACT = 2,
+}
+
+export enum RoleBusinessTypeCIS {
+  AGENT = 1,
+  BIGBOX = 2,
+  MDT = 3,
+  ONL = 4,
+  FAC = 5,
+  CON = 6,
+  CH = 7,
+  DVP = 8,
+  DVP_HOTEL = 9,
+  DVP_CONNDO = 10,
+  DVP_APT = 11,
+  DVP_DOR = 12,
+  DVP_SC = 13,
+  DVP_GASSTATION = 14,
+  DVP_AHD = 15,
+  ARC = 16,
+  ARC_LND_ARC = 17,
+  ARC_ARC = 18,
+  ARC_ID = 19,
+  ARC_PD = 20,
+  ENG = 21,
+  ENG_CE = 22,
+  ENG_ENV = 23,
+  ENG_ME = 24,
+  ENG_EC = 25,
+  IGFA = 26,
+  IGFA_CN = 27,
+  IGFA_ID = 28,
+  IGFA_VN = 29,
+  IGFA_OTHER = 30,
+  BANK = 31,
+  NONE_BANK = 32,
+  GIL = 33,
+  OTHER = 34,
+}
+
+export enum GenderCIS {
+  male = 1,
+  female = 2,
+  notSpecified = 3,
+}
+
+export enum MaritalStatusCIS {
+  CELIBATE = 1,
+  MARRIED = 2,
+  DIVORCED = 3,
+  WIDOWED = 4,
+}
+
+export enum RelationType {
+  BUYER = 'BUYER',
+  BRANCH = 'BRANCH',
+  EMPLOYEE = 'EMPLOYEE',
+  COMPANY_GROUP = 'COMPANY_GROUP',
+  SUPPLIER = 'SUPPLIER',
+}
+
+export enum MasterDataType {
+  COUNTRY = 'COUNTRY',
+  PROVINCE = 'PROVINCE',
+  DISTRICT = 'DISTRICT',
+  SUB_DISTRICT = 'SUB_DISTRICT',
+  ZIPCODE = 'ZIPCODE',
+  DOCUMENT_TYPE = 'DOCUMENT_TYPE',
+  JURISTIC_TYPE = 'JURISTIC_TYPE',
+  PLATFORM = 'PLATFORM',
+  ROLE_BUSINESS = 'ROLE_BUSINESS',
+  NATURE_BUSINESS = 'NATURE_BUSINESS',
+}
+
+export enum RoleCis {
+  ADMIN = 'ADMIN',
+  SUPER_ADMIN = 'SUPER_ADMIN',
+  MEMBER = 'MEMBER',
+  OWNER = 'OWNER',
+}
+
+export enum DocumentTypeCis {
+  ID_CARD_FRONT = '0001',
+  ID_CARD_BACK = '0002',
+  ID_CARD_WITH_PERSON = '0003',
+  COPY_OF_ID_OR_PASSPORT_AUTHORIZED_PERSON = '0004',
+  COPY_OF_COMPANY_REGISTRATION = '0005',
+  COPY_OF_VAT_REGISTRATION = '0006',
+  COPY_OF_FINANCIAL_EVIDENCE = '0007',
+  COPY_OF_BANK_ACCOUNT_RECEIVING_PAYMENTS = '0008',
+  PHOTO_OF_COMPANY_OR_PROJECT = '0009',
+  TRADEMARK = '0010',
+  POWER_OF_ATTORNEY = '0011',
+  COPY_OF_ID_OR_PASSPORT_ATTORNEY_GIVER = '0012',
+  OTHERS = '0013',
+  COPY_OF_HOUSE_REGISTRATION_AUTHORIZED_PERSON = '0014',
+  COMMERCIALLY_REGISTERED = '0038',
+}
+
+export enum DocumentAttachType {
+  IMAGE_PROFILE = 'IMAGE_PROFILE',
+  HIGHEST_AUTHORITY_DOCUMENT = 'HIGHEST_AUTHORITY_DOCUMENT',
+  VERIFY_DOCUMENT = 'VERIFY_DOCUMENT',
+}
+
+export enum DocumentTypeCodeFromCis {
+  '0001' = 'ID_CARD_FRONT',
+  '0002' = 'ID_CARD_BACK',
+  '0003' = 'ID_CARD_WITH_PERSON',
+  '0004' = 'COPY_OF_ID_OR_PASSPORT_AUTHORIZED_PERSON',
+  '0005' = 'COPY_OF_COMPANY_REGISTRATION',
+  '0006' = 'COPY_OF_VAT_REGISTRATION',
+  '0007' = 'COPY_OF_FINANCIAL_EVIDENCE',
+  '0008' = 'COPY_OF_BANK_ACCOUNT_RECEIVING_PAYMENTS',
+  '0009' = 'PHOTO_OF_COMPANY_OR_PROJECT',
+  '0010' = 'TRADEMARK',
+  '0011' = 'POWER_OF_ATTORNEY',
+  '0012' = 'COPY_OF_ID_OR_PASSPORT_ATTORNEY_GIVER',
+  '0013' = 'OTHERS',
+  '0014' = 'COPY_OF_HOUSE_REGISTRATION_AUTHORIZED_PERSON',
+  '0038' = 'COMMERCIALLY_REGISTERED',
+}
+
+export enum AddressTypeCis {
+  OFFICIAL_ADDRESS = 1,
+  SHIPPING_ADDRESS = 2,
+  CONTACT_ADDRESS = 3,
+  AR_ADDRESS = 4,
+  DEFAULT = 5,
+  KYC_ADDRESS = 6,
+  WORK_SITE_ADDRESS = 7,
+  DOCUMENT_DELIVERY_ADDRESS = 8,
+  WAREHOUSE_ADDRESS = 9,
+}
+
+export enum CountryCodeCis {
+  TH = 1,
+  JP = 2,
+}
+
+export enum PlatformTypeCIS {
+  MARKETPLACE = 1,
+  BUYER = 1,
+  SELLER = 2,
+}

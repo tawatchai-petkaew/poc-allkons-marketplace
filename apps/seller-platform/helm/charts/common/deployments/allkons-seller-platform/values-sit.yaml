@@ -1,0 +1,19 @@
+ingress:
+  tls: false
+  enabled: true
+  hostname: www.marketplace-seller-sit.allkons.com
+  pathType: Prefix
+  path: /
+replicaCount: 1
+resources:
+  limits:
+    cpu: 250m
+    memory: 512Mi
+autoscaling:
+  enabled: true
+  minReplicas: 1
+  maxReplicas: 1
+  targetCPUUtilizationPercentage: 80
+
+service:
+  port: 3000

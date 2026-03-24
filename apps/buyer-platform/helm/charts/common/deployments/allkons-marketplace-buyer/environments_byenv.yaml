@@ -1,0 +1,21 @@
+extraEnvVars:
+  - name: NODE_ENV
+    valueFrom:
+      configMapKeyRef:
+        name: buyer-web-config
+        key: node-env
+  - name: NEXT_PUBLIC_API_HOST_URL
+    valueFrom:
+      configMapKeyRef:
+        name: buyer-web-config
+        key: next-public-api-host-url
+  - name: NEXT_PUBLIC_ALLKONS_APP_ID
+    valueFrom:
+      configMapKeyRef:
+        name: buyer-web-config
+        key: next-public-allkons-app-id
+  - name: NEXT_PUBLIC_GOOGLE_MAP_API_KEY
+    valueFrom:
+      configMapKeyRef:
+        name: buyer-web-config
+        key: next-public-google-map-api-key

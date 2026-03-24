@@ -1,0 +1,327 @@
+import { MigrationInterface, QueryRunner } from 'typeorm';
+
+export class RestructureSchema1754030861851 implements MigrationInterface {
+  name = 'RestructureSchema1754030861851';
+
+  public async up(queryRunner: QueryRunner): Promise<void> {
+    await queryRunner.query(
+      `CREATE TYPE "public"."organization_branch_organizebranchtype_enum" AS ENUM('HEAD_OFFICE', 'BRANCH')`,
+    );
+    await queryRunner.query(
+      `CREATE TABLE "organization_branch" ("id" SERIAL NOT NULL, "taxId" character varying, "organizeBranchName" character varying, "organizeBranchCode" character varying, "organizeBranchType" "public"."organization_branch_organizebranchtype_enum", "cisNumber" character varying, "organizeId" integer, "relationshipType" character varying, "isOrganizeOwner" boolean NOT NULL DEFAULT false, "createdAt" TIMESTAMP NOT NULL DEFAULT now(), "updatedAt" TIMESTAMP NOT NULL DEFAULT now(), "deletedAt" TIMESTAMP, CONSTRAINT "PK_b237f5080d767ef6c11290dbc48" PRIMARY KEY ("id")); COMMENT ON COLUMN "organization_branch"."relationshipType" IS 'COMPANY_GROUP'`,
+    );
+    await queryRunner.query(
+      `CREATE TYPE "public"."store_customerstatus_enum" AS ENUM('VISITOR', 'CUSTOMER')`,
+    );
+    await queryRunner.query(
+      `CREATE TYPE "public"."store_storetype_enum" AS ENUM('HEAD_OFFICE', 'BRANCH')`,
+    );
+    await queryRunner.query(
+      `CREATE TABLE "store" ("id" SERIAL NOT NULL, "storeBranchName" character varying, "storeBranchCode" character varying, "customerProfileType" character varying, "customerStatus" "public"."store_customerstatus_enum", "storeType" "public"."store_storetype_enum", "organizeId" integer, "organizeBranchId" integer, "relationshipTypeOrganize" character varying, "createdAt" TIMESTAMP NOT NULL DEFAULT now(), "updatedAt" TIMESTAMP NOT NULL DEFAULT now(), "deletedAt" TIMESTAMP, CONSTRAINT "PK_f3172007d4de5ae8e7692759d79" PRIMARY KEY ("id")); COMMENT ON COLUMN "store"."storeBranchName" IS 'juristic_name'; COMMENT ON COLUMN "store"."customerProfileType" IS 'OFFICE__BRAND'; COMMENT ON COLUMN "store"."storeType" IS 'organize_type in cis'; COMMENT ON COLUMN "store"."relationshipTypeOrganize" IS 'BRANCH'`,
+    );
+    await queryRunner.query(
+      `CREATE TABLE "organization_consent" ("id" SERIAL NOT NULL, "organizeId" integer NOT NULL, "consentMsgId" integer NOT NULL, "createdAt" TIMESTAMP NOT NULL DEFAULT now(), "updatedAt" TIMESTAMP NOT NULL DEFAULT now(), "deletedAt" TIMESTAMP, CONSTRAINT "PK_5dab20b992a300d24d4cd8b69aa" PRIMARY KEY ("id"))`,
+    );
+    await queryRunner.query(
+      `CREATE TYPE "public"."organization_contact_platform_enum" AS ENUM('BUYER', 'SELLER')`,
+    );
+    await queryRunner.query(
+      `CREATE TYPE "public"."organization_contact_contacttype_enum" AS ENUM('EMAIL', 'PHONE', 'BANK_ACCOUNT')`,
+    );
+    await queryRunner.query(
+      `CREATE TYPE "public"."organization_contact_usagepurposetype_enum" AS ENUM('NONE_SPECIFIED', 'KYC_CONTACT')`,
+    );
+    await queryRunner.query(
+      `CREATE TABLE "organization_contact" ("id" SERIAL NOT NULL, "cisNumber" character varying, "platform" "public"."organization_contact_platform_enum", "contactType" "public"."organization_contact_contacttype_enum", "usagePurposeType" "public"."organization_contact_usagepurposetype_enum", "contact" character varying, "activeStatus" boolean NOT NULL DEFAULT true, "isVerify" boolean NOT NULL DEFAULT false, "isDefault" boolean NOT NULL DEFAULT false, "isKycDocument" boolean NOT NULL DEFAULT false, "organizeId" integer, "organizeBranchId" integer, "storeId" integer, "merchantId" integer, "createdAt" TIMESTAMP NOT NULL DEFAULT now(), "updatedAt" TIMESTAMP NOT NULL DEFAULT now(), "deletedAt" TIMESTAMP, CONSTRAINT "PK_1b315ca37fec4b8bdbdf1b59d28" PRIMARY KEY ("id")); COMMENT ON COLUMN "organization_contact"."contact" IS 'email or phone'`,
+    );
+    await queryRunner.query(
+      `ALTER TABLE "user_address" ADD "isDefault" boolean NOT NULL DEFAULT false`,
+    );
+    await queryRunner.query(
+      `ALTER TABLE "user_address" ADD "isKycDocument" boolean NOT NULL DEFAULT false`,
+    );
+    await queryRunner.query(
+      `ALTER TABLE "user_address" ADD "organizeBranchId" integer`,
+    );
+    await queryRunner.query(`ALTER TABLE "user_address" ADD "storeId" integer`);
+    await queryRunner.query(
+      `ALTER TABLE "user_address" ADD "merchantId" integer`,
+    );
+    await queryRunner.query(
+      `ALTER TABLE "organization" ADD "idCard" character varying`,
+    );
+    await queryRunner.query(
+      `ALTER TABLE "organization" ADD "registrationNumber" character varying`,
+    );
+    await queryRunner.query(
+      `CREATE TYPE "public"."organization_organizationtype_enum" AS ENUM('PERSONAL', 'JURISTIC', 'REGISTERED_INDIVIDUAL')`,
+    );
+    await queryRunner.query(
+      `ALTER TABLE "organization" ADD "organizationType" "public"."organization_organizationtype_enum"`,
+    );
+    await queryRunner.query(
+      `CREATE TYPE "public"."organization_customerstatus_enum" AS ENUM('VISITOR', 'CUSTOMER')`,
+    );
+    await queryRunner.query(
+      `ALTER TABLE "organization" ADD "customerStatus" "public"."organization_customerstatus_enum" DEFAULT 'VISITOR'`,
+    );
+    await queryRunner.query(
+      `ALTER TABLE "organization" ADD "isDopa" boolean NOT NULL DEFAULT false`,
+    );
+    await queryRunner.query(
+      `ALTER TABLE "organization" ADD "isDbd" boolean NOT NULL DEFAULT false`,
+    );
+    await queryRunner.query(
+      `ALTER TABLE "merchant" ADD "customerProfileType" character varying`,
+    );
+    await queryRunner.query(
+      `COMMENT ON COLUMN "merchant"."customerProfileType" IS 'OFFICE'`,
+    );
+    await queryRunner.query(
+      `CREATE TYPE "public"."merchant_customerstatus_enum" AS ENUM('VISITOR', 'CUSTOMER')`,
+    );
+    await queryRunner.query(
+      `ALTER TABLE "merchant" ADD "customerStatus" "public"."merchant_customerstatus_enum" NOT NULL DEFAULT 'VISITOR'`,
+    );
+    await queryRunner.query(
+      `COMMENT ON COLUMN "merchant"."customerStatus" IS 'Status of the customer profile for the merchant'`,
+    );
+    await queryRunner.query(
+      `ALTER TABLE "merchant" ADD "merchantName" character varying`,
+    );
+    await queryRunner.query(
+      `COMMENT ON COLUMN "merchant"."merchantName" IS 'Name of the merchant'`,
+    );
+    await queryRunner.query(
+      `CREATE TYPE "public"."merchant_merchantbranchtype_enum" AS ENUM('HEAD_OFFICE', 'BRANCH')`,
+    );
+    await queryRunner.query(
+      `ALTER TABLE "merchant" ADD "merchantBranchType" "public"."merchant_merchantbranchtype_enum" NOT NULL DEFAULT 'HEAD_OFFICE'`,
+    );
+    await queryRunner.query(
+      `COMMENT ON COLUMN "merchant"."merchantBranchType" IS 'Type of the merchant branch, HEAD_OFFICE or BRANCH'`,
+    );
+    await queryRunner.query(
+      `ALTER TABLE "merchant" ADD "relationshipTypeStore" character varying`,
+    );
+    await queryRunner.query(
+      `COMMENT ON COLUMN "merchant"."relationshipTypeStore" IS 'Relationship type of the merchant in the organization is BRANCH'`,
+    );
+    await queryRunner.query(`ALTER TABLE "merchant" ADD "storeId" integer`);
+    await queryRunner.query(
+      `ALTER TABLE "user" ADD "username" character varying`,
+    );
+    await queryRunner.query(
+      `CREATE TYPE "public"."user_registerstatus_enum" AS ENUM('COMPLETED', 'IN_PROGRESS')`,
+    );
+    await queryRunner.query(
+      `ALTER TABLE "user" ADD "registerStatus" "public"."user_registerstatus_enum" DEFAULT 'IN_PROGRESS'`,
+    );
+    await queryRunner.query(`ALTER TABLE "user" ADD "authRefreshToken" text`);
+    await queryRunner.query(
+      `CREATE TYPE "public"."user_registerstep_enum" AS ENUM('NONE_REGISTER', 'REGISTER', 'USER_INFO', 'ORG_INFO', 'MERCHANT')`,
+    );
+    await queryRunner.query(
+      `ALTER TABLE "user" ADD "registerStep" "public"."user_registerstep_enum" NOT NULL DEFAULT 'NONE_REGISTER'`,
+    );
+    await queryRunner.query(
+      `ALTER TABLE "user_organization" ADD "isOwner" boolean NOT NULL DEFAULT false`,
+    );
+    await queryRunner.query(
+      `COMMENT ON COLUMN "user_organization"."isOwner" IS 'Indicates if the user is the owner of the organization'`,
+    );
+    await queryRunner.query(
+      `ALTER TABLE "organization" ALTER COLUMN "taxId" DROP NOT NULL`,
+    );
+    await queryRunner.query(
+      `COMMENT ON COLUMN "organization"."registerDate" IS 'registration date'`,
+    );
+    await queryRunner.query(
+      `ALTER TABLE "organization_branch" ADD CONSTRAINT "FK_01d7706abcc60b119b58d747b1a" FOREIGN KEY ("organizeId") REFERENCES "organization"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`,
+    );
+    await queryRunner.query(
+      `ALTER TABLE "store" ADD CONSTRAINT "FK_248bf79359818c99ee42dfc1e41" FOREIGN KEY ("organizeId") REFERENCES "organization"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`,
+    );
+    await queryRunner.query(
+      `ALTER TABLE "store" ADD CONSTRAINT "FK_931a8bb65d796d5c80d568cb550" FOREIGN KEY ("organizeBranchId") REFERENCES "organization_branch"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`,
+    );
+    await queryRunner.query(
+      `ALTER TABLE "user_address" ADD CONSTRAINT "FK_6f2d0adb9a278849ef163567958" FOREIGN KEY ("organizeBranchId") REFERENCES "organization_branch"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`,
+    );
+    await queryRunner.query(
+      `ALTER TABLE "user_address" ADD CONSTRAINT "FK_e2158e373bfa24305b2b942713c" FOREIGN KEY ("storeId") REFERENCES "store"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`,
+    );
+    await queryRunner.query(
+      `ALTER TABLE "user_address" ADD CONSTRAINT "FK_528f9c10976916d1bd67ebcc44e" FOREIGN KEY ("merchantId") REFERENCES "merchant"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`,
+    );
+    await queryRunner.query(
+      `ALTER TABLE "merchant" ADD CONSTRAINT "FK_c52cc477a3398552e26f7c0918b" FOREIGN KEY ("storeId") REFERENCES "store"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`,
+    );
+    await queryRunner.query(
+      `ALTER TABLE "organization_consent" ADD CONSTRAINT "FK_349d64290137d0d2f9e0c667f34" FOREIGN KEY ("organizeId") REFERENCES "organization"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`,
+    );
+    await queryRunner.query(
+      `ALTER TABLE "organization_consent" ADD CONSTRAINT "FK_80546fa7dde39e3c1d3406f8ec1" FOREIGN KEY ("consentMsgId") REFERENCES "consent_message"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`,
+    );
+    await queryRunner.query(
+      `ALTER TABLE "organization_contact" ADD CONSTRAINT "FK_f63ba5ff210fad9aa96906f211c" FOREIGN KEY ("organizeId") REFERENCES "organization"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`,
+    );
+    await queryRunner.query(
+      `ALTER TABLE "organization_contact" ADD CONSTRAINT "FK_68147bd9c1b359b763778d3db9e" FOREIGN KEY ("organizeBranchId") REFERENCES "organization_branch"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`,
+    );
+    await queryRunner.query(
+      `ALTER TABLE "organization_contact" ADD CONSTRAINT "FK_7617a074de9a852486f2a1b02fc" FOREIGN KEY ("merchantId") REFERENCES "merchant"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`,
+    );
+    await queryRunner.query(
+      `ALTER TABLE "organization_contact" ADD CONSTRAINT "FK_e05f27ee155e3c311950b32cd44" FOREIGN KEY ("storeId") REFERENCES "store"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`,
+    );
+  }
+
+  public async down(queryRunner: QueryRunner): Promise<void> {
+    await queryRunner.query(
+      `ALTER TABLE "organization_contact" DROP CONSTRAINT "FK_e05f27ee155e3c311950b32cd44"`,
+    );
+    await queryRunner.query(
+      `ALTER TABLE "organization_contact" DROP CONSTRAINT "FK_7617a074de9a852486f2a1b02fc"`,
+    );
+    await queryRunner.query(
+      `ALTER TABLE "organization_contact" DROP CONSTRAINT "FK_68147bd9c1b359b763778d3db9e"`,
+    );
+    await queryRunner.query(
+      `ALTER TABLE "organization_contact" DROP CONSTRAINT "FK_f63ba5ff210fad9aa96906f211c"`,
+    );
+    await queryRunner.query(
+      `ALTER TABLE "organization_consent" DROP CONSTRAINT "FK_80546fa7dde39e3c1d3406f8ec1"`,
+    );
+    await queryRunner.query(
+      `ALTER TABLE "organization_consent" DROP CONSTRAINT "FK_349d64290137d0d2f9e0c667f34"`,
+    );
+    await queryRunner.query(
+      `ALTER TABLE "merchant" DROP CONSTRAINT "FK_c52cc477a3398552e26f7c0918b"`,
+    );
+    await queryRunner.query(
+      `ALTER TABLE "user_address" DROP CONSTRAINT "FK_528f9c10976916d1bd67ebcc44e"`,
+    );
+    await queryRunner.query(
+      `ALTER TABLE "user_address" DROP CONSTRAINT "FK_e2158e373bfa24305b2b942713c"`,
+    );
+    await queryRunner.query(
+      `ALTER TABLE "user_address" DROP CONSTRAINT "FK_6f2d0adb9a278849ef163567958"`,
+    );
+    await queryRunner.query(
+      `ALTER TABLE "store" DROP CONSTRAINT "FK_931a8bb65d796d5c80d568cb550"`,
+    );
+    await queryRunner.query(
+      `ALTER TABLE "store" DROP CONSTRAINT "FK_248bf79359818c99ee42dfc1e41"`,
+    );
+    await queryRunner.query(
+      `ALTER TABLE "organization_branch" DROP CONSTRAINT "FK_01d7706abcc60b119b58d747b1a"`,
+    );
+    await queryRunner.query(
+      `COMMENT ON COLUMN "organization"."registerDate" IS NULL`,
+    );
+    await queryRunner.query(
+      `ALTER TABLE "organization" ALTER COLUMN "taxId" SET NOT NULL`,
+    );
+    await queryRunner.query(
+      `COMMENT ON COLUMN "user_organization"."isOwner" IS 'Indicates if the user is the owner of the organization'`,
+    );
+    await queryRunner.query(
+      `ALTER TABLE "user_organization" DROP COLUMN "isOwner"`,
+    );
+    await queryRunner.query(`ALTER TABLE "user" DROP COLUMN "registerStep"`);
+    await queryRunner.query(`DROP TYPE "public"."user_registerstep_enum"`);
+    await queryRunner.query(
+      `ALTER TABLE "user" DROP COLUMN "authRefreshToken"`,
+    );
+    await queryRunner.query(`ALTER TABLE "user" DROP COLUMN "registerStatus"`);
+    await queryRunner.query(`DROP TYPE "public"."user_registerstatus_enum"`);
+    await queryRunner.query(`ALTER TABLE "user" DROP COLUMN "username"`);
+    await queryRunner.query(`ALTER TABLE "merchant" DROP COLUMN "storeId"`);
+    await queryRunner.query(
+      `COMMENT ON COLUMN "merchant"."relationshipTypeStore" IS 'Relationship type of the merchant in the organization is BRANCH'`,
+    );
+    await queryRunner.query(
+      `ALTER TABLE "merchant" DROP COLUMN "relationshipTypeStore"`,
+    );
+    await queryRunner.query(
+      `COMMENT ON COLUMN "merchant"."merchantBranchType" IS 'Type of the merchant branch, HEAD_OFFICE or BRANCH'`,
+    );
+    await queryRunner.query(
+      `ALTER TABLE "merchant" DROP COLUMN "merchantBranchType"`,
+    );
+    await queryRunner.query(
+      `DROP TYPE "public"."merchant_merchantbranchtype_enum"`,
+    );
+    await queryRunner.query(
+      `COMMENT ON COLUMN "merchant"."merchantName" IS 'Name of the merchant'`,
+    );
+    await queryRunner.query(
+      `ALTER TABLE "merchant" DROP COLUMN "merchantName"`,
+    );
+    await queryRunner.query(
+      `COMMENT ON COLUMN "merchant"."customerStatus" IS 'Status of the customer profile for the merchant'`,
+    );
+    await queryRunner.query(
+      `ALTER TABLE "merchant" DROP COLUMN "customerStatus"`,
+    );
+    await queryRunner.query(
+      `DROP TYPE "public"."merchant_customerstatus_enum"`,
+    );
+    await queryRunner.query(
+      `COMMENT ON COLUMN "merchant"."customerProfileType" IS 'OFFICE'`,
+    );
+    await queryRunner.query(
+      `ALTER TABLE "merchant" DROP COLUMN "customerProfileType"`,
+    );
+    await queryRunner.query(`ALTER TABLE "organization" DROP COLUMN "isDbd"`);
+    await queryRunner.query(`ALTER TABLE "organization" DROP COLUMN "isDopa"`);
+    await queryRunner.query(
+      `ALTER TABLE "organization" DROP COLUMN "customerStatus"`,
+    );
+    await queryRunner.query(
+      `DROP TYPE "public"."organization_customerstatus_enum"`,
+    );
+    await queryRunner.query(
+      `ALTER TABLE "organization" DROP COLUMN "organizationType"`,
+    );
+    await queryRunner.query(
+      `DROP TYPE "public"."organization_organizationtype_enum"`,
+    );
+    await queryRunner.query(
+      `ALTER TABLE "organization" DROP COLUMN "registrationNumber"`,
+    );
+    await queryRunner.query(`ALTER TABLE "organization" DROP COLUMN "idCard"`);
+    await queryRunner.query(
+      `ALTER TABLE "user_address" DROP COLUMN "merchantId"`,
+    );
+    await queryRunner.query(`ALTER TABLE "user_address" DROP COLUMN "storeId"`);
+    await queryRunner.query(
+      `ALTER TABLE "user_address" DROP COLUMN "organizeBranchId"`,
+    );
+    await queryRunner.query(
+      `ALTER TABLE "user_address" DROP COLUMN "isKycDocument"`,
+    );
+    await queryRunner.query(
+      `ALTER TABLE "user_address" DROP COLUMN "isDefault"`,
+    );
+    await queryRunner.query(`DROP TABLE "organization_contact"`);
+    await queryRunner.query(
+      `DROP TYPE "public"."organization_contact_usagepurposetype_enum"`,
+    );
+    await queryRunner.query(
+      `DROP TYPE "public"."organization_contact_contacttype_enum"`,
+    );
+    await queryRunner.query(
+      `DROP TYPE "public"."organization_contact_platform_enum"`,
+    );
+    await queryRunner.query(`DROP TABLE "organization_consent"`);
+    await queryRunner.query(`DROP TABLE "store"`);
+    await queryRunner.query(`DROP TYPE "public"."store_storetype_enum"`);
+    await queryRunner.query(`DROP TYPE "public"."store_customerstatus_enum"`);
+    await queryRunner.query(`DROP TABLE "organization_branch"`);
+    await queryRunner.query(
+      `DROP TYPE "public"."organization_branch_organizebranchtype_enum"`,
+    );
+  }
+}

@@ -1,0 +1,16 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.related-product .slick-slide {
+  @apply !h-auto;
+}
+
+.related-product .slick-initialized,
+.related-product .slick-list {
+  @apply !w-full !flex !justify-start !gap-3 sm:!gap-[2rem] md:-ml-4;
+}
+
+.related-product .slick-track {
+  @apply !flex !justify-start !gap-3 sm:!gap-[2rem] !mx-0;
+}

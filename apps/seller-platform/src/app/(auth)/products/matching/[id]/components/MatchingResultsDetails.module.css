@@ -1,0 +1,640 @@
+.inquiredTrue {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background-color: #e8f8ee;
+  color: #228839;
+}
+
+.inquiredTrue i {
+  font-size: 14px;
+  color: #228839;
+}
+
+.inquiredFalse {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background-color: #fbe8e7;
+  color: #ae1a0c;
+}
+
+.inquiredFalse i {
+  font-size: 14px;
+  color: #ae1a0c;
+}
+
+.statusIcon {
+  color: #595959;
+  font-size: 16px;
+}
+
+.headerSection {
+  border: 1px solid #dee1e6;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.dividerLine {
+  border-bottom: 1px solid #dee1e6;
+  margin-left: -24px;
+  margin-right: -24px;
+}
+
+.dataValue {
+  color: #828282 !important;
+}
+
+.priceColumn {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.priceColumnInner {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.vatDetailText {
+  color: #828282 !important;
+}
+
+.priceColumnBorder {
+  border-left: 1px solid #d9d9d9 !important;
+  padding-left: 16px !important;
+  box-sizing: border-box !important;
+}
+
+.priceColumnPadding {
+  padding-left: 16px !important;
+  box-sizing: border-box !important;
+}
+
+.priceDisplaySelect :global(.ant-select-selector) {
+  font-size: 12px !important;
+}
+
+.priceDisplaySelect :global(.ant-select-selection-item) {
+  font-size: 12px !important;
+  line-height: 1.5 !important;
+}
+
+.matchingResultsTable {
+  display: block;
+}
+
+/* Fix for product matching table borders - override Tailwind !border-none utility */
+/* Higher specificity using doubled class and attribute selectors to match CSS Module mangled names */
+.matchingResultsTableWrapper :global(div.ant-table-wrapper.ant-table-wrapper)
+  :global(.ant-table-thead)
+  > tr
+  > th[class*='systemGroupHeader'],
+.matchingResultsTableWrapper :global(div.ant-table-wrapper.ant-table-wrapper)
+  :global(.ant-table-thead)
+  > tr
+  > th[class*='systemGroupDivider'],
+.matchingResultsTableWrapper :global(div.ant-table-wrapper.ant-table-wrapper)
+  :global(.ant-table-thead)
+  > tr
+  > th[class*='suggestedGroupHeader'],
+.matchingResultsTableWrapper :global(div.ant-table-wrapper.ant-table-wrapper)
+  :global(.ant-table-thead)
+  > tr
+  > th[class*='suggestedGroupDivider'],
+.matchingResultsTableWrapper :global(div.ant-table-wrapper.ant-table-wrapper)
+  :global(.ant-table-thead)
+  > tr
+  > th[class*='priceGroupHeader'],
+.matchingResultsTableWrapper :global(div.ant-table-wrapper.ant-table-wrapper)
+  :global(.ant-table-thead)
+  > tr
+  > th[class*='priceGroupDivider'],
+.matchingResultsTableWrapper :global(div.ant-table-wrapper.ant-table-wrapper)
+  :global(.ant-table-thead)
+  > tr
+  > th[class*='statusGroupHeader'],
+.matchingResultsTableWrapper :global(div.ant-table-wrapper.ant-table-wrapper)
+  :global(.ant-table-thead)
+  > tr
+  > th[class*='statusGroupDivider'] {
+  border-left: 1px solid #d9d9d9 !important;
+  border-left-style: solid !important;
+}
+
+.matchingResultsTableWrapper :global(div.ant-table-wrapper.ant-table-wrapper)
+  :global(.ant-table-thead)
+  > tr
+  > th[class*='suggestedGroupDivider'] {
+  border-bottom: 1px solid #d9d9d9 !important;
+}
+
+.matchingResultsTableWrapper :global(div.ant-table-wrapper.ant-table-wrapper)
+  :global(.ant-table-thead)
+  > tr
+  > th[class*='importedGroupHeader'] {
+  border-left: none !important;
+}
+
+.matchingResultsDetails
+  :global(.ant-select-dropdown:not(.ant-select-dropdown-hidden) .ant-select-item) {
+  font-size: 12px !important;
+  padding: 4px 12px !important;
+  line-height: 1.5 !important;
+  min-height: 28px !important;
+}
+
+.matchingResultsDetails .downloadMatchingResultsBtn {
+  background-color: #ffffff !important;
+  border: 1px solid #00af43 !important;
+  color: #00af43 !important;
+  height: 40px !important;
+  font-weight: 600 !important;
+}
+
+.matchingResultsDetails .downloadMatchingResultsBtn:hover,
+.matchingResultsDetails .downloadMatchingResultsBtn:focus,
+.matchingResultsDetails .downloadMatchingResultsBtn:active {
+  background-color: #e5f7ec !important;
+  border-color: #006928 !important;
+  color: #006928 !important;
+}
+
+.matchingResultsDetails .downloadMatchingResultsBtn:hover span,
+.matchingResultsDetails .downloadMatchingResultsBtn:hover i,
+.matchingResultsDetails .downloadMatchingResultsBtn:focus span,
+.matchingResultsDetails .downloadMatchingResultsBtn:focus i,
+.matchingResultsDetails .downloadMatchingResultsBtn:active span,
+.matchingResultsDetails .downloadMatchingResultsBtn:active i {
+  color: #006928 !important;
+}
+
+.matchingResultsDetails .downloadMatchingResultsBtn span,
+.matchingResultsDetails .downloadMatchingResultsBtn i {
+  color: #00af43 !important;
+}
+
+/* Available for sale status */
+.availableForSaleTrue {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 10px;
+  border-radius: 18px;
+  background-color: #32b950;
+  color: #ffffff;
+  width: fit-content;
+  white-space: nowrap;
+}
+
+.availableForSaleTrue i {
+  color: #ffffff;
+  font-size: 16px;
+}
+
+.availableForSaleFalse {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 10px;
+  border-radius: 18px;
+  background-color: #37404f;
+  color: #ffffff;
+  width: fit-content;
+  white-space: nowrap;
+}
+
+.availableForSaleFalse i {
+  color: #ffffff;
+  font-size: 16px;
+}
+
+/* Imported product status badges */
+.importedStatusWaiting {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 2px 10px;
+  border-radius: 18px;
+  background-color: #ffab08;
+  color: #ffffff;
+  width: fit-content;
+  white-space: nowrap;
+}
+
+.importedStatusImporting {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 2px 10px;
+  border-radius: 18px;
+  background-color: #ffab08;
+  color: #ffffff;
+  width: fit-content;
+  white-space: nowrap;
+}
+
+.importedStatusImporting i {
+  animation: ri-loader-spin 2s linear infinite;
+}
+
+@keyframes ri-loader-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.importedStatusSuccess {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 2px 10px;
+  border-radius: 18px;
+  background-color: #00af43;
+  color: #ffffff;
+  width: fit-content;
+  white-space: nowrap;
+}
+
+.importedStatusSuccess i {
+  color: #ffffff;
+  font-size: 14px;
+}
+
+.importedStatusReview {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 2px 10px;
+  border-radius: 18px;
+  background-color: #37404f;
+  color: #ffffff;
+  width: fit-content;
+  white-space: nowrap;
+}
+
+.importedStatusReview i {
+  color: #ffffff;
+  font-size: 14px;
+}
+
+.importedStatusRejected {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 2px 10px;
+  border-radius: 18px;
+  background-color: #ef4444;
+  color: #ffffff;
+  width: fit-content;
+  white-space: nowrap;
+}
+
+.importedStatusRejected i {
+  color: #ffffff;
+  font-size: 14px;
+}
+
+.importedStatusFailed {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 2px 10px;
+  border-radius: 18px;
+  background-color: #da2110;
+  color: #ffffff;
+  width: fit-content;
+  white-space: nowrap;
+}
+
+.importedStatusFailed i {
+  color: #ffffff;
+  font-size: 14px;
+}
+
+/* Product matching status badges */
+.matchingStatusFound {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 10px;
+  border-radius: 18px;
+  background-color: #e8f8ee;
+  color: #228839;
+  border: 1px solid #97dfaf;
+  width: fit-content;
+}
+
+.matchingStatusSimilar {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 10px;
+  border-radius: 18px;
+  background-color: #e6f4ff;
+  color: #1890ff;
+  border: 1px solid #91d5ff;
+  width: fit-content;
+}
+
+.matchingStatusNotFound {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 10px;
+  border-radius: 18px;
+  background-color: #fbe8e7;
+  color: #ae1a0c;
+  border: 1px solid #f0a69f;
+  width: fit-content;
+}
+
+/* Explicit Divider Classes */
+.systemProductDivider,
+.systemGroupDivider,
+.priceGroupDivider {
+  border-left: 1px solid #d9d9d9 !important;
+}
+
+.matchingResultsTable :global(.ant-table-thead > tr > th) {
+  background-color: #f7f8f9 !important;
+  font-weight: 600 !important;
+  color: #1a202c !important;
+  border-bottom: 1px solid #dee1e6 !important;
+}
+
+/* Group Headers Specific Styles */
+.systemGroupHeader,
+.priceGroupHeader,
+.suggestedGroupHeader,
+.statusGroupHeader,
+.importedGroupHeader {
+  background-color: #f0f0f1 !important;
+  border-left: 1px solid #dee1e6 !important;
+}
+
+.systemGroupHeader, .priceGroupHeader {
+  border-left: 1px solid #dee1e6 !important;
+}
+
+.priceHeader {
+  font-weight: 700 !important;
+}
+
+.importedPriceGroupDivider {
+  border-left: 1px solid #d9d9d9 !important;
+}
+
+.productExistsMessage {
+  color: #65b2e8;
+  font-size: 0.75rem;
+}
+
+.importedGroupHeader {
+  background-color: #f0f0f1 !important;
+  /* First group doesn't need left border if at start, but we can keep for consistency if needed */
+  border-left: none !important;
+  font-weight: 600 !important;
+}
+
+.suggestedGroupHeader {
+  background-color: #f0f0f1 !important;
+  border-left: 1px solid #dee1e6 !important;
+  font-weight: 600 !important;
+}
+
+
+
+.importedGroupDivider {
+  border-left: 1px solid #d9d9d9 !important;
+}
+
+.suggestedGroupDivider {
+  border-left: 1px solid #d9d9d9 !important;
+  border-right: 1px solid #d9d9d9 !important;
+}
+
+.suggestedGroupDividerNoPadding {
+  border-left: 1px solid #d9d9d9 !important;
+  padding: 0 !important;
+}
+
+.suggestedProductBg {
+  background-color: #fafafa !important;
+}
+
+/* Product Selector Dropdown */
+.productSelector {
+  width: 100%;
+}
+
+.productSelector :global(.ant-select-selector) {
+  color: #1890ff !important;
+  cursor: pointer;
+  border-color: #d9d9d9 !important;
+}
+
+.productSelector :global(.ant-select-selector:hover) {
+  border-color: #40a9ff !important;
+}
+
+.productSelector :global(.ant-select-selection-item) {
+  color: #1890ff !important;
+  font-weight: 500;
+}
+
+.productSelector :global(.ant-select-arrow) {
+  color: #1890ff !important;
+}
+
+/* Move Product Action Button */
+.moveProductBtn {
+  background-color: #00af43 !important;
+  border-color: #00af43 !important;
+  color: #ffffff !important;
+  font-weight: 600 !important;
+  min-width: 80px !important;
+}
+
+.moveProductBtn:hover,
+.moveProductBtn:focus,
+.moveProductBtn:active {
+  background-color: #009638 !important;
+  border-color: #009638 !important;
+  color: #ffffff !important;
+}
+
+/* Table Section Styles for 2-Table Layout */
+.tableSection {
+  margin-bottom: 32px;
+}
+
+.tableSection:last-child {
+  margin-bottom: 0;
+}
+
+.tableSectionHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+  padding: 12px 0;
+  border-bottom: 1px solid #e5e5e5;
+}
+
+/* Custom 20px Checkbox Size */
+.checkboxSelectNone :global(.ant-checkbox .ant-checkbox-inner) {
+  width: 20px !important;
+  height: 20px !important;
+}
+
+.checkbox20px :global(.ant-checkbox .ant-checkbox-inner) {
+  width: 20px !important;
+  height: 20px !important;
+}
+
+.checkbox20px :global(.ant-checkbox .ant-checkbox-inner::after) {
+  width: 6.5px !important;
+  height: 11px !important;
+}
+
+.matchingResultsTableWrapper :global(.ant-table-wrapper .ant-table-tbody > tr > td.ant-table-cell) {
+  border-bottom: 1px solid #dee1e6 !important;
+}
+
+/* Gray selected dropdown styling */
+.graySelectedDropdown
+  :global(.ant-select-item-option-selected:not(.ant-select-item-option-disabled)) {
+  background-color: #f5f5f5 !important;
+  color: #000000 !important;
+  font-weight: normal !important;
+}
+
+.graySelectedDropdown
+  :global(.ant-select-item-option-selected:not(.ant-select-item-option-disabled):hover) {
+  background-color: #f5f5f5 !important;
+}
+
+.graySelectedDropdown :global(.ant-select-item-option:hover:not(.ant-select-item-option-disabled)) {
+  background-color: #f5f5f5 !important;
+}
+
+.statusGroupHeader,
+.statusGroupDivider {
+  background-color: #f0f0f1 !important;
+  border-left: 1px solid #dee1e6 !important;
+}
+
+.importTypeCreate {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2px 10px;
+  border-radius: 18px;
+  background-color: #fceceb;
+  color: #c4261d;
+  border: 1px solid #f6b5b1;
+  width: fit-content;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.importTypeUpdate {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2px 10px;
+  border-radius: 18px;
+  background-color: #f3f5f9;
+  color: #1a202c;
+  border: 1px solid #d0d6de;
+  width: fit-content;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.importTypeNone {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border-radius: 18px;
+  background-color: #f5f5f5;
+  color: #242a34;
+  border: 1px solid #d9d9d9;
+  width: 37px;
+  height: 24px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+/* Breadcrumb Home Icon and Active State */
+.breadcrumbHome {
+  color: #7c889c !important;
+  font-size: 16px;
+}
+
+.breadcrumbActive {
+  color: #00af43 !important;
+  font-weight: 500 !important;
+}
+
+/* Tabs Pill Shape */
+.statusTabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 24px;
+}
+
+.tabItem {
+  padding: 10px 24px;
+  border-radius: 100px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  border: 1px solid #dee1e6;
+  background-color: transparent;
+  color: #37404f;
+  white-space: nowrap;
+}
+
+.tabItemActive {
+  background-color: #00af43 !important;
+  color: #ffffff !important;
+  border-color: #00af43 !important;
+}
+
+/* Circular Status Icons */
+.inquiredTrue {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background-color: #e8f8ee;
+  color: #00af43;
+}
+
+.inquiredTrue i {
+  font-size: 14px;
+}
+
+.inquiredFalse {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background-color: #fceceb;
+  color: #c4261d;
+}
+
+.inquiredFalse i {
+  font-size: 14px;
+}

@@ -1,0 +1,502 @@
+extraEnvVars:
+  - name: NODE_ENV
+    valueFrom:
+      configMapKeyRef:
+        name: shopdit-api-config
+        key: node-env
+  - name: PORT
+    valueFrom:
+      configMapKeyRef:
+        name: shopdit-api-config
+        key: port
+  - name: PORTAL_HOST_URL
+    valueFrom:
+      configMapKeyRef:
+        name: shopdit-api-config
+        key: portal-host-url
+  - name: IS_ENABLE_SSH_TUNNEL
+    value: 'false'
+  - name: POSTGRES_HOST
+    valueFrom:
+      configMapKeyRef:
+        name: shopdit-api-config
+        key: postgres-host
+  - name: POSTGRES_PORT
+    valueFrom:
+      configMapKeyRef:
+        name: shopdit-api-config
+        key: postgres-port
+  - name: POSTGRES_USER
+    valueFrom:
+      configMapKeyRef:
+        name: shopdit-api-config
+        key: postgres-user
+  - name: POSTGRES_PASSWORD
+    valueFrom:
+      configMapKeyRef:
+        name: shopdit-api-config
+        key: postgres-password
+  - name: POSTGRES_DATABASE
+    valueFrom:
+      configMapKeyRef:
+        name: shopdit-api-config
+        key: postgres-database
+  - name: JWT_SECRET
+    valueFrom:
+      secretKeyRef:
+        name: shopdit-api-secret
+        key: jwt-secret
+  - name: AWS_ACCESS_KEY_ID
+    valueFrom:
+      configMapKeyRef:
+        name: shopdit-api-config
+        key: aws-access-key-id
+  - name: AWS_SECRET_ACCESS_KEY
+    valueFrom:
+      configMapKeyRef:
+        name: shopdit-api-config
+        key: aws-secret-access-key
+  - name: AWS_S3_BUCKET
+    valueFrom:
+      configMapKeyRef:
+        name: shopdit-api-config
+        key: aws-s3-bucket
+  - name: AWS_SES_REGION
+    valueFrom:
+      configMapKeyRef:
+        name: shopdit-api-config
+        key: aws-ses-region
+  - name: OTP_KEY
+    valueFrom:
+      configMapKeyRef:
+        name: shopdit-api-config
+        key: otp-key
+  - name: OTP_SECRET
+    valueFrom:
+      secretKeyRef:
+        name: shopdit-api-secret
+        key: otp-secret
+  - name: SMS_SUB_ACCOUNT_ID
+    valueFrom:
+      configMapKeyRef:
+        name: shopdit-api-config
+        key: sms-sub-account-id
+  - name: SMS_KEY
+    valueFrom:
+      secretKeyRef:
+        name: shopdit-api-secret
+        key: sms-key
+  - name: MAILER_HOST
+    valueFrom:
+      configMapKeyRef:
+        name: shopdit-api-config
+        key: mailer-host
+  - name: MAILER_USER
+    valueFrom:
+      secretKeyRef:
+        name: shopdit-api-secret
+        key: mailer-user
+  - name: MAILER_PASSWORD
+    valueFrom:
+      secretKeyRef:
+        name: shopdit-api-secret
+        key: mailer-password
+  - name: MAILER_FROM
+    valueFrom:
+      configMapKeyRef:
+        name: shopdit-api-config
+        key: mailer-from
+  - name: MAILER_PORT
+    valueFrom:
+      configMapKeyRef:
+        name: shopdit-api-config
+        key: mailer-port
+  - name: KSHER_HOST
+    valueFrom:
+      configMapKeyRef:
+        name: shopdit-api-config
+        key: ksher-host
+  - name: KSHER_TOKEN
+    valueFrom:
+      secretKeyRef:
+        name: shopdit-api-secret
+        key: ksher-token
+  - name: REGISTER_TOKEN
+    valueFrom:
+      configMapKeyRef:
+        name: shopdit-api-config
+        key: register-token
+  - name: CREATE_MERCHANT_TOKEN
+    valueFrom:
+      configMapKeyRef:
+        name: shopdit-api-config
+        key: create-merchant-token
+  - name: SENTRY_DSN
+    valueFrom:
+      configMapKeyRef:
+        name: shopdit-api-config
+        key: sentry-dsn
+  - name: REDIS_HOST
+    valueFrom:
+      configMapKeyRef:
+        name: shopdit-api-config
+        key: redis-host
+  - name: REDIS_PORT
+    valueFrom:
+      configMapKeyRef:
+        name: shopdit-api-config
+        key: redis-port
+  - name: REDIS_PASSWORD
+    valueFrom:
+      configMapKeyRef:
+        name: shopdit-api-config
+        key: REDIS_PASSWORD
+  - name: DEMO_MERCHANT_SLUG
+    valueFrom:
+      configMapKeyRef:
+        name: shopdit-api-config
+        key: demo-merchant-slug
+  - name: DEMO_ACCOUNT_ID
+    valueFrom:
+      configMapKeyRef:
+        name: shopdit-api-config
+        key: demo-account-id
+  - name: TIK_TOK_APP_KEY
+    valueFrom:
+      configMapKeyRef:
+        name: shopdit-api-config
+        key: tik-tok-app-key
+  - name: TIK_TOK_APP_SECRET
+    valueFrom:
+      secretKeyRef:
+        name: shopdit-api-secret
+        key: tik-tok-app-secret
+  - name: TIK_TOK_AUTH_API
+    valueFrom:
+      configMapKeyRef:
+        name: shopdit-api-config
+        key: tik-tok-auth-api
+  - name: TIK_TOK_OPEN_API
+    valueFrom:
+      configMapKeyRef:
+        name: shopdit-api-config
+        key: tik-tok-open-api
+  - name: TIK_TOK_OAUTH
+    valueFrom:
+      configMapKeyRef:
+        name: shopdit-api-config
+        key: tik-tok-oauth
+  - name: LAZADA_APP_KEY
+    valueFrom:
+      configMapKeyRef:
+        name: shopdit-api-config
+        key: lazada-app-key
+  - name: LAZADA_APP_SECRET
+    valueFrom:
+      secretKeyRef:
+        name: shopdit-api-secret
+        key: lazada-app-secret
+  - name: LAZADA_OAUTH
+    valueFrom:
+      configMapKeyRef:
+        name: shopdit-api-config
+        key: lazada-oauth
+  - name: LAZADA_OPEN_API
+    valueFrom:
+      configMapKeyRef:
+        name: shopdit-api-config
+        key: lazada-open-api
+  - name: SHOPEE_PARTNER_ID
+    valueFrom:
+      configMapKeyRef:
+        name: shopdit-api-config
+        key: shopee-partner-id
+  - name: SHOPEE_PARTNER_KEY
+    valueFrom:
+      secretKeyRef:
+        name: shopdit-api-secret
+        key: shopee-partner-key
+  - name: SHOPEE_REDIRECT_BASE_URL
+    valueFrom:
+      configMapKeyRef:
+        name: shopdit-api-config
+        key: shopee-redirect-base-url
+  - name: SHOPEE_API_BASE_URL
+    valueFrom:
+      configMapKeyRef:
+        name: shopdit-api-config
+        key: shopee-api-base-url
+  - name: SHOPDIT_SHOPEE_PRODUCT_LIST_URL
+    valueFrom:
+      configMapKeyRef:
+        name: shopdit-api-config
+        key: shopdit-shopee-product-list-url
+  - name: BIG_QUERY_INSERT_EVENT_DATASET_ID
+    valueFrom:
+      configMapKeyRef:
+        name: shopdit-api-config
+        key: big-query-insert-event-dataset-id
+  - name: BIG_QUERY_INSERT_EVENT_TABLE_ID
+    valueFrom:
+      configMapKeyRef:
+        name: shopdit-api-config
+        key: big-query-insert-event-table-id
+  - name: BIG_QUERY_INSERT_PRODUCT_DATASET_ID
+    valueFrom:
+      configMapKeyRef:
+        name: shopdit-api-config
+        key: big-query-insert-product-dataset-id
+  - name: BIG_QUERY_INSERT_PRODUCT_TABLE_ID
+    valueFrom:
+      configMapKeyRef:
+        name: shopdit-api-config
+        key: big-query-insert-product-table-id
+  - name: GOOGLE_APPLICATION_CREDENTIALS
+    valueFrom:
+      configMapKeyRef:
+        name: shopdit-api-config
+        key: google-application-credentials
+  - name: GCP_PROJECT_ID
+    valueFrom:
+      configMapKeyRef:
+        name: shopdit-api-config
+        key: gcp-project-id
+  - name: CONCURRENCY_ORDER_CREATE
+    value: '5'
+  - name: CONCURRENCY_CART_CREATE
+    value: '2'
+  - name: AUTH_CENTER_URL
+    valueFrom:
+      configMapKeyRef:
+        name: shopdit-api-config
+        key: auth-center-url
+  - name: AUTH_CLIENT_ID
+    valueFrom:
+      configMapKeyRef:
+        name: shopdit-api-config
+        key: auth-client-id
+  - name: AUTH_CLIENT_SECRET
+    valueFrom:
+      configMapKeyRef:
+        name: shopdit-api-config
+        key: auth-client-secret
+  - name: CIS_URL
+    valueFrom:
+      configMapKeyRef:
+        name: shopdit-api-config
+        key: cis-url
+  - name: CIS_API_KEY
+    valueFrom:
+      configMapKeyRef:
+        name: shopdit-api-config
+        key: cis-api-key
+  - name: CIS_PLATFORM_SELLER_KEY
+    valueFrom:
+      configMapKeyRef:
+        name: shopdit-api-config
+        key: cis-platform-seller-key
+  - name: APP_ID_SELLER
+    valueFrom:
+      configMapKeyRef:
+        name: shopdit-api-config
+        key: app-id-seller
+  - name: ENV_TYPE
+    valueFrom:
+      configMapKeyRef:
+        name: shopdit-api-config
+        key: ENV_TYPE
+  - name: CLOUDFLARE_API_TOKEN
+    valueFrom:
+      configMapKeyRef:
+        name: shopdit-api-config
+        key: CLOUDFLARE_API_TOKEN
+  - name: CLOUDFLARE_ZONE_ID
+    valueFrom:
+      configMapKeyRef:
+        name: shopdit-api-config
+        key: CLOUDFLARE_ZONE_ID
+  - name: KAFKA_REGION
+    valueFrom:
+      configMapKeyRef:
+        name: shopdit-api-config
+        key: kafka-region
+  - name: KAFKA_ACCESS_KEY
+    valueFrom:
+      configMapKeyRef:
+        name: shopdit-api-config
+        key: kafka-access-key
+  - name: KAFKA_SECRET_KEY
+    valueFrom:
+      configMapKeyRef:
+        name: shopdit-api-config
+        key: kafka-secret-key
+  - name: KAFKA_MECHANISM
+    valueFrom:
+      configMapKeyRef:
+        name: shopdit-api-config
+        key: kafka-mechanism
+  - name: KAFKA_BROKER1
+    valueFrom:
+      configMapKeyRef:
+        name: shopdit-api-config
+        key: kafka-broker1
+  - name: KAFKA_BROKER2
+    valueFrom:
+      configMapKeyRef:
+        name: shopdit-api-config
+        key: kafka-broker2
+  - name: CIS_PLATFORM_BUYER_KEY
+    valueFrom:
+      configMapKeyRef:
+        name: shopdit-api-config
+        key: cis-platform-buyer-key
+  - name: APP_ID_BUYER
+    valueFrom:
+      configMapKeyRef:
+        name: shopdit-api-config
+        key: app-id-buyer
+  - name: THAIBULKSMS_BASE_URL
+    valueFrom:
+      configMapKeyRef:
+        key: thaibulksms-base-url
+        name: shopdit-api-config
+  - name: THAIBULKSMS_API_KEY
+    valueFrom:
+      configMapKeyRef:
+        key: thaibulksms-api-key
+        name: shopdit-api-config
+  - name: THAIBULKSMS_API_SECRET
+    valueFrom:
+      configMapKeyRef:
+        key: thaibulksms-api-secret
+        name: shopdit-api-config
+  - name: THAIBULKSMS_SENDER
+    valueFrom:
+      configMapKeyRef:
+        key: thaibulksms-sender
+        name: shopdit-api-config
+  - name: KAFKA_CONSUMER
+    valueFrom:
+      configMapKeyRef:
+        key: kafka-consumer
+        name: shopdit-api-config
+  - name: ALLKONS_MAILER_HOST
+    valueFrom:
+      configMapKeyRef:
+        key: allkons-mailer-host
+        name: shopdit-api-config
+  - name: ALLKONS_MAILER_USER
+    valueFrom:
+      configMapKeyRef:
+        key: allkons-mailer-user
+        name: shopdit-api-config
+  - name: ALLKONS_MAILER_PASSWORD
+    valueFrom:
+      configMapKeyRef:
+        key: allkons-mailer-password
+        name: shopdit-api-config
+  - name: ALLKONS_MAIL_FROM_NAME
+    valueFrom:
+      configMapKeyRef:
+        key: allkons-mailer-from-name
+        name: shopdit-api-config
+  - name: ALLKONS_MAIL_FROM_ADDRESS
+    valueFrom:
+      configMapKeyRef:
+        key: allkons-mailer-from-address
+        name: shopdit-api-config
+  - name: ALLKONS_MAIL_ADMIN_CIS
+    valueFrom:
+      configMapKeyRef:
+        key: allkons-mailer-admin-cis
+        name: shopdit-api-config
+  - name: DELAY_RETRY
+    valueFrom:
+      configMapKeyRef:
+        key: deplay-retry
+        name: shopdit-api-config
+  - name: INGRESS_API_URL
+    valueFrom:
+      configMapKeyRef:
+        key: ingress-api-url
+        name: shopdit-api-config
+  - name: INGRESS_NAME
+    valueFrom:
+      configMapKeyRef:
+        key: ingress-name
+        name: shopdit-api-config
+  - name: CRON_SUBDOMAIN
+    valueFrom:
+      configMapKeyRef:
+        key: cron-subdomain
+        name: shopdit-api-config
+  - name: DELAY_SUBDOMAIN_RETRY
+    valueFrom:
+      configMapKeyRef:
+        key: delay-subdomain-retry
+        name: shopdit-api-config
+  - name: BASE_URL
+    valueFrom:
+      configMapKeyRef:
+        key: base-url
+        name: shopdit-api-config
+  - name: ALLKONS_ID_API_URL
+    valueFrom:
+      configMapKeyRef:
+        key: allkons-id-api-url
+        name: shopdit-api-config
+  - name: CONSENT_MESSAGE_APP_ID
+    valueFrom:
+      configMapKeyRef:
+        key: consent-message-app-id
+        name: shopdit-api-config
+  - name: CONSENT_TYPE
+    valueFrom:
+      configMapKeyRef:
+        key: consent-type
+        name: shopdit-api-config
+  - name: BULLBOARD_USER
+    valueFrom:
+      configMapKeyRef:
+        key: BULLBOARD_USER
+        name: shopdit-api-config
+  - name: BULLBOARD_PASS
+    valueFrom:
+      configMapKeyRef:
+        key: BULLBOARD_PASS
+        name: shopdit-api-config
+  - name: OTEL_EXPORTER_OTLP_TRACES_ENDPOINT
+    valueFrom:
+      configMapKeyRef:
+        key: OTEL_EXPORTER_OTLP_TRACES_ENDPOINT
+        name: shopdit-api-config
+  - name: ENABLE_JAEGER
+    valueFrom:
+      configMapKeyRef:
+        key: ENABLE_JAEGER
+        name: shopdit-api-config
+  - name: OTEL_SERVICE_NAME
+    valueFrom:
+      configMapKeyRef:
+        key: OTEL_SERVICE_NAME
+        name: shopdit-api-config
+  - name: APP_ID_MARKETPLACE
+    valueFrom:
+      configMapKeyRef:
+        key: APP_ID_MARKETPLACE
+        name: shopdit-api-config
+  - name: SWAGGER_USER
+    valueFrom:
+      configMapKeyRef:
+        key: SWAGGER_USER
+        name: shopdit-api-config
+  - name: SWAGGER_PASSWORD
+    valueFrom:
+      configMapKeyRef:
+        key: SWAGGER_PASSWORD
+        name: shopdit-api-config
+  - name: AUTH_CENTER_JWKS_URI
+    valueFrom:
+      configMapKeyRef:
+        key: AUTH_CENTER_JWKS_URI
+        name: shopdit-api-config

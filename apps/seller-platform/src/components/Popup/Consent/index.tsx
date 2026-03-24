@@ -1,0 +1,341 @@
+import React, { useRef, useState, useEffect } from "react";
+import ResponsivePopup from "..";
+import Button from "@/components/Button";
+import Typography from "@/components/Typography";
+import { useQuery } from "@tanstack/react-query";
+import { Grid } from "antd";
+import ToggleSwitch from "@/components/DataEntry/ToggleSwitch";
+import Checkbox from "@/components/DataEntry/Checkbox";
+import { sanitizeHtml } from "@/libs/dom-purify";
+import BadgeLabel from "@/components/BadgeLabel";
+import { getAllConsents } from "@/api/consent.api";
+import { routes } from "@/constants/routing.constants";
+
+type PopupConsentProps = {
+  visible: boolean;
+  onClose: () => void;
+  onSubmitConsent?: (data: {
+    acceptConsent: boolean;
+    acceptMarketing: boolean;
+    consents: any[];
+  }) => void;
+};
+
+const PopupConsent: React.FC<PopupConsentProps> = ({
+  visible,
+  onClose,
+  onSubmitConsent,
+}) => {
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const { sm } = Grid.useBreakpoint();
+  const isMobile = !sm;
+  const [showScrollButton, setShowScrollButton] = useState(true);
+  const [acceptConsent, setAcceptConsent] = useState(false);
+  const [acceptMarketing, setAcceptMarketing] = useState(true);
+
+  const consentTypes = [
+    "terms_of_service",
+    "privacy_policy",
+    "marketing_consent",
+  ];
+  const { data: dataConsent } = useQuery({
+    queryKey: ["dataConsent"],
+    queryFn: () => getAllConsents(consentTypes),
+    enabled: visible,
+  });
+  const consentList = ((dataConsent?.data as any[]) || []).sort(
+    (a: any, b: any) => a.id - b.id,
+  );
+
+  const scrollToBottom = () => {
+    if (isMobile) {
+      setTimeout(() => {
+        const drawerBody = document.querySelector(
+          ".popup-consent-drawer-body",
+        ) as HTMLDivElement | null;
+        if (drawerBody) {
+          // Calculate the exact bottom position
+          const exactBottom = drawerBody.scrollHeight - drawerBody.clientHeight;
+
+          drawerBody.scrollTo({
+            top: exactBottom,
+            behavior: "smooth",
+          });
+
+          // Check scroll state after a delay to allow smooth scroll to complete
+          setTimeout(() => {
+            handleScroll();
+          }, 600);
+        }
+      }, 100);
+    } else {
+      if (scrollContainerRef.current) {
+        const container = scrollContainerRef.current;
+        // Calculate the exact bottom position
+        const exactBottom = container.scrollHeight - container.clientHeight;
+
+        container.scrollTo({
+          top: exactBottom,
+          behavior: "smooth",
+        });
+
+        // Wait for smooth scroll to complete by checking position repeatedly
+        const checkScrollComplete = () => {
+          const currentScrollTop = container.scrollTop;
+          const isAtTarget = Math.abs(currentScrollTop - exactBottom) <= 5;
+
+          if (isAtTarget) {
+            handleScroll();
+          } else {
+            // Continue checking every 100ms until scroll completes
+            setTimeout(checkScrollComplete, 100);
+          }
+        };
+
+        // Start checking after initial delay
+        setTimeout(checkScrollComplete, 200);
+      }
+    }
+  };
+
+  const handleScroll = () => {
+    let container;
+
+    if (isMobile) {
+      // For mobile, check the drawer body scroll
+      container = document.querySelector(
+        ".popup-consent-drawer-body",
+      ) as HTMLElement;
+    } else {
+      // For desktop, use the scroll container ref
+      container = scrollContainerRef.current;
+    }
+
+    if (container) {
+      const { scrollTop, scrollHeight, clientHeight } = container;
+
+      // Check if content is scrollable
+      const hasScroll = scrollHeight > clientHeight;
+
+      // Calculate how far from bottom
+      const distanceFromBottom = scrollHeight - (scrollTop + clientHeight);
+
+      // Check if user is at the bottom (with 40px threshold)
+      const isAtBottom = distanceFromBottom <= 40;
+
+      const shouldShowButton = hasScroll && !isAtBottom;
+      setShowScrollButton(shouldShowButton);
+    }
+  };
+
+  useEffect(() => {
+    let scrollContainer: HTMLElement | null = null;
+    let timer: NodeJS.Timeout;
+    let retryCount = 0;
+
+    if (isMobile) {
+      // For mobile, listen to drawer body scroll with retry mechanism
+      const setupScrollListener = () => {
+        scrollContainer = document.querySelector(
+          ".popup-consent-drawer-body",
+        ) as HTMLElement;
+
+        if (scrollContainer) {
+          scrollContainer.addEventListener("scroll", handleScroll, {
+            passive: true,
+          });
+          handleScroll(); // Initial check
+        } else if (retryCount < 5) {
+          retryCount++;
+          timer = setTimeout(setupScrollListener, 500 * retryCount);
+        }
+      };
+
+      // Start setup with initial delay
+      timer = setTimeout(setupScrollListener, 300);
+
+      return () => {
+        clearTimeout(timer);
+        if (scrollContainer) {
+          scrollContainer.removeEventListener("scroll", handleScroll);
+        }
+      };
+    } else {
+      // For desktop, use scroll container ref
+      if (scrollContainerRef.current) {
+        scrollContainer = scrollContainerRef.current;
+        scrollContainer.addEventListener("scroll", handleScroll);
+
+        timer = setTimeout(() => {
+          handleScroll();
+        }, 200);
+
+        return () => {
+          if (scrollContainer) {
+            scrollContainer.removeEventListener("scroll", handleScroll);
+          }
+          clearTimeout(timer);
+        };
+      }
+    }
+  }, [consentList, isMobile, handleScroll]); // Re-run when content loads or screen changes
+
+  return (
+    <ResponsivePopup
+      visible={visible}
+      onClose={onClose}
+      drawerTitle={
+        <div className={`flex justify-end`}>
+          <Button
+            dataTestId="btn--consent-close"
+            onClick={onClose}
+            variant="outlined"
+            className="!px-0"
+            color="neutral"
+          >
+            <i className="ri-close-line"></i>
+          </Button>
+        </div>
+      }
+      modalProps={{
+        width: 960,
+        centered: true,
+        maskClosable: false,
+        zIndex: 2000, // Higher z-index to overlay other popups
+      }}
+      drawerProps={{
+        height: "90%",
+        // destroyOnClose: true,
+        classNames: {
+          body: "popup-consent-drawer-body",
+        },
+        styles: { body: { padding: "12px" } },
+        maskClosable: false,
+        zIndex: 2000, // Higher z-index to overlay other popups
+      }}
+    >
+      <div className="relative">
+        <Typography variant="h4" className="!text-text-primary">
+          เงื่อนไขการให้บริการ นโยบายความเป็นส่วนตัว และการตลาด
+        </Typography>
+
+        {showScrollButton && (
+          <div className="fixed w-full inset-x-0 flex justify-center md:hidden bottom-[80px] z-10">
+            <Button
+              dataTestId="btn--consent-scroll-down"
+              icon={<i className="ri-arrow-down-line"></i>}
+              onClick={scrollToBottom}
+            >
+              เลื่อนลงข้างล่าง
+            </Button>
+          </div>
+        )}
+        <div
+          ref={scrollContainerRef}
+          className="relative flex flex-col max-h-auto md:max-h-[600px] overflow-y-auto"
+        >
+          {consentList.length > 0 &&
+            consentList.map((consent: any) => (
+              <div key={consent.type} className="mt-6 flex flex-col gap-4">
+                <div className="flex justify-between">
+                  <div className="flex items-center gap-2">
+                    <Typography variant="h4" className="!text-text-primary">
+                      {consent?.type === "terms_of_service"
+                        ? "เงื่อนไขการให้บริการ"
+                        : consent?.type === "privacy_policy"
+                          ? "นโยบายความเป็นส่วนตัว"
+                          : consent?.type === "marketing_consent"
+                            ? "นโยบายทางการตลาด"
+                            : ""}
+                    </Typography>
+                    <Typography
+                      variant="h4"
+                      className="text-underline !text-primary underline cursor-pointer"
+                      onClick={() => {
+                        window.open(
+                          consent?.type === "terms_of_service"
+                            ? `${routes.terms()}`
+                            : consent?.type === "privacy_policy"
+                              ? `${routes.privacy()}#privacy`
+                              : consent?.type === "marketing_consent"
+                                ? `${routes.privacy()}#marketing`
+                                : "#",
+                          "_blank",
+                        );
+                      }}
+                    >
+                      อ่านเพิ่มเติม
+                    </Typography>
+                    <BadgeLabel
+                      text={`เวอร์ชัน ${consent?.version || ""}`}
+                      rounding="pill"
+                      variant="outlined"
+                      color="neutral"
+                    />
+                  </div>
+                  {consent.type === "marketing_consent" && (
+                    <ToggleSwitch
+                      type="text"
+                      isChecked={acceptMarketing}
+                      showLabel={false}
+                      onChange={(checked) => setAcceptMarketing(checked)}
+                    />
+                  )}
+                </div>
+                <div
+                  dangerouslySetInnerHTML={{
+                    __html: sanitizeHtml(consent.subject),
+                  }}
+                ></div>
+                {consent?.content && (
+                  <div
+                    className="p-4 rounded-xl bg-background-secondary"
+                    dangerouslySetInnerHTML={{
+                      __html: sanitizeHtml(consent.content),
+                    }}
+                  ></div>
+                )}
+              </div>
+            ))}
+          {showScrollButton && (
+            <div
+              className={`sticky inset-0 h-fit w-full hidden md:flex justify-center top-[550px]`}
+            >
+              <Button
+                dataTestId="btn--consent-scroll-down"
+                icon={<i className="ri-arrow-down-line"></i>}
+                onClick={scrollToBottom}
+              >
+                เลื่อนลงข้างล่าง
+              </Button>
+            </div>
+          )}
+          <div className="flex mt-5 justify-between">
+            <Checkbox
+              dataTestId="checkbox--consent-accept"
+              label="เงื่อนไขการให้บริการ และนโยบายความเป็นส่วนตัว"
+              checked={acceptConsent}
+              onChange={(e) => setAcceptConsent(e.target.checked)}
+            />
+            <Button
+              dataTestId="btn--consent-accept"
+              disabled={!acceptConsent}
+              onClick={() => {
+                onClose();
+                onSubmitConsent?.({
+                  acceptConsent,
+                  acceptMarketing,
+                  consents: consentList,
+                });
+              }}
+            >
+              ตกลง
+            </Button>
+          </div>
+        </div>
+      </div>
+    </ResponsivePopup>
+  );
+};
+
+export default PopupConsent;

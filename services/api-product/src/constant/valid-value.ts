@@ -1,0 +1,15 @@
+export const ProductImportValidationConstants = {
+  MAX_PRICE_LENGTH: 13,
+  COMMA_SEPARATOR_REGEX: /[,;|]+/,
+  STRICT_NUMERIC_REGEX: /^\d+(\.\d+)?$/,
+  HYPHEN_IN_MIDDLE_REGEX: /.*-.*/,
+  HYPHEN_IN_MIDDLE_NOT_START_REGEX: /^[^-].*-/,
+  NUMERIC_WITH_NEGATIVE_REGEX: /^-?\d+(\.\d+)?$/,
+  VALID_PRICING_TYPES: new Set(['InVAT', 'ExVAT']),
+  VALID_VAT_VALUES: new Set(['0', '3', '7']),
+  CASE_INSENSITIVE_VAT_VALUE: 'nonvat',
+  VALID_CUSTOMERS_REQUIRED_INQUIRE: new Set(['Y', 'N']),
+  VALID_PRODUCT_STATUS: new Set(['Selling', 'Hidden']),
+  NORMALIZE_REGEX: /\s+\(\d+\)$/,
+  DATE_FORMAT_REGEX: /^(\d{2})\/(\d{2})\/(\d{4})$/,
+} as const;

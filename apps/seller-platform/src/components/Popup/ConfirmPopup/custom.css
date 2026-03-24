@@ -1,0 +1,62 @@
+/* ConfirmPopup Drawer Styles */
+.confirm-popup-drawer .ant-drawer-header {
+  border-bottom: 0 !important;
+  position: absolute !important;
+  right: -8px !important;
+}
+
+.confirm-popup-drawer .ant-drawer-footer {
+  border-top: 0 !important;
+  padding: 14px !important;
+}
+
+.confirm-popup-drawer .ant-drawer-close {
+  border: 1px solid #dee1e6 !important;
+  width: 40px !important;
+  height: 40px !important;
+  border-radius: 8px !important;
+  font-size: 16px !important;
+}
+
+.confirm-popup-drawer .ant-drawer-close-x svg {
+  fill: #37404f;
+}
+
+/* ConfirmPopup Modal Styles */
+.confirm-popup-modal .ant-modal-close {
+  border: 1px solid #dee1e6;
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+}
+
+.confirm-popup-modal .ant-modal-close-x {
+  font-size: 16px;
+}
+
+.confirm-popup-modal .ant-modal-close-x svg {
+  fill: #37404f;
+}
+
+/* Custom scrollbar for modal body */
+.confirm-popup-modal .ant-modal-body {
+  scrollbar-width: thin;
+  scrollbar-color: #dee1e6 transparent;
+}
+
+.confirm-popup-modal .ant-modal-body::-webkit-scrollbar {
+  width: 6px;
+}
+
+.confirm-popup-modal .ant-modal-body::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.confirm-popup-modal .ant-modal-body::-webkit-scrollbar-thumb {
+  background-color: #dee1e6;
+  border-radius: 3px;
+}
+
+.confirm-popup-modal .ant-modal-body::-webkit-scrollbar-thumb:hover {
+  background-color: #9ca3af;
+}

@@ -1,0 +1,5 @@
+# extraEnvVars:
+# - name: NEXT_PUBLIC_API_HOST_URL
+#   value: ${NEXT_PUBLIC_API_HOST_URL}
+# - name: NEXT_PUBLIC_ALLKONS_APP_ID
+#   value: ${NEXT_PUBLIC_ALLKONS_APP_ID}

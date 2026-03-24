@@ -1,0 +1,39 @@
+{
+  "name": "allkons-marketplace",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Allkons Marketplace Monorepo - Buyer/Seller Platforms & API Services",
+  "workspaces": [
+    "apps/*",
+    "services/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "turbo run dev",
+    "build": "turbo run build",
+    "test": "turbo run test",
+    "lint": "turbo run lint",
+    "clean": "turbo run clean && rm -rf node_modules",
+    "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,md}\"",
+    "typecheck": "turbo run typecheck",
+
+    "dev:buyer": "turbo run dev --filter=@allkons/buyer-platform",
+    "dev:seller": "turbo run dev --filter=@allkons/seller-platform",
+    "dev:api-customer": "turbo run dev --filter=@allkons/api-customer",
+    "dev:api-order": "turbo run dev --filter=@allkons/api-order",
+    "dev:api-product": "turbo run dev --filter=@allkons/api-product",
+    "dev:sp": "turbo run dev --filter=@allkons/startup-partner-platform",
+
+    "build:changed": "turbo run build --filter='...[HEAD^]'",
+    "docker:build-all": "pnpm run --recursive --parallel docker:build"
+  },
+  "devDependencies": {
+    "turbo": "^2.3.3",
+    "prettier": "^3.2.5"
+  },
+  "engines": {
+    "node": ">=20.0.0",
+    "pnpm": ">=8.0.0"
+  },
+  "packageManager": "pnpm@8.15.0"
+}

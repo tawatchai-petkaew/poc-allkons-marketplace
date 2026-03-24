@@ -1,0 +1,10 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.landing-product {
+  @apply md:!px-2 !px-0;
+}
+.landing-product .slick-track {
+  @apply !flex md:!gap-8 !gap-3;
+}

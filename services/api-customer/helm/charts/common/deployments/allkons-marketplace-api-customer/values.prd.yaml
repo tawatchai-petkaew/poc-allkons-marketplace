@@ -1,0 +1,52 @@
+# Production Environment Configuration
+# Optimized for performance, reliability, and high availability
+
+ingress:
+  tls: true  # TLS enabled for production security
+  enabled: true
+  hostname: www.allkons.com
+  pathType: Prefix
+  path: /api-customer
+  annotations:
+    konghq.com/strip-path: "true"
+
+replicaCount: 2  # Base replicas for high availability
+
+resources:
+  requests:
+    cpu: 250m      # Optimized CPU for JWT RS256 + TypeORM
+    memory: 256Mi  # Sufficient memory for Node.js + TypeORM + caching
+  limits:
+    cpu: 1000m     # 1 full CPU core for peak load
+    memory: 1Gi    # 1GB max for heavy queries
+
+autoscaling:
+  enabled: true
+  minReplicas: 2   # Maintain HA at all times
+  maxReplicas: 10  # Scale up to 10 pods for peak traffic
+  targetCPUUtilizationPercentage: 70  # Scale when CPU avg > 70%
+
+service:
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 3000
+
+# Production-specific configurations
+podDisruptionBudget:
+  enabled: true
+  minAvailable: 1  # Ensure at least 1 pod during updates
+
+affinity:
+  # Spread pods across different nodes for resilience
+  podAntiAffinity:
+    preferredDuringSchedulingIgnoredDuringExecution:
+      - weight: 100
+        podAffinityTerm:
+          labelSelector:
+            matchExpressions:
+              - key: app
+                operator: In
+                values:
+                  - allkons-marketplace-api-customer
+          topologyKey: kubernetes.io/hostname

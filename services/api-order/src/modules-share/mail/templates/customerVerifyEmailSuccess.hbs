@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+  <head>
+      <title>Verify Success</title>
+      <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+      <style>
+        body {
+          font-family: "DM Sans", sans-serif, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+        }
+      </style>    
+  </head>
+
+  <body>
+    <div class="nk-content" style="padding: 32px 22px;">
+      <div class="nk-content ">
+        <div class="container-fluid">
+          <div class="nk-content-inner">
+            <div class="nk-content-body" style="flex-grow: 1;">
+              <div class="content-page wide-md m-auto" style="max-width: 960px !important; margin: auto !important;">
+                <div class="nk-block">
+                  <div class="card" style="box-shadow: 0px 1px 3px 0px rgb(54 74 99 / 5%); border: 1px solid #e5e9f2;">
+                    <div class="card-inner" style="padding: 1.5rem;">
+                      <table class="email-wraper"
+                              style="background: #f5f6fa;
+                                      font-size: 14px;
+                                      line-height: 22px;
+                                      font-weight: 400;
+                                      color: #8094ae;
+                                      width: 100%;"
+                      >
+                        <tr>
+                          <td class="py-5">
+                            <table class="email-header"
+                                    style="width: 100%;
+                                            max-width: 620px;
+                                            margin: 0 auto;"
+                            >
+                              <tbody>
+                                <tr>
+                                  <td class="text-center pb-4">
+                                    <a href="#"><img class="email-logo" style="height: 40px;" src="{{ merchantLogo }}" alt=""></a>
+                                  </td>
+                                </tr>
+                              </tbody>
+                            </table>
+                            <table class="email-body" 
+                                    style="max-width: 90%;
+                                            width: 96%;
+                                            margin: 0 auto;
+                                            background: #ffffff;"
+                            >
+                              <tbody>
+                                <tr>
+                                  <td class="px-3 px-sm-5 pt-3 pt-sm-5 pb-3">
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td class="px-3 px-sm-5 pb-2">
+                                    <h2 class="email-heading" 
+                                        style="font-size: 18px;
+                                                color: #854fff;
+                                                font-weight: 600;
+                                                margin: 0;
+                                                line-height: 1.4;"
+                                    >
+                                      ยินดีต้อนรับสู่ {{ slug }}
+                                    </h2>
+                                    <p>สวัสดีคุณ {{ name }},</p>
+
+                                    <p>
+                                      เรามีความยินดีที่จะมีคุณมาเป็นสมาชิกของ {{ slug }} และขอขอบคุณที่ทำการยืนยันอีเมลของคุณ
+                                    </p>
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td class="px-3 px-sm-5 pb-2">
+                                    <p>
+                                      หากคุณไม่ได้ทำการร้องขอนี้ โปรดติดต่อเราหรือไม่ต้องสนใจข้อความนี้
+                                    </p>
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td class="px-3 px-sm-5 pb-5">
+                                    <p class="email-note" 
+                                        style="margin: 0;
+                                                font-size: 13px;
+                                                line-height: 22px;
+                                                color: #8094ae;"
+                                    >
+                                      อีเมลฉบับนี้เป็นอีเมลที่ส่งจากระบบอัตโนมัติ กรุณาอย่าตอบกลับโดยตรง
+                                      <br>
+                                      หากมีข้อสงสัยกรุณาติดต่อมายัง 
+                                      <a href="mailto:{{merchantEmail}}" 
+                                          style="color: #854fff;
+                                                  word-break: break-all;
+                                                  text-decoration: none;"
+                                      >
+                                        {{merchantEmail}}
+                                      </a>
+                                    </p>
+                                  </td>
+                                </tr>
+                              </tbody>
+                            </table>
+                            <table class="email-footer"
+                                    style="width: 100%;
+                                            max-width: 620px;
+                                            margin: 0 auto;"
+                            >
+                              <tbody>
+                                <tr>
+                                  <td class="text-center pt-4">
+                                    <p class="fs-12px pt-4" 
+                                        style="margin-bottom: 0;
+                                                font-size: 12px; text-align: center;"
+                                    >
+                                      อีเมลฉบับนี้เป็นส่วนหนึ่งของอีเมลที่จัดส่งโดยอัตโนมัติ
+                                    </p>
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td class="text-center">
+                                    <p class="fs-12px"
+                                        style="margin-bottom: 0;
+                                                font-size: 12px; text-align: center;"
+                                    >
+                                      จาก <a href="https://{{ rootUrl }}"
+                                          style="color: #854fff;
+                                                  word-break: break-all;
+                                                  text-decoration: none;"
+                                      >
+                                        {{ rootUrl }}
+                                      </a>
+                                    </p>
+                                  </td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </td>
+                        </tr>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+  </body>
+</html>

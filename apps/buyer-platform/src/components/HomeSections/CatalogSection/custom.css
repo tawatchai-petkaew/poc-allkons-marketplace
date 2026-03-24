@@ -1,0 +1,15 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.slider-container {
+  @apply container relative mx-auto overflow-hidden pt-2 md:px-3 px-1;
+}
+
+.catalog .slick-track {
+  @apply !flex md:!gap-8 !gap-3 !-mr-5;
+}
+
+.catalog .slick-list {
+  @apply !w-[125%] md:!w-[117%];
+}

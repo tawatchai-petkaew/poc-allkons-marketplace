@@ -1,0 +1,19 @@
+[
+  {
+    "id": 1,
+    "name": "ปูนงานโครงสร้าง เอสซีจี คาร์บอนต่ำ ขนาด 50 กก.ปูนงานโครงสร้าง",
+    "image": "https://staging-shopdit.s3.ap-southeast-1.amazonaws.com/305385-1674917663126"
+  },
+  {
+    "id": 2,
+    "name": "ปูนงานโครงสร้าง เอสซีจี คาร์บอนต่ำ ขนาด 50 กก.ปูนงานโครงสร้าง เอสซีจี คาร์บอนต่ำ ขนาด 50 กก.",
+    "image": "https://staging-shopdit.s3.ap-southeast-1.amazonaws.com/PE-0209-6-1648701969034"
+  },
+  {
+    "id": 3,
+    "name": "Product 3",
+    "image": "https://staging-shopdit.s3.ap-southeast-1.amazonaws.com/FB21-024-1680954480546"
+  },
+  { "id": 4, "name": "Product 4", "image": "https://via.placeholder.com/150" },
+  { "id": 5, "name": "Product 5", "image": "https://via.placeholder.com/150" }
+]

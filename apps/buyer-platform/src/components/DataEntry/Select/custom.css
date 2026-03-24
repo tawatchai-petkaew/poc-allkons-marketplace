@@ -1,0 +1,12 @@
+.ant-select-single {
+  font-size: 16px;
+}
+.ant-select-single .ant-select-selector {
+  font-size: 16px;
+}
+.ant-select-single .ant-select-selector .ant-select-selection-item {
+  font-size: 16px;
+}
+.ant-select-single .ant-select-selector .ant-select-selection-placeholder {
+  font-size: 16px;
+}

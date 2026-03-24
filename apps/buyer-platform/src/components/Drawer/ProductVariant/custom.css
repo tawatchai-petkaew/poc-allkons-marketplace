@@ -1,0 +1,20 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.custom-drawer .ant-drawer-close {
+  @apply !order-2 !border !border-neutral-border !rounded-lg !text-[10px] !w-10 !h-10;
+  border: 1px solid !important;
+}
+
+.custom-drawer .ant-drawer-title {
+  @apply !order-1;
+}
+
+.custom-drawer .ant-drawer-header {
+  @apply !px-0 !py-5;
+}
+
+.custom-drawer.product-variant-drawer .ant-drawer-body {
+  @apply !px-0 !py-4 md:!py-6;
+}

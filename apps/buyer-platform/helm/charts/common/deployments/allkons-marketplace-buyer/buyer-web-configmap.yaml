@@ -1,0 +1,10 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: buyer-web-config
+  namespace: ${NAMESPACE}
+data:
+  node-env: '${NODE_ENV}'
+  next-public-api-host-url: '${NEXT_PUBLIC_API_HOST_URL}'
+  next-public-allkons-app-id: '${NEXT_PUBLIC_ALLKONS_APP_ID}'
+  next-public-google-map-api-key: '${NEXT_PUBLIC_GOOGLE_MAP_API_KEY}'

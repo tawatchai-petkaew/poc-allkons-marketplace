@@ -1,0 +1,42 @@
+version: "3.9"
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile.local
+    volumes:
+      - ./:/usr/app
+      - /usr/app/node_modules/
+      - /usr/app/dist/
+    image: shopdit-api
+    depends_on:
+      - postgres
+      - redis
+    command: sh -c "${COMMAND}"
+    env_file: ${ENV_FILE}
+    ports:
+      - "10000:3000"
+    networks:
+      - shopdit-api
+  postgres:
+    image: postgres:13
+    container_name: allkons-pg-customer
+    ports:
+      - "20000:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: mysecretpassword
+      POSTGRES_DB: shopdit_api_development
+    networks:
+      - shopdit-api
+  redis:
+    container_name: allkons-redis-customer
+    image: redis:7.0-alpine
+    restart: always
+    ports:
+      - '26379:6379'
+    networks:
+      - shopdit-api
+networks:
+  shopdit-api:
+

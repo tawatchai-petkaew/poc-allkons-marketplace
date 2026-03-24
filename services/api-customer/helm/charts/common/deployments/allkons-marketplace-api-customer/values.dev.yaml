@@ -1,0 +1,30 @@
+# Development Environment Configuration
+# Lower resources for cost optimization, single replica for simplicity
+
+ingress:
+  tls: false
+  enabled: true
+  hostname: www.allkons.com
+  pathType: Prefix
+  path: /api-customer
+  annotations:
+    konghq.com/strip-path: "true"
+
+replicaCount: 1
+
+resources:
+  requests:
+    cpu: 100m      # Lower CPU for dev
+    memory: 128Mi  # Lower memory for dev
+  limits:
+    cpu: 250m      # Lower limit for dev
+    memory: 512Mi  # Lower limit for dev
+
+autoscaling:
+  enabled: false   # Disabled for dev to save costs
+
+service:
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 3000

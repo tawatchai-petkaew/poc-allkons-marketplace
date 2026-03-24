@@ -1,0 +1,11 @@
+.custom-skeletion .ant-skeleton-title {
+  @apply !w-full;
+}
+
+.ant-skeleton.ant-skeleton-element {
+  @apply !w-full;
+}
+
+.ant-skeleton.ant-skeleton-element > span {
+  @apply !w-full;
+}

@@ -1,0 +1,41 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.desktop-promotion-banner {
+  @apply !max-h-[336px] !px-6;
+}
+
+.desktop-promotion-banner .slick-slide {
+  @apply !flex !justify-center !items-center;
+}
+
+.desktop-promotion-banner .slick-slide > div {
+  @apply !flex !justify-center !items-center;
+}
+
+.desktop-promotion-banner .slick-track > div {
+  @apply !outline-none;
+}
+
+@media (min-width: 1024px) {
+  .desktop-promotion-banner .slick-slide:not(.slick-center) {
+    @apply opacity-20 transition-all duration-300;
+  }
+}
+
+.desktop-promotion-banner .slick-center {
+  @apply cursor-pointer;
+}
+
+.desktop-promotion-banner .slick-dots {
+  @apply !bg-transparent !translate-y-[-25%] !translate-x-[-50%];
+}
+
+/* .mobile-promotion-banner {
+  @apply !max-h-[172px];
+} */
+
+.mobile-promotion-banner .slick-dots {
+  @apply !bg-transparent !translate-y-[-0%] !translate-x-[-50%];
+}

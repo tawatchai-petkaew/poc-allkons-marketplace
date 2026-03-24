@@ -1,0 +1,28 @@
+ingress:
+  tls: false
+  enabled: true
+  hostname: www.allkons.com
+  pathType: Prefix
+  path: /api-customer
+  annotations:
+    konghq.com/strip-path: "true"
+replicaCount: 1
+resources:
+  requests:
+    cpu: 250m
+    memory: 256Mi
+  limits:
+    cpu: 1000m
+    memory: 1Gi
+    
+autoscaling:
+  enabled: true
+  minReplicas: 2
+  maxReplicas: 5
+  targetCPUUtilizationPercentage: 70
+
+service:
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 3000

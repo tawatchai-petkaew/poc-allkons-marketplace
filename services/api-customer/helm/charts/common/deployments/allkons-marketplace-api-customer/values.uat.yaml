@@ -1,0 +1,33 @@
+# UAT (User Acceptance Testing) Environment Configuration
+# Production-like resources for realistic testing
+
+ingress:
+  tls: false
+  enabled: true
+  hostname: www.allkons.com
+  pathType: Prefix
+  path: /api-customer
+  annotations:
+    konghq.com/strip-path: "true"
+
+replicaCount: 2  # Higher base for reliability testing
+
+resources:
+  requests:
+    cpu: 200m      # Production-like CPU
+    memory: 256Mi  # Production-like memory
+  limits:
+    cpu: 1000m     # 1 full CPU core limit
+    memory: 1Gi
+
+autoscaling:
+  enabled: true
+  minReplicas: 2   # Maintain HA for UAT
+  maxReplicas: 3   # Limited scaling for UAT
+  targetCPUUtilizationPercentage: 70
+
+service:
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 3000

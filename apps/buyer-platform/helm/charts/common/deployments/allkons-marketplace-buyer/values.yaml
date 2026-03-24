@@ -1,0 +1,25 @@
+ingress:
+  tls: false
+  enabled: true
+  hostname: www.allkons.com
+  pathType: Prefix
+  path: /
+replicaCount: 1
+resources:
+  request:
+    cpu: 50m
+    memory: 100Mi
+  limits:
+    cpu: 100m
+    memory: 250Mi
+autoscaling:
+  enabled: true
+  minReplicas: 1
+  maxReplicas: 1
+  targetCPUUtilizationPercentage: 80
+
+service:
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 3000

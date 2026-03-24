@@ -1,0 +1,40 @@
+.upload-profile-picture .ant-upload-wrapper {
+  display: flex;
+  justify-content: center;
+}
+
+.upload-profile-picture .ant-upload-list-item-container {
+  width: 120px !important;
+  height: 120px !important;
+}
+
+.upload-profile-picture .ant-upload.ant-upload-select {
+  width: 120px !important;
+  height: 120px !important;
+  border: none !important;
+  background: transparent !important;
+}
+
+.upload-profile-picture .ant-upload-list-item {
+  border-radius: 50% !important;
+}
+
+.upload-profile-picture .ant-upload-list-item-thumbnail img {
+  object-fit: cover !important;
+  border-radius: 50% !important;
+}
+
+.upload-profile-picture .ant-upload-list-item-actions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.upload-profile-picture .ant-upload-list-picture-circle .ant-upload-list-item-thumbnail {
+  object-fit: cover;
+}
+
+.upload-profile-picture .ant-upload-list-picture-circle .ant-upload-list-item::before {
+  width: 100%;
+  height: 100%;
+}

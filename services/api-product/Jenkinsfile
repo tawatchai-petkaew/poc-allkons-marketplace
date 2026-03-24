@@ -1,0 +1,223 @@
+pipeline {
+    agent any
+    options {
+        disableConcurrentBuilds()
+    }
+    environment {
+        BRANCH_NAME = "${GIT_BRANCH.tokenize('/').last()}"
+        IS_TAG   = "${GIT_BRANCH?.startsWith('refs/tags/')}"
+        APP_NAME = "allkons-marketplace-api-product"
+        APP_TYPE  = "api"
+        DISCORD_URL = credentials('DISCORD_WEBHOOK')
+        SERVICE_PATH = 'services/api-product'
+    }
+
+    stages {
+        stage('Determine Changes') {
+            when {
+                anyOf {
+                    expression { env.BRANCH_NAME in ['develop', 'sit', 'uat'] }
+                    expression { env.IS_TAG == 'true' }
+                }
+            }
+            steps {
+                script {
+                    def serviceChanged = sh(
+                        script: """
+                            # Handle first commit by checking if HEAD^ exists
+                            if git rev-parse HEAD^ >/dev/null 2>&1; then
+                                git diff --name-only HEAD^ HEAD | grep -E '^(services/api-product/|packages/|pnpm-lock.yaml|turbo.json)' || true
+                            else
+                                # First commit - check if service files exist
+                                git ls-files | grep -E '^(services/api-product/|packages/|pnpm-lock.yaml|turbo.json)' || true
+                            fi
+                        """,
+                        returnStdout: true
+                    ).trim()
+
+                    env.SHOULD_BUILD = serviceChanged != "" ? 'true' : 'false'
+
+                    echo "API Product changes detected: ${env.SHOULD_BUILD}"
+                    if (env.SHOULD_BUILD == 'false') {
+                        echo "No changes in api-product or shared packages. Skipping build."
+                        currentBuild.result = 'NOT_BUILT'
+                    }
+                }
+            }
+        }
+
+        stage('Prepare Environment'){
+            when {
+                anyOf {
+                    expression { env.BRANCH_NAME in ['develop', 'sit', 'uat'] }
+                    expression { env.IS_TAG == 'true' }
+                }
+                expression { env.SHOULD_BUILD == 'true' }
+            }
+            steps{
+                script{
+                    if (env.BRANCH_NAME == 'develop'){
+                        env.APP_ENV = 'dev'
+                        def cmd = '''echo "${APP_ENV}"| tr '[:lower:]' '[:upper:]' '''
+                        env.APP_ENV_UPPER = sh(returnStdout: true, script: cmd).trim()
+                        env.DOMAIN_ENV = 'marketplace-api-dev.allkons.com'
+                        env.NAMESPACE = 'mono-revamp'
+                        env.AWS_ECR = '637423196093.dkr.ecr.ap-southeast-1.amazonaws.com'
+                        env.VERSION = "v0.0.${BUILD_NUMBER}"
+                        env.CLUSTER_NAME = "eks-apse1-allkons-dev"
+                    }
+                    if (env.BRANCH_NAME == 'sit'){
+                        env.APP_ENV = 'sit'
+                        def cmd = '''echo "${APP_ENV}"| tr '[:lower:]' '[:upper:]' '''
+                        env.APP_ENV_UPPER = sh(returnStdout: true, script: cmd).trim()
+                        env.DOMAIN_ENV = 'marketplace-api-sit.allkons.com'
+                        env.NAMESPACE = 'sit'
+                        env.AWS_ECR = '637423196093.dkr.ecr.ap-southeast-1.amazonaws.com'
+                        env.VERSION = "v0.0.${BUILD_NUMBER}"
+                        env.CLUSTER_NAME = "eks-apse1-allkons-dev"
+                    }
+                    if (env.BRANCH_NAME == 'uat'){
+                        env.APP_ENV = 'uat'
+                        def cmd = '''echo "${APP_ENV}"| tr '[:lower:]' '[:upper:]' '''  
+                        env.APP_ENV_UPPER = sh(returnStdout: true, script: cmd).trim()
+                        env.DOMAIN_ENV = 'marketplace-api-uat.allkons.com'
+                        env.NAMESPACE = 'uat'
+                        env.AWS_ECR = '590183989907.dkr.ecr.ap-southeast-1.amazonaws.com'
+                        env.VERSION = "v0.0.${BUILD_NUMBER}"
+                        env.CLUSTER_NAME = "eks-apse1-allkons-uat"
+                    }
+                    if (env.BRANCH_NAME == 'tags'){
+                        env.APP_ENV = 'prd'
+                        def cmd = '''echo "${APP_ENV}"| tr '[:lower:]' '[:upper:]' '''  
+                        env.APP_ENV_UPPER = sh(returnStdout: true, script: cmd).trim()
+                        env.DOMAIN_ENV = 'marketplace-api.allkons.com'
+                        env.NAMESPACE = 'production'
+                        env.AWS_ECR = '339713172079.dkr.ecr.ap-southeast-1.amazonaws.com'
+                        env.VERSION = "${GIT_BRANCH.split("/")[2]}"
+                        env.CLUSTER_NAME = "eks-apse1-allkons-prd"
+                    }
+                }
+            }
+        }
+        stage('get_commit_msg') {
+            when {
+                anyOf {
+                    expression { env.BRANCH_NAME in ['develop', 'sit', 'uat'] }
+                    expression { env.IS_TAG == 'true' }
+                }
+                expression { env.SHOULD_BUILD == 'true' }
+            }
+            steps {
+                script {
+                    env.GIT_COMMIT_MSG = sh (script: 'git log -1 --pretty=%B ${GIT_COMMIT}', returnStdout: true).trim()
+                    env.GIT_AUTHOR_ID = sh (script: 'git show -s --pretty=%an', returnStdout: true).trim()
+                    env.GIT_COMMIT_HASH = sh(script: 'git rev-parse --short HEAD', returnStdout: true).trim()
+                }
+            }
+        }
+      
+        stage('Build and Push Docker Image') {
+            when {
+                anyOf {
+                    expression { env.BRANCH_NAME in ['develop', 'sit', 'uat'] }
+                    expression { env.IS_TAG == 'true' }
+                }
+                expression { env.SHOULD_BUILD == 'true' }
+            }
+            steps {
+                echo 'Build and Push Docker Image'
+                script{
+                    sshagent(credentials: ['jenkins_bitbucket_key']) {
+                        withCredentials([[$class: 'AmazonWebServicesCredentialsBinding',credentialsId: "AWS_ECR_${APP_ENV_UPPER}",accessKeyVariable: 'AWS_ACCESS_KEY_ID',secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) {
+                            sh('''
+                            export DOCKER_BUILDKIT=1
+                            cd ${WORKSPACE}
+                            docker build --ssh default -f ${SERVICE_PATH}/Dockerfile --force-rm --build-arg GIT_COMMIT_HASH=${GIT_COMMIT_HASH} --no-cache -t ${AWS_ECR}/${APP_TYPE}/${APP_NAME}:${VERSION} .
+                            aws ecr get-login-password --region ap-southeast-1 | docker --config ${WORKSPACE}/docker.login login --username AWS --password-stdin ${AWS_ECR}
+                            docker --config ${WORKSPACE}/docker.login push ${AWS_ECR}/${APP_TYPE}/${APP_NAME}:${VERSION}
+                            ''')
+                        }
+                    }
+                }
+            }
+        }
+
+        stage('Prepare KubeConfigure') {
+            when {
+                expression { env.BRANCH_NAME != 'main' }
+                expression { env.SHOULD_BUILD == 'true' }
+            }
+            steps {
+                echo 'Prepare KubeConfigure'
+                script {
+                    withCredentials([[ $class: 'AmazonWebServicesCredentialsBinding', credentialsId: "AWS_EKS_${APP_ENV_UPPER}"]]) {
+                        sh('''
+                            export KUBECONFIG="${WORKSPACE}/kubeconfig"
+                            aws eks update-kubeconfig --region ap-southeast-1 --name ${CLUSTER_NAME}
+                            kubectl --kubeconfig ${KUBECONFIG} get ns
+                        ''')
+                    }
+                }
+            }
+        }
+
+        stage('Deploy Application') {
+            when {
+                anyOf {
+                    expression { env.BRANCH_NAME in ['develop', 'sit', 'uat'] }
+                    expression { env.IS_TAG == 'true' }
+                }
+                expression { env.SHOULD_BUILD == 'true' }
+            }
+            environment {
+                NODE_ENV = credentials("NODE_ENV_${APP_ENV_UPPER}")
+
+            }
+            steps {
+                echo 'Deploy Application'
+                timeout(time: 5, unit: 'MINUTES'){
+                    script {
+                        withCredentials([[ $class: 'AmazonWebServicesCredentialsBinding', credentialsId: "AWS_EKS_${APP_ENV_UPPER}"]]) {
+                            sh('''
+                                export KUBECONFIG="${WORKSPACE}/kubeconfig"
+                                echo "prepare the Environment"
+                                rm -f ${SERVICE_PATH}/helm/charts/common/deployments/${APP_NAME}/environments.${APP_ENV}.yaml
+                                cat ${SERVICE_PATH}/helm/charts/common/deployments/${APP_NAME}/environments_byenv.yaml | envsubst > ${SERVICE_PATH}/helm/charts/common/deployments/${APP_NAME}/environments.${APP_ENV}.yaml
+                                
+                                helm upgrade --install -f ${SERVICE_PATH}/helm/charts/common/deployments/${APP_NAME}/values.yaml \
+                                -f ${SERVICE_PATH}/helm/charts/common/deployments/${APP_NAME}/environments.${APP_ENV}.yaml \
+                                ${APP_NAME} ${SERVICE_PATH}/helm/charts/common \
+                                --namespace=${NAMESPACE} \
+                                --set nameOverride=${APP_NAME} \
+                                --set fullnameOverride=${APP_NAME} \
+                                --set image.registry=${AWS_ECR} \
+                                --set image.repository=${APP_TYPE}/${APP_NAME} \
+                                --set image.tag=${VERSION} \
+                                --set ingress.hostname=${DOMAIN_ENV} \
+                                --wait --timeout 5m
+                            ''')
+                        }
+                    }
+                }
+            }
+        }
+    }
+    post {
+        always {
+            echo "One way or another, The Jenkins has finished "
+            deleteDir()
+        }
+        success {
+            echo 'Result : succeeded!'
+            discordSend description: "Finished build #${BUILD_NUMBER}", footer: "Commit: ${GIT_COMMIT_HASH}\n${GIT_COMMIT_MSG}", link: env.BUILD_URL, result: currentBuild.currentResult, title: env.JOB_NAME, webhookURL: env.DISCORD_URL
+        }
+        unstable {
+            echo 'Result : unstable :/'
+            discordSend description: "Started build #${BUILD_NUMBER}", footer: "Commit: ${GIT_COMMIT_HASH}\n${GIT_COMMIT_MSG}", link: env.BUILD_URL, result: currentBuild.currentResult, title: JOB_NAME, webhookURL: DISCORD_URL
+        }
+        failure {
+            echo 'Result : failed :('
+            discordSend description: "Failed build #${BUILD_NUMBER}", footer: "Commit: ${GIT_COMMIT_HASH}\n${GIT_COMMIT_MSG}", link: env.BUILD_URL, result: currentBuild.currentResult, title: env.JOB_NAME, webhookURL: env.DISCORD_URL
+        }
+    }
+}

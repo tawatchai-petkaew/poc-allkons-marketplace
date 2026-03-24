@@ -1,0 +1,19 @@
+{
+  "name": "@allkons/shared-utils",
+  "version": "1.0.0",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "clean": "rm -rf dist"
+  },
+  "dependencies": {
+    "dayjs": "^1.11.18",
+    "lodash": "^4.17.21"
+  },
+  "devDependencies": {
+    "@allkons/tsconfig": "workspace:*",
+    "@types/lodash": "^4.14.195",
+    "typescript": "^5.0.4"
+  }
+}

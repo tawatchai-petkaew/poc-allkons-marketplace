@@ -1,0 +1,15 @@
+export const routes = {
+  home: () => "/",
+  login: () => "/login",
+  merchantList: () => "/merchant-list",
+  productList: () => "/products",
+  productAdd: () => "/products/add",
+  productMatching: () => "/products/matching",
+  organizationList: () => "/organizations",
+  organizationCreate: () => "/organizations/create",
+  organizationDetail: (id: string | number) => `/organizations/${id}`,
+  organizationVerifyKyc: (id: string | number) => `/organizations/${id}/verify-kyc`,
+  user: () => "/user",
+  terms: () => "/terms",
+  privacy: () => "/privacy",
+};

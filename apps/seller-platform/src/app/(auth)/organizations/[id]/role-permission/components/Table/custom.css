@@ -1,0 +1,28 @@
+.permission-table .ant-table-thead > tr > th {
+  @apply !bg-white;
+}
+
+.permission-table .ant-table {
+  @apply !border !border-border-primary !rounded-xl;
+}
+
+.permission-table .ant-table-cell::before {
+  @apply !hidden;
+}
+
+.permission-table .ant-table-row-level-0 {
+  @apply !bg-background-secondary;
+}
+
+.table-header-permission {
+  @apply !bg-background-secondary !border-b-0;
+}
+
+.hide-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
