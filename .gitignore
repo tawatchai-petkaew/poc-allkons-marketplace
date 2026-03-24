@@ -62,3 +62,6 @@ kubeconfig
 .claude/
 services/api-order/secrets/
 services/api-customer/secrets/
+
+*storybook.log
+storybook-static
