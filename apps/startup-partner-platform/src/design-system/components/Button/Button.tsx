@@ -70,7 +70,7 @@ export interface ButtonProps
   className?: string;
 
   /** data-testid for automated testing */
-  'data-testid'?: string;
+  dataTestId?: string;
 }
 
 // ─── Ant Design type mapping ──────────────────────────────────────────────────
@@ -112,7 +112,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       onClick,
       children,
       className,
-      'data-testid': dataTestId,
+      dataTestId,
       ...rest
     },
     ref
@@ -131,7 +131,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         onClick={onClick}
         icon={antIcon}
         iconPosition={endIcon ? 'end' : 'start'}
-        data-testid={dataTestId}
+        data-testid={dataTestId ?? undefined}
         className={clsx(
           buttonVariants({ variant, size, fullWidth, iconOnly }),
           // strip Ant Design's default shadow & outline — theme handles it

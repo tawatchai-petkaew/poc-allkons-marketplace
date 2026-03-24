@@ -1,4 +1,5 @@
-export * from './colors';
+export * from './alias';
+export * from './primitives';
 export * from './typography';
 export * from './shadows';
 export * from './spacing';

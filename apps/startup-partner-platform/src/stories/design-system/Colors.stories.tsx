@@ -1,6 +1,10 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
-import React from 'react';
-import { colors } from '@/design-system';
+import {
+  brandPrimary, brandSecondary, brandTertiary,
+  cmPrimary, cmSecondary, cmTertiary,
+  success, warning, error, info,
+  neutral, textColor, backgroundColor, borderColor,
+} from '@/design-system';
 
 const ColorSwatch = ({ name, value }: { name: string; value: string }) => (
   <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 8 }}>
@@ -28,7 +32,7 @@ const ColorGroup = ({ title, group }: { title: string; group: Record<string, str
     </h3>
     {Object.entries(group).map(([key, value]) =>
       typeof value === 'string' ? (
-        <ColorSwatch key={key} name={key === 'DEFAULT' ? title : `${title}.${key}`} value={value} />
+        <ColorSwatch key={key} name={`${title}.${key}`} value={value} />
       ) : null
     )}
   </div>
@@ -37,20 +41,29 @@ const ColorGroup = ({ title, group }: { title: string; group: Record<string, str
 const ColorsDoc = () => (
   <div style={{ padding: 24, fontFamily: '"Noto Sans Thai Looped", sans-serif', maxWidth: 600 }}>
     <h1 style={{ fontSize: 32, fontWeight: 700, marginBottom: 8 }}>Color System</h1>
-    <p style={{ color: '#7C889C', marginBottom: 40 }}>Figma: Allkons DS1 — Color system page</p>
+    <p style={{ color: '#7C889C', marginBottom: 40 }}>Figma: Allkons DS1 — alias.ts (Layer 2 semantic tokens)</p>
 
-    <ColorGroup title="primary" group={colors.primary as unknown as Record<string, string>} />
-    <ColorGroup title="success" group={colors.success as unknown as Record<string, string>} />
-    <ColorGroup title="warning" group={colors.warning as unknown as Record<string, string>} />
-    <ColorGroup title="error"   group={colors.error as unknown as Record<string, string>} />
-    <ColorGroup title="info"    group={colors.info as unknown as Record<string, string>} />
-    <ColorGroup title="neutral" group={colors.neutral as unknown as Record<string, string>} />
-    <ColorGroup title="text"    group={colors.text as unknown as Record<string, string>} />
-    <ColorGroup title="background" group={colors.background as unknown as Record<string, string>} />
-    <ColorGroup title="border"  group={colors.border as unknown as Record<string, string>} />
-    <ColorGroup title="brand"   group={colors.brand as unknown as Record<string, string>} />
-    <ColorGroup title="lavender" group={colors.lavender as unknown as Record<string, string>} />
-    <ColorGroup title="darkOrange" group={colors.darkOrange as unknown as Record<string, string>} />
+    <h2 style={{ fontSize: 20, fontWeight: 700, marginBottom: 16 }}>Brand — M Platform</h2>
+    <ColorGroup title="brandPrimary" group={brandPrimary as unknown as Record<string, string>} />
+    <ColorGroup title="brandSecondary" group={brandSecondary as unknown as Record<string, string>} />
+    <ColorGroup title="brandTertiary" group={brandTertiary as unknown as Record<string, string>} />
+
+    <h2 style={{ fontSize: 20, fontWeight: 700, marginBottom: 16, marginTop: 8 }}>Brand — CM Platform</h2>
+    <ColorGroup title="cmPrimary" group={cmPrimary as unknown as Record<string, string>} />
+    <ColorGroup title="cmSecondary" group={cmSecondary as unknown as Record<string, string>} />
+    <ColorGroup title="cmTertiary" group={cmTertiary as unknown as Record<string, string>} />
+
+    <h2 style={{ fontSize: 20, fontWeight: 700, marginBottom: 16, marginTop: 8 }}>System</h2>
+    <ColorGroup title="success" group={success as unknown as Record<string, string>} />
+    <ColorGroup title="warning" group={warning as unknown as Record<string, string>} />
+    <ColorGroup title="error"   group={error   as unknown as Record<string, string>} />
+    <ColorGroup title="info"    group={info     as unknown as Record<string, string>} />
+
+    <h2 style={{ fontSize: 20, fontWeight: 700, marginBottom: 16, marginTop: 8 }}>Global</h2>
+    <ColorGroup title="neutral"    group={neutral    as unknown as Record<string, string>} />
+    <ColorGroup title="textColor"  group={textColor  as unknown as Record<string, string>} />
+    <ColorGroup title="background" group={backgroundColor as unknown as Record<string, string>} />
+    <ColorGroup title="border"     group={borderColor as unknown as Record<string, string>} />
   </div>
 );
 

@@ -1,7 +1,6 @@
 import type { ThemeConfig } from 'antd';
-import { colors } from '../tokens/colors';
+import { brandPrimary, success, warning, error, info, textColor, backgroundColor, borderColor, neutral } from '../tokens/alias';
 import { fontFamily, fontSize } from '../tokens/typography';
-import { borderRadius } from '../tokens/border-radius';
 import { shadows } from '../tokens/shadows';
 
 /**
@@ -11,37 +10,38 @@ import { shadows } from '../tokens/shadows';
 export const antdTheme: ThemeConfig = {
   token: {
     // ─── Brand Colors ───────────────────────────────────────────────────────
-    colorPrimary:      colors.primary.DEFAULT,
-    colorSuccess:      colors.success.DEFAULT,
-    colorWarning:      colors.warning.DEFAULT,
-    colorError:        colors.error.DEFAULT,
-    colorInfo:         colors.info.DEFAULT,
+    colorPrimary:      brandPrimary['00'],
+    colorSuccess:      success['00'],
+    colorWarning:      warning['00'],
+    colorError:        error['00'],
+    colorInfo:         info['00'],
 
     // ─── Primary hover / active states ──────────────────────────────────────
-    colorPrimaryHover:  colors.primary.p40,
-    colorPrimaryActive: colors.primary.p20,
-    colorPrimaryBg:     colors.primary.p90,
-    colorPrimaryBgHover: colors.primary.p80,
-    colorPrimaryBorder: colors.primary.p60,
+    // Verified against Figma variables: Component/Button/Primary/Brand/*_hover
+    colorPrimaryHover:   brandPrimary['20'],  // #008C36 — filled hover bg   ✓
+    colorPrimaryActive:  brandPrimary['30'],  // #006928 — filled pressed bg  ✓
+    colorPrimaryBg:      brandPrimary.p90,   // #E5F7EC — outline/ghost hover bg ✓
+    colorPrimaryBgHover: brandPrimary.p90,   // #E5F7EC — same as above       ✓
+    colorPrimaryBorder:  brandPrimary.p60,   // #99DFB4 — focus ring base
 
     // ─── Text ───────────────────────────────────────────────────────────────
-    colorText:          colors.text.primary,
-    colorTextSecondary: colors.text.secondary,
-    colorTextTertiary:  colors.text.quaternary,
-    colorTextQuaternary: colors.text.placeholder,
-    colorTextDisabled:  colors.text.disabled,
-    colorTextPlaceholder: colors.text.placeholder,
+    colorText:          textColor.primary,
+    colorTextSecondary: textColor.secondary,
+    colorTextTertiary:  textColor.quaternary,
+    colorTextQuaternary: textColor.placeholder,
+    colorTextDisabled:  textColor.disabled,
+    colorTextPlaceholder: textColor.placeholder,
 
     // ─── Background ─────────────────────────────────────────────────────────
-    colorBgContainer:   colors.background.primary,
-    colorBgLayout:      colors.background.secondary,
-    colorBgElevated:    colors.background.primary,
-    colorBgSpotlight:   colors.neutral[20],
-    colorFillAlter:     colors.background.secondary,
+    colorBgContainer:   backgroundColor.primary,
+    colorBgLayout:      backgroundColor.secondary,
+    colorBgElevated:    backgroundColor.primary,
+    colorBgSpotlight:   neutral['60'],
+    colorFillAlter:     backgroundColor.secondary,
 
     // ─── Border ─────────────────────────────────────────────────────────────
-    colorBorder:         colors.border.primary,
-    colorBorderSecondary: colors.border.secondary,
+    colorBorder:         borderColor.primary,
+    colorBorderSecondary: borderColor.secondary,
 
     // ─── Typography ─────────────────────────────────────────────────────────
     fontFamily:    fontFamily.primary,
@@ -92,6 +92,16 @@ export const antdTheme: ThemeConfig = {
       paddingInline:        20,
       paddingInlineSM:      12,
       paddingInlineLG:      24,
+
+      // ── Color tokens — component-level overrides AntD algorithm ───────────
+      // Component tokens take absolute priority over global tokens in AntD v5.
+      // Verified against Figma: Component/Button/Primary/Brand/*
+      colorPrimary:         brandPrimary['00'],  // #00AF43 — filled bg default
+      colorPrimaryHover:    brandPrimary['20'],  // #008C36 — filled hover bg (DARKER) ✓
+      colorPrimaryActive:   brandPrimary['30'],  // #006928 — filled active/pressed bg ✓
+      colorPrimaryBg:       brandPrimary.p90,   // #E5F7EC — outline/ghost hover bg ✓
+      colorPrimaryBgHover:  brandPrimary.p90,   // #E5F7EC — same ✓
+      colorPrimaryBorder:   brandPrimary.p60,   // #99DFB4 — focus ring ✓
     },
 
     // ─── Input ──────────────────────────────────────────────────────────────
@@ -117,9 +127,9 @@ export const antdTheme: ThemeConfig = {
     Table: {
       borderRadius:     8,
       borderRadiusLG:   8,
-      headerBg:         colors.background.secondary,
-      headerColor:      colors.text.secondary,
-      rowHoverBg:       colors.background.secondary,
+      headerBg:         backgroundColor.secondary,
+      headerColor:      textColor.secondary,
+      rowHoverBg:       backgroundColor.secondary,
       cellPaddingBlock: 12,
       cellPaddingInline: 16,
     },
@@ -139,36 +149,36 @@ export const antdTheme: ThemeConfig = {
 
     // ─── Tabs ───────────────────────────────────────────────────────────────
     Tabs: {
-      inkBarColor:       colors.primary.DEFAULT,
-      itemSelectedColor: colors.primary.DEFAULT,
-      itemHoverColor:    colors.primary.p20,
+      inkBarColor:       brandPrimary['00'],
+      itemSelectedColor: brandPrimary['00'],
+      itemHoverColor:    brandPrimary['20'],
     },
 
     // ─── Tag ────────────────────────────────────────────────────────────────
     Tag: {
       borderRadius:    4,
-      defaultBg:       colors.neutral.p95,
-      defaultColor:    colors.text.secondary,
+      defaultBg:       neutral.p95,
+      defaultColor:    textColor.secondary,
     },
 
     // ─── Badge ──────────────────────────────────────────────────────────────
     Badge: {
-      colorError:    colors.error.DEFAULT,
-      colorSuccess:  colors.success.DEFAULT,
+      colorError:    error['00'],
+      colorSuccess:  success['00'],
     },
 
     // ─── Menu ───────────────────────────────────────────────────────────────
     Menu: {
-      itemSelectedBg:   colors.primary.p90,
-      itemSelectedColor: colors.primary.p20,
-      itemHoverBg:      colors.background.secondary,
+      itemSelectedBg:   brandPrimary.p90,
+      itemSelectedColor: brandPrimary['20'],
+      itemHoverBg:      backgroundColor.secondary,
       borderRadius:     8,
     },
 
     // ─── Pagination ─────────────────────────────────────────────────────────
     Pagination: {
       borderRadius:    8,
-      itemActiveBg:    colors.primary.DEFAULT,
+      itemActiveBg:    brandPrimary['00'],
     },
 
     // ─── DatePicker ─────────────────────────────────────────────────────────
@@ -186,8 +196,8 @@ export const antdTheme: ThemeConfig = {
 
     // ─── Switch ─────────────────────────────────────────────────────────────
     Switch: {
-      colorPrimary:      colors.primary.DEFAULT,
-      colorPrimaryHover: colors.primary.p20,
+      colorPrimary:      brandPrimary['00'],
+      colorPrimaryHover: brandPrimary['20'],
     },
 
     // ─── Notification ───────────────────────────────────────────────────────
@@ -221,7 +231,7 @@ export const antdTheme: ThemeConfig = {
     // ─── Tooltip ────────────────────────────────────────────────────────────
     Tooltip: {
       borderRadius: 8,
-      colorBgSpotlight: colors.neutral[20],
+      colorBgSpotlight: neutral['60'],
     },
   },
 };
