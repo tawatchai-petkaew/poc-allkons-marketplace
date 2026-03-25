@@ -1,5 +1,10 @@
 # 02 — Component Rules & Patterns
 
+> **Scope**: This file documents component patterns for the **seller-platform** (Ant Design + Tailwind). For other app contexts, see:
+> - buyer-platform: `docs/architecture/registries/buyer-components.md`
+> - startup-partner-platform: `docs/architecture/registries/startup-partner-components.md`
+> - Context guide: `docs/architecture/APP-CONTEXT-GUIDE.md`
+
 > Conventions for building, styling, and composing UI components in the Allkons Seller Platform.
 
 ---

@@ -204,6 +204,14 @@ interface ProductImportData {
 
 ## 3️⃣ UX Designer + UI Developer (Two-Phase Frontend Spec)
 
+### Pre-Phase: Module UX Overview (NEW)
+**Flow**: Consumes Final BRD + ALL Epics → Module-Level UX Overview (`MODULE-UX-OVERVIEW.md`) → UX Designer Reviews
+**Skill**: `/write-ux-overview [module-name]`
+**Output**: `docs/modules/[module-name]/MODULE-UX-OVERVIEW.md`
+**Also updates**: `docs/architecture/INFORMATION-ARCHITECTURE.md` (IA sitemap)
+
+> **Mandatory**: UX Designer must run `/write-ux-overview` before `/write-ux-spec`. This establishes the module's screen map, navigation, shared layout, and cross-epic flow.
+
 ### Phase 1: UX Designer
 **Flow**: Consumes Final BRD + Epic + Tech Spec → UX Design (Phase 1 of `03-frontend-spec.md`: user flows, screens, states, interactions) → UX Designer Reviews/Approves
 
@@ -318,6 +326,9 @@ typography: {
 ```
 
 **Handoff Checklist:**
+- [ ] MODULE-UX-OVERVIEW.md created/updated with screen map and navigation
+- [ ] IA sitemap updated at docs/architecture/INFORMATION-ARCHITECTURE.md
+- [ ] Designs reference existing components from app component registry
 - [ ] Phase 1 (UX Design, Sections 1–7) created as Draft
 - [ ] UX Designer reviewed and approved Phase 1
 - [ ] Shared docs updated: `docs/shared/glossary.md`, `docs/shared/error-handling.md`, validation rules, UX patterns
@@ -729,6 +740,10 @@ Before handing off to next role, verify:
 - [ ] Mock TSX strings match `docs/shared/glossary.md`
 - [ ] Responsive breakpoints implemented
 - [ ] Traceability Matrix complete
+- [ ] Component registry updated with new shared components
+- [ ] Mock uses shared layout for prototype continuity
+- [ ] Zero hardcoded hex colors — all use design tokens
+- [ ] Storybook stories created for new components (where applicable)
 
 **Developer → QA:**
 - [ ] Deployed to staging

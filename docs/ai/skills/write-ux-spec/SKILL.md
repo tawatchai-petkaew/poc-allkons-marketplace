@@ -37,6 +37,11 @@ A 3-step systematic design framework:
 - Have I checked the **glossary** for consistent terminology? (`docs/shared/glossary.md`)
 - Have I referenced the **validation rules** file? (`docs/ai/rules/ux-designer/01-validation-rules.md`)
 - Have I documented the **error handling pattern**? (`docs/shared/error-handling.md`)
+- Have I checked the **IA sitemap** to understand where this epic's screens fit in the app?
+- Am I reusing **existing components** from the app's component registry?
+- Does the **navigation** in this epic connect consistently with other epics in the module (MODULE-UX-OVERVIEW.md)?
+- Is my design consistent with the app's **Visual Theme Direction**? (color mood, layout feel, density)
+- Have I updated the **MODULE-UX-OVERVIEW.md** screen map with new screens from this epic?
 
 ---
 
@@ -49,6 +54,23 @@ A 3-step systematic design framework:
 ## Instructions
 
 When the user invokes `/write-ux-spec [module-name] [epic-name]`:
+
+**Step 0: Prerequisite — Module UX Overview**
+Check if `docs/modules/$1/MODULE-UX-OVERVIEW.md` exists.
+
+If it does NOT exist, tell user:
+```
+❌ Module UX Overview not found: docs/modules/$1/MODULE-UX-OVERVIEW.md
+
+UX Designer must create the module-level overview before designing individual epics.
+Please run /write-ux-overview $1 first to establish:
+- Module position in app
+- Cross-epic screen map
+- Shared navigation & layout
+- Cross-epic dependencies
+
+Then run /write-ux-spec $1 $2 to design this epic.
+```
 
 **Step 1: Read Final BRD, Epic, and Tech Spec**
 Read:
@@ -71,14 +93,17 @@ If BRD doesn't exist or is still marked `⚪ Draft`, tell user:
 Please ensure BSA has reviewed and approved the BRD to "🟢 Final / Approved" before UX Designer can start.
 ```
 
+**Step 1.5: Read Global & Module Context**
+Read:
+1. `docs/architecture/INFORMATION-ARCHITECTURE.md` — Understand where this module sits in the app ecosystem
+2. `docs/architecture/APP-CONTEXT-GUIDE.md` — Understand the app's technical context and **Visual Theme Direction**
+3. `docs/architecture/registries/[app]-components.md` — Know what components already exist in this app
+4. `docs/modules/$1/MODULE-UX-OVERVIEW.md` — **Mandatory**: Understand module-level navigation, shared layout, cross-epic screen map
+5. Other epics' `03-frontend-spec.md` in the same module — Check for screens that connect to this epic
+
 **Step 2: Read Design Standards**
 Read:
-<<<<<<< HEAD
-
-- `docs/ai/rules/developer/06-nextjs-antd-best-practices.md` - UI framework (Ant Design, Tailwind) for context on available patterns
-=======
 - `docs/ai/rules/developer/06-nextjs-antd-best-practices.md` - Ant Design, Tailwind patterns and available components
->>>>>>> 6ee48b6030f90ca421b038a72d09938f69fa8858
 - `docs/ai/rules/ux-designer/01-validation-rules.md` - Global field validation rules (reuse before creating new)
 - `docs/ai/rules/ux-designer/02-ux-ui-patterns.md` - Reusable UX/UI pattern library (reuse before creating new)
 - `docs/shared/glossary.md` - Central UX writing glossary (check existing terms first)
@@ -186,6 +211,14 @@ Run this checklist before saving:
 - [ ] Navigation adapts (sidebar → hamburger)
 - [ ] Data display adapts (table → cards)
 
+### Cross-Epic Consistency Checks
+
+- [ ] Navigation pattern matches MODULE-UX-OVERVIEW.md shared layout
+- [ ] Screen designs reference existing components from app component registry
+- [ ] New screens added to MODULE-UX-OVERVIEW.md screen map
+- [ ] IA sitemap screen count updated
+- [ ] Design follows app's Visual Theme Direction
+
 **Step 6: Save UX Spec (Phase 1 only)**
 Write to: `docs/modules/$1/$2/03-frontend-spec.md`
 
@@ -203,6 +236,12 @@ After saving the UX spec, update these shared files:
 3. `docs/shared/error-handling.md` — Add any new error codes and display patterns
 4. `docs/ai/rules/ux-designer/01-validation-rules.md` — Add any new field validation rules
 5. `docs/ai/rules/ux-designer/02-ux-ui-patterns.md` — Add any new UX/UI patterns
+
+**Step 6c: Update Module & Global Context**
+After saving the UX spec, update these documents:
+
+1. `docs/modules/$1/MODULE-UX-OVERVIEW.md` — Add new screens from this epic to the Screen Map table, update cross-epic dependencies if changed
+2. `docs/architecture/INFORMATION-ARCHITECTURE.md` — Update the module's Screen count and Status in the app's Module Map
 
 **Step 7: Versioning & Iteration Rules**
 If the target document already exists and you are asked to update it:

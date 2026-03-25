@@ -5,6 +5,7 @@
 
 | Version | Date | Author | Changes |
 |---------|------|--------|---------|
+| 2.0 | 2026-03-26 | BSA | Prototype validation updates: LINE OA notifications (replacing SMS), mandatory training/certification before live selling (EPIC-14 full detail), AI text-based product sourcing, manual entry without SKU match, public RFQs, favorite stores (inline + settings), buyer info privacy (name/phone not shared with seller), QT delivery/unloading/partial-purchase flags, AI best combination recommendation, price breakdown, buyer-centric RFQ view, admin training progress visibility, commission policy approval workflow, EPIC-15 User Management & Role/Permission system |
 | 1.9 | 2024-03-22 | BSA | Expanded Allkons Admin scope for SP Commission Management: Added 7 new admin user stories (US-17J to US-17P) for comprehensive commission domain management; US-17J: Admin Manage Commission Policies with Global/Category/Seller/Seller+Category/SP Tier/Campaign scopes; US-17K: Admin Configure Category-Based Commission Rules; US-17L: Admin Configure Seller-Based Commission Rules; US-17M: Admin Monitor Fee Collection and Commission Lifecycle; US-17N: Admin Manage Payout Batches; US-17O: Admin Handle Commission Exceptions; US-17P: Admin Review Commission Audit Logs; Added 50 new business rules (BR-221 to BR-270) covering policy management, rule precedence (Campaign/Override → Seller+Category → Category → Seller → SP Tier → Global), conflict detection, fee-to-commission monitoring, payout batch management, exception handling, role-based admin access, audit governance; Added 23 new functional requirements (FR-098 to FR-120); Added 3 new data models (CommissionPolicy, PayoutBatch, CommissionAuditLog) with 4 new enums (PolicyType, ScopeType, PayoutBatchStatus, AuditActionType); Defined 5 admin roles (Commission Viewer, Commission Manager, Payout Manager, Finance Admin, Super Admin) with permission matrix; Documented admin menu structure for Commission Management with Dashboard, Policy Setup, Fee Monitoring, Commission Monitoring, Payout Batches, Exceptions & Adjustments, Audit Logs; Added 7 new open questions and 6 new assumptions for commission policy operations; Updated EPIC-11 scope and success criteria to include admin capabilities; Seller Sales Commission remains out of functional display scope |
 | 1.8 | 2024-03-22 | BSA | Complete redesign of EPIC-11 (SP Commission Management & Payout): Replaced US-17, US-18, US-18A with 9 new user stories (US-17A to US-17I); Clear separation of SP Commission (in scope) from Seller Sales Commission (out of scope); Commission calculated from Platform Fee only (2% of order), not Payment Fee; Implemented 3-layer transaction model (Buyer↔Seller, Seller↔Allkons, Allkons↔SP); Fee collection dependency: commission confirmed only after Platform Fee collected; 5 THB withdrawal fee per payout; Comprehensive status model: Order (Ordered, Delivering, Completed, Cancelled, Refunded), Fee (Not Calculated, Calculated, Invoiced, Collection Pending, Collected, Failed, Waived), Commission (Not Eligible, Estimated, Awaiting Fee Collection, Confirmed, Ready for Payout, Processing, Paid, Failed, Reversed); Separated Orders and Commissions menus; Commission visibility restricted in product discovery; Added 42 new business rules (BR-179 to BR-220); Replaced FR-076-078 and added FR-082-097 (16 new FRs); Added 4 new data models (CommissionSourceRecord, FeeCollectionRecord, CommissionPayoutRecord, CommissionAdjustment) with enums (FeeCollectionStatus, CommissionStatus); Added Fee Management System dependency; Role-based access (SP, SP Leader read-only, Admin full); Added commission domain assumptions and open questions |
 | 1.7 | 2024-03-22 | BSA | Added comprehensive Admin, SP, and Buyer enhancements: CIS integration for application review (US-06A); Region/Province/District service area management; Supervisor assignment; Individual SP network management (US-06B); SP Leader transaction visibility (US-19A); Buyer Magic Link modification before approval (US-13A); Multi-seller payment separation clarification; Enhanced SP registration with SMS/Email notifications, login-required status checking, and limited access before approval; Topic-based threaded communication (US-12); SP transaction/order visibility after payment (US-18A); Added 42 new business rules (BR-137 to BR-178); Added 9 new functional requirements (FR-076 to FR-084); Updated data models for StartupPartner (region, province, district, supervisorId, suspensionReason), MagicLink (lastModifiedBy, lastModifiedByName, lastModifiedAt, buyerModifiedSelection), WorkArea interface; Added CIS integration dependency; Enhanced access control for SP statuses (Pending, InfoRequested, Approved, Rejected, Suspended) |
@@ -39,7 +40,8 @@
 | EPIC-11 | Commission Tracking & Payment | §6.10 | P0 | Configurable commission engine with tracking and payment processing |
 | EPIC-12 | SP Hierarchy Management | §6.11 | P1 | Support 2-level hierarchy with Leaders supervising Members |
 | EPIC-13 | Dispute Resolution & Platform Mediation | §6.12 | P1 | Dispute resolution workflows with Admin as mediator |
-| EPIC-14 | SP Training & Support Materials | §6.13 | P1 | Provide comprehensive training materials and onboarding support for new SPs |
+| EPIC-14 | SP Training & Certification | §6.13 | P0 | Mandatory training modules, knowledge assessments, workflow simulations, and certification before live selling access |
+| EPIC-15 | User Management & Role/Permission | §6.14 | P1 | Super Admin user management, role & permission configuration, and role-based access enforcement across portal |
 
 ---
 
@@ -202,10 +204,14 @@
 | BR-023 | System auto-converts HEIC files to PNG format for storage | P0 |
 | BR-024 | System generates preview images from PDF files (first page thumbnail); stores original PDF | P0 |
 | BR-025 | User can preview uploaded files before submission | P0 |
-| BR-026 | System auto-generates secure password and sends via SMS after approval | P0 |
+| BR-026 | System auto-generates secure password and sends via LINE OA notification (with SMS as fallback) after approval | P0 |
 | BR-027 | SP program terms and conditions must be accepted before submission | P0 |
 | BR-028 | System logs consent to Consent Center API with timestamp, user ID, consent type, IP address | P0 |
 | BR-029 | Consent Center API must respond successfully before application submission completes | P0 |
+| BR-271 | SP must complete mandatory training and certification before accessing live selling features (RFQ creation, seller messaging, Magic Link generation) | P0 |
+| BR-272 | Non-certified SPs can access portal in demo/read-only mode only | P0 |
+| BR-273 | Training completion status must be tracked and visible in SP profile | P0 |
+| BR-274 | All status change notifications (submitted, approved, rejected, info requested) must be sent via LINE OA as primary channel | P0 |
 
 **Validation Rules:**
 | Field | Validation Rule | Error Message |
@@ -232,7 +238,7 @@
 | AC-12b | User selects provinces | User selects at least 1 province from region | System auto-populates all districts in selected provinces |
 | AC-12a | User views target shops | User clicks "เลือกร้านค้า" | System displays only shops that opted-in to SP Program in selected service areas |
 | AC-13 | User accepts terms and submits | User checks terms consent and clicks "ยืนยัน" | System logs consent to Consent Center API, creates application with status "Pending", displays application ID, and shows status tracking page |
-| AC-14 | Application submitted successfully | System processes submission | User receives SMS confirmation with application ID |
+| AC-14 | Application submitted successfully | System processes submission | User receives LINE OA notification (with SMS as fallback) confirmation with application ID |
 
 **Edge Cases (minimum 3):**
 | # | Scenario | Expected Behavior |
@@ -304,13 +310,13 @@
 | AC-15 | User has application ID | User enters application ID on status page | System displays current status and timeline |
 | AC-16 | Application status is "Pending" | User logs in and views status | Display "รอการตรวจสอบ" with estimated review time (< 48 hours) |
 | AC-16a | SP status is Pending | SP logs in | System redirects to Application Status page only, disables main portal navigation |
-| AC-17 | Application status is "InfoRequested" | User logs in and views status | Display admin message with reason and "แก้ไขข้อมูล" button, send SMS and Email notification |
+| AC-17 | Application status is "InfoRequested" | User logs in and views status | Display admin message with reason and "แก้ไขข้อมูล" button, send LINE OA notification (with SMS as fallback) and Email notification |
 | AC-17a | User clicks "แก้ไขข้อมูล" | User edits application | System pre-fills previous data, allows editing all fields and documents |
 | AC-17b | User updates info and resubmits | User clicks "ส่งใบสมัครอีกครั้ง" | System changes status to Pending, notifies Admin, displays "ส่งใบสมัครอีกครั้งสำเร็จ" |
-| AC-18 | Application status is "Approved" | User logs in and views status | Display "อนุมัติแล้ว" with credentials sent via SMS and Email, enable full portal access |
-| AC-19 | Application status is "Rejected" | User logs in and views status | Display rejection reason via SMS and Email, allow viewing application data and documents, show "สมัครใหม่" button |
-| AC-71 | Application approved | Admin approves | SP receives SMS and Email notification with credentials |
-| AC-72 | Application rejected | Admin rejects | SP receives SMS and Email with rejection reason |
+| AC-18 | Application status is "Approved" | User logs in and views status | Display "อนุมัติแล้ว" with credentials sent via LINE OA notification (with SMS as fallback) and Email, enable full portal access |
+| AC-19 | Application status is "Rejected" | User logs in and views status | Display rejection reason via LINE OA notification (with SMS as fallback) and Email, allow viewing application data and documents, show "สมัครใหม่" button |
+| AC-71 | Application approved | Admin approves | SP receives LINE OA notification (with SMS as fallback) and Email notification with credentials |
+| AC-72 | Application rejected | Admin rejects | SP receives LINE OA notification (with SMS as fallback) and Email with rejection reason |
 | AC-73 | Applicant logs in | Applicant accesses portal | System displays application status dashboard |
 | AC-74 | Anonymous user tries to check status | User attempts status check without login | System redirects to login page |
 | AC-75 | Pending applicant logs in | Applicant accesses portal | Can only access application status and resubmission, no RFQ/product search access |
@@ -321,7 +327,7 @@
 | # | Scenario | Expected Behavior |
 |---|----------|-------------------|
 | EC-17 | User checks status multiple times per day | System allows unlimited status checks without throttling |
-| EC-18 | Admin requests info after 24 hours | User receives SMS notification with link to status page |
+| EC-18 | Admin requests info after 24 hours | User receives LINE OA notification (with SMS as fallback) with link to status page |
 | EC-19 | User edits application after info request | Previous submission data is pre-filled; user can modify and resubmit |
 | EC-20 | Pending SP tries to access RFQ creation | System blocks access, displays "กรุณารอการอนุมัติใบสมัครก่อนใช้งาน" |
 | EC-21 | User resubmits without making changes | System allows resubmission, notifies Admin for re-review |
@@ -366,7 +372,7 @@
 | BR-025 | Admin must manually review and verify all 3 KYC documents (ID card, bank book, selfie with ID) | P0 |
 | BR-026 | Admin must verify ID card number is not duplicate in system | P0 |
 | BR-027 | Admin can approve, reject, or request additional info | P0 |
-| BR-028 | When approved, system auto-generates password and sends via SMS | P0 |
+| BR-028 | When approved, system auto-generates password and sends via LINE OA notification (with SMS as fallback) | P0 |
 | BR-029 | When rejected, admin must provide rejection reason | P0 |
 | BR-030 | When requesting info, admin must specify what is needed | P0 |
 | BR-031 | Rejected SPs can reapply immediately (no cooldown period) | P0 |
@@ -376,6 +382,8 @@
 | BR-142 | Service area assignment applies during approval and later profile management | P0 |
 | BR-143 | Admin must be able to assign Supervisor to SP during approval | P1 |
 | BR-144 | Supervisor assignment must be editable later by Admin | P1 |
+| BR-275 | Admin must see SP training/certification progress in application review and SP detail views | P0 |
+| BR-276 | Admin receives LINE OA notification when new SP application is submitted | P1 |
 
 **Validation Rules:**
 | Field | Validation Rule | Error Message |
@@ -389,11 +397,12 @@
 | AC-20 | Admin is on application review dashboard | Admin views pending applications | System displays list of pending applications with filters (Status, Date, Service Area, Application ID) |
 | AC-21 | Admin clicks on application | Admin views application detail | System displays all application info, uploaded KYC documents (viewable), and action buttons |
 | AC-22 | Admin verifies KYC documents | Admin reviews ID card, bank book, selfie | Admin can zoom, download documents for verification |
-| AC-23 | Admin approves application | Admin clicks "อนุมัติ", assigns service area (Region/Province/District), optionally assigns Supervisor, confirms | System generates credentials, sends SMS with username/password, updates status to "Approved", enables full portal access |
-| AC-24 | Admin rejects application | Admin clicks "ปฏิเสธ", enters reason, confirms | System updates status to "Rejected", sends SMS notification with reason, allows SP to reapply |
-| AC-25 | Admin requests additional info | Admin clicks "ขอข้อมูลเพิ่มเติม", specifies requirements, confirms | System updates status to "InfoRequested", sends SMS notification, allows applicant to edit and resubmit |
+| AC-23 | Admin approves application | Admin clicks "อนุมัติ", assigns service area (Region/Province/District), optionally assigns Supervisor, confirms | System generates credentials, sends LINE OA notification (with SMS as fallback) with username/password, updates status to "Approved", enables full portal access |
+| AC-24 | Admin rejects application | Admin clicks "ปฏิเสธ", enters reason, confirms | System updates status to "Rejected", sends LINE OA notification (with SMS as fallback) with reason, allows SP to reapply |
+| AC-25 | Admin requests additional info | Admin clicks "ขอข้อมูลเพิ่มเติม", specifies requirements, confirms | System updates status to "InfoRequested", sends LINE OA notification (with SMS as fallback), allows applicant to edit and resubmit |
 | AC-57 | Admin assigns service area | Admin selects Region → Province → District hierarchy | System validates and saves 3-level service area assignment |
 | AC-58 | Admin assigns Supervisor | Admin selects Supervisor from dropdown during approval | System assigns Supervisor and notifies both SP and Supervisor |
+| AC-58a | Admin reviews SP application | Admin views application detail | System displays training progress section showing: modules completed, assessments passed, certification status |
 
 **Edge Cases (minimum 3):**
 | # | Scenario | Expected Behavior |
@@ -497,8 +506,8 @@
 | # | Given | When | Then |
 |---|-------|------|------|
 | AC-26 | Admin is on SP network page | Admin views all SPs | System displays list with filters (Status, Service Area, Supervisor, Performance) |
-| AC-27 | Admin suspends SP account | Admin clicks "ระงับ", enters reason, confirms | System updates status to "Suspended", sends SMS notification, SP cannot login |
-| AC-28 | Admin terminates SP account | Admin clicks "ยกเลิก", enters reason, confirms | System updates status to "Terminated", sends SMS notification, SP account permanently disabled |
+| AC-27 | Admin suspends SP account | Admin clicks "ระงับ", enters reason, confirms | System updates status to "Suspended", sends LINE OA notification (with SMS as fallback), SP cannot login |
+| AC-28 | Admin terminates SP account | Admin clicks "ยกเลิก", enters reason, confirms | System updates status to "Terminated", sends LINE OA notification (with SMS as fallback), SP account permanently disabled |
 | AC-29 | Admin reassigns SP to different supervisor | Admin selects new supervisor, confirms | System updates SP hierarchy, notifies both old and new supervisors |
 | AC-59 | Admin edits SP work area | Admin updates Region/Province/District assignment | System updates and notifies SP of service area change |
 | AC-60 | Admin suspends SP | Admin clicks "ระงับ", enters reason | System blocks SP access to operational features, SP can only view suspension notice |
@@ -800,7 +809,7 @@
 |-------|-------|
 | **Epic ID** | EPIC-06 |
 | **Goal** | Enable SPs to create buyer-centric, round-based RFQs with comprehensive commercial, delivery, and contact information to multiple stores using multiple product acquisition methods |
-| **Scope** | RFQ creation form with project info, payment method, delivery type/address/time slot, contact info, tax invoice requirement, buyer type, buyer information, delivery requirements, delivery schedule, product selection (manual search, AI image analysis, hybrid), quantity input, store selection with location-based and favorite filtering, deadline setting, RFQ submission, RFQ tracking, RFQ expiration, buyer grouping |
+| **Scope** | RFQ creation form with project info, payment method, delivery type/address/time slot, contact info, tax invoice requirement, buyer type, buyer information, delivery requirements, delivery schedule, product selection (manual search, AI image analysis, hybrid), quantity input, store selection with location-based and favorite filtering, deadline setting, RFQ submission, RFQ tracking, RFQ expiration, buyer grouping, AI text-based product sourcing, manual entry without Master SKU match, public RFQs, favorite stores (inline + settings page), buyer name/phone privacy (not shared with seller) |
 | **Out of Scope** | RFQ templates, bulk RFQ creation, RFQ scheduling, automated payment method validation, real-time credit limit checking, automated Tax ID verification, AI-powered store recommendation |
 | **Success Criteria** | SPs can create and submit comprehensive RFQ in under 10 minutes; RFQs delivered to stores reliably with all commercial details; RFQ status tracked accurately; store selection enhanced with location and favorite filtering; product list can be built from manual search, AI extraction, or hybrid methods; AI extraction completes within 10 seconds (sync) or 5 minutes (async) |
 | **Maps to** | FR-021, FR-022, FR-023, FR-024, FR-050 to FR-070 |
@@ -899,6 +908,17 @@
 | BR-134 | Tax ID must be 13 digits for both individual and corporate | P0 |
 | BR-135 | Branch field is optional for corporate (default "สำนักงานใหญ่" if not specified) | P1 |
 | BR-136 | Tax invoice information flows to quotation and affects documentation | P0 |
+| BR-277 | SP can paste or type long free-form text and AI will extract product info, quantities, delivery address, and contact information to auto-fill form fields | P1 |
+| BR-278 | When product search returns no results, SP can manually enter product name/description without Master SKU match | P0 |
+| BR-279 | Product unit field is optional — RFQ can be submitted without specifying unit | P1 |
+| BR-280 | SP can mark an RFQ as "public" — any opted-in store in the service area can view and submit a QT | P1 |
+| BR-281 | SP can mark stores as favorites via star icon during store selection or via My Favorite Stores in Profile/Settings | P1 |
+| BR-282 | Favorite stores appear first in store selection list | P1 |
+| BR-283 | Buyer name and phone number are optional fields in RFQ | P0 |
+| BR-284 | CRITICAL: Even if buyer name/phone is provided, it must NOT be shared with Seller to prevent platform bypass | P0 |
+| BR-285 | Delivery date is required; time slot options: ไม่ระบุ (unspecified), ช่วงเช้า (morning), ช่วงบ่าย (afternoon) | P0 |
+| BR-286 | SP specifies buyer's preferred payment method: Direct transfer, Allkons Payment Gateway (Thai QR/Credit Card), or Store Credit | P1 |
+| BR-287 | Store search must support text search term + location filter down to district level (อำเภอ) | P0 |
 
 **Validation Rules:**
 | Field | Validation Rule | Error Message |
@@ -954,7 +974,7 @@
 | AC-40k | SP reference auto-populated | SP views RFQ form | System auto-fills SP ID from logged-in account (read-only) |
 | AC-41 | SP completes RFQ form | SP fills all required fields and clicks "ส่ง RFQ" | System validates all fields, creates RFQ with complete commercial details, sends notifications to selected stores (max 12), displays RFQ ID and tracking page |
 | AC-41a | SP views RFQ list | SP navigates to "RFQ ของฉัน" | System displays RFQs grouped by buyer name with expandable sections showing project name and payment method |
-| AC-42 | RFQ submitted successfully | System processes submission | Selected stores receive RFQ notifications with all commercial details; SP receives SMS confirmation |
+| AC-42 | RFQ submitted successfully | System processes submission | Selected stores receive RFQ notifications with all commercial details; SP receives LINE OA notification (with SMS as fallback) confirmation |
 | AC-40m | SP selects buyer type | SP selects INDIVIDUAL or CORPORATE | System displays appropriate tax invoice fields based on buyer type |
 | AC-40n | SP enables tax invoice requirement | SP selects requireTaxInvoice = Yes | System displays tax invoice address option selector |
 | AC-40o | SP selects USE_DELIVERY_ADDRESS | SP chooses "Use Delivery Address" option | System auto-populates delivery address to tax invoice address fields (editable) |
@@ -1259,6 +1279,12 @@
 | BR-065 | Quote validity period is set by seller (displayed in quote) | P0 |
 | BR-066 | Expired quotes are marked but remain visible for reference | P1 |
 | BR-067 | Display up to 10 quotes simultaneously (responsive layout adapts for mobile/desktop) | P0 |
+| BR-288 | Quote must display the date and time the store can deliver | P0 |
+| BR-289 | Quote must indicate whether delivery price includes unloading (ค่ายกสินค้าลง) or not | P1 |
+| BR-290 | Store can specify in QT whether buyer can purchase individual items or must buy the entire QT as a whole | P1 |
+| BR-291 | AI analyzes all received QTs and suggests the optimal combination considering price, delivery terms, and availability | P1 |
+| BR-292 | Total price display must separate: product cost (ค่าสินค้า), delivery cost (ค่าจัดส่ง), tax (ภาษี), and other fees | P0 |
+| BR-293 | RFQ view must support buyer-centric grouping — group all RFQs by buyer across time | P1 |
 
 **Validation Rules:**
 | Field | Validation Rule | Error Message |
@@ -2163,6 +2189,9 @@
 | BR-230 | Admin can activate/deactivate policies without deletion | P0 |
 | BR-231 | Policy changes must not be retroactive (apply to future transactions only) | P0 |
 | BR-232 | All policy changes must be auditable with version history | P0 |
+| BR-294 | Commission policy creation requires approval workflow (maker/checker pattern): Creator submits → Approver reviews → Approved/Rejected | P1 |
+| BR-295 | Super Admin sees all commission data across the entire organization | P0 |
+| BR-296 | Leader sees team commission data plus related data (sales, orders) | P0 |
 
 **Validation Rules:**
 | Field | Validation Rule | Error Message |
@@ -2542,6 +2571,10 @@
 | BR-111 | Leaders can have multiple Members | P0 |
 | BR-112 | Leaders can view Member performance metrics but cannot edit Member data or commissions | P0 |
 | BR-113 | Leaders can provide feedback or recommendations to Admin | P1 |
+| BR-297 | Leader and Admin can track each SP's training and certification status, including module progress and assessment outcomes | P0 |
+| BR-298 | Leader and Admin can assign retraining to specific SPs | P1 |
+| BR-299 | Leader and Admin can control activation/deactivation of live selling permissions based on certification status | P0 |
+| BR-300 | SP detail view must show comprehensive data including: profile, service areas, training status, sales, orders, commissions | P0 |
 
 **Validation Rules:**
 | Field | Validation Rule | Error Message |
@@ -2686,6 +2719,198 @@
 | Loading | Submitting report | Show loading spinner |
 | Success | Report submitted | Display confirmation with report ID |
 | Error | Submission fails | Show error message with retry option |
+
+---
+
+### EPIC-14: SP Training & Certification
+
+| Field | Value |
+|-------|-------|
+| **Epic ID** | EPIC-14 |
+| **Goal** | Ensure all Startup Partners complete mandatory training, pass assessments, and achieve certification before accessing live selling features; enable Admin/Leader to track training progress and manage certifications |
+| **Scope** | Training module delivery, knowledge assessments, workflow simulations, compliance acknowledgment, certification gate for live selling, retraining, Admin/Leader training management |
+| **Out of Scope** | LMS platform integration, video hosting (use external links), gamification, training content creation tools |
+| **Success Criteria** | All SPs complete training before live selling; assessment pass rate tracked; certification gate enforced; Admin can view training progress; retraining assignable |
+| **Maps to** | FR-121 to FR-130 |
+
+#### US-20A: SP Complete Required Training Modules
+**As a** newly approved Startup Partner, **I want to** complete required training modules covering portal features, RFQ workflow, and compliance, **so that** I understand how to use the platform effectively and can earn my certification.
+
+**Preconditions:**
+- SP is approved (status = Approved)
+- SP has not yet completed certification
+
+**Business Rules:**
+| Rule ID | Rule Description | Priority |
+|---------|------------------|----------|
+| BR-301 | Training is mandatory — SP cannot access live selling without certification | P0 |
+| BR-302 | Training modules include: Portal Navigation, RFQ Creation, Quote Comparison, Magic Link Generation, Commission Understanding, Compliance & Code of Conduct, Dispute Resolution | P0 |
+| BR-303 | Each module has learning content (text/video/screenshots) and a knowledge assessment | P0 |
+| BR-304 | SP must pass each assessment with minimum 80% score | P0 |
+| BR-305 | Failed assessments can be retried unlimited times | P1 |
+| BR-306 | Training progress is saved — SP can resume where they left off | P0 |
+
+**Acceptance Criteria:**
+| # | Given | When | Then |
+|---|-------|------|------|
+| AC-110 | SP is approved but not certified | SP logs into portal | System shows training dashboard with module list and progress |
+| AC-111 | SP opens a training module | SP clicks module | System displays learning content with next/previous navigation |
+| AC-112 | SP completes a module | SP finishes content and takes assessment | System records pass/fail and updates progress |
+| AC-113 | SP fails assessment | Score below 80% | System shows "ไม่ผ่าน — กรุณาลองใหม่" with retry option |
+| AC-114 | SP passes all modules | All 7 modules passed | System shows "ยินดีด้วย! คุณผ่านการอบรมแล้ว" |
+
+**Edge Cases:**
+| # | Scenario | Expected Behavior |
+|---|----------|-------------------|
+| EC-90 | SP closes browser during training | Progress saved, resume on next login |
+| EC-91 | Training content updated after SP started | SP sees updated content, completed modules remain valid |
+| EC-92 | SP approved but training system unavailable | Show error with retry, do not block portal access for status/profile |
+
+**Error Handling:**
+| Error | Trigger | User Feedback | Recovery |
+|-------|---------|---------------|----------|
+| Module load failure | Server error | ไม่สามารถโหลดบทเรียนได้ กรุณาลองใหม่ | Retry button |
+| Assessment submit failure | Server error | ไม่สามารถส่งคำตอบได้ กรุณาลองใหม่ | Retry, answers preserved |
+
+#### US-20B: SP Complete Workflow Simulations
+**As a** Startup Partner in training, **I want to** practice RFQ creation, quote comparison, and Magic Link generation in a sandbox environment, **so that** I can learn by doing before working with real sellers and buyers.
+
+**Preconditions:**
+- SP has completed all training modules
+- SP has not yet completed certification
+
+**Business Rules:**
+| Rule ID | Rule Description | Priority |
+|---------|------------------|----------|
+| BR-307 | Workflow simulations use sandbox/demo data (not real sellers or buyers) | P0 |
+| BR-308 | Simulations cover: Create RFQ → View Quotes → Compare → Generate Magic Link | P0 |
+| BR-309 | SP must complete all simulation steps to proceed to compliance acknowledgment | P0 |
+
+**Acceptance Criteria:**
+| # | Given | When | Then |
+|---|-------|------|------|
+| AC-115 | SP completed all training modules | SP enters simulation section | System shows sandbox environment with demo data |
+| AC-116 | SP creates practice RFQ | SP fills form and submits | System simulates RFQ submission with demo stores |
+| AC-117 | SP completes all simulation steps | All steps done | System marks simulations as complete |
+
+#### US-20C: SP Acknowledge Compliance Policies
+**As a** Startup Partner completing certification, **I want to** review and digitally acknowledge compliance policies, **so that** I understand the rules and responsibilities of being a certified SP.
+
+**Preconditions:**
+- SP has completed training modules and simulations
+
+**Business Rules:**
+| Rule ID | Rule Description | Priority |
+|---------|------------------|----------|
+| BR-310 | SP must read and acknowledge: Code of Conduct, Commission Structure, Dispute Resolution Process, Circumvention Penalties, Data Privacy Policy | P0 |
+| BR-311 | Acknowledgment is digital signature with timestamp | P0 |
+| BR-312 | All acknowledgments logged via Consent Center API | P0 |
+
+**Acceptance Criteria:**
+| # | Given | When | Then |
+|---|-------|------|------|
+| AC-118 | SP completed modules and simulations | SP enters compliance section | System displays policies requiring acknowledgment |
+| AC-119 | SP acknowledges all policies | SP checks all boxes and clicks "ยืนยัน" | System records acknowledgment, SP becomes "Certified", live selling unlocked |
+| AC-120 | SP tries to skip acknowledgment | SP tries to access live selling | System blocks with "กรุณาอ่านและยอมรับนโยบายก่อน" |
+
+#### US-20D: Admin/Leader Manage Training & Certification
+**As an** Admin or Leader, **I want to** track SP training progress, view assessment outcomes, assign retraining, and control live selling activation, **so that** I can ensure all SPs are properly trained before serving real buyers.
+
+**Preconditions:**
+- Admin or Leader is logged in
+
+**Business Rules:**
+| Rule ID | Rule Description | Priority |
+|---------|------------------|----------|
+| BR-313 | Admin sees training status for all SPs | P0 |
+| BR-314 | Leader sees training status for team members only | P0 |
+| BR-315 | Admin/Leader can assign retraining to specific modules | P1 |
+| BR-316 | Admin/Leader can revoke certification (disable live selling) | P0 |
+| BR-317 | Training progress notification sent via LINE OA when SP completes certification | P1 |
+
+**Acceptance Criteria:**
+| # | Given | When | Then |
+|---|-------|------|------|
+| AC-121 | Admin views SP network | Admin clicks SP detail | System shows training section: modules completed, assessment scores, certification status, simulation completion |
+| AC-122 | Admin assigns retraining | Admin selects modules and clicks "มอบหมายอบรมใหม่" | System resets selected modules for SP, sends LINE OA notification |
+| AC-123 | Admin revokes certification | Admin clicks "ระงับสิทธิ์การขาย" | System disables live selling, SP sees "สิทธิ์การขายถูกระงับ — กรุณาติดต่อผู้ดูแล" |
+
+---
+
+### EPIC-15: User Management & Role/Permission
+
+| Field | Value |
+|-------|-------|
+| **Epic ID** | EPIC-15 |
+| **Goal** | Enable Super Admin to manage portal users and configure role-based access control across the SP Portal and Admin Portal |
+| **Scope** | User CRUD operations, role definition, permission matrix, role assignment, role-based access enforcement |
+| **Out of Scope** | SSO provider management (handled by Allkons ID/Keycloak), buyer/seller user management (separate portals) |
+| **Success Criteria** | Super Admin can create/edit/suspend users; roles and permissions configurable; access enforced per role across all portal features |
+| **Maps to** | FR-131 to FR-140 |
+
+#### US-21: Super Admin Manage Users
+**As a** Super Admin, **I want to** create, edit, suspend, and manage user accounts in the SP Portal and Admin Portal, **so that** I can control who has access to the system.
+
+**Preconditions:**
+- User is logged in with Super Admin role
+
+**Business Rules:**
+| Rule ID | Rule Description | Priority |
+|---------|------------------|----------|
+| BR-318 | Super Admin can create new admin/leader accounts | P0 |
+| BR-319 | Super Admin can edit user profiles and role assignments | P0 |
+| BR-320 | Super Admin can suspend/reactivate user accounts | P0 |
+| BR-321 | Super Admin can view all users across the organization | P0 |
+| BR-322 | User changes are audit-logged with timestamp and actor | P0 |
+
+**Acceptance Criteria:**
+| # | Given | When | Then |
+|---|-------|------|------|
+| AC-124 | Super Admin on user management page | Admin views user list | System displays all users with: name, email, role, status, last login |
+| AC-125 | Super Admin creates new user | Admin fills form and clicks "สร้างผู้ใช้" | System creates account, sends credentials via LINE OA/email |
+| AC-126 | Super Admin suspends user | Admin clicks "ระงับบัญชี" | System suspends user, revokes active sessions |
+| AC-127 | Super Admin changes user role | Admin selects new role | System updates permissions immediately, logs change |
+
+#### US-22: Super Admin Manage Roles & Permissions
+**As a** Super Admin, **I want to** define roles and configure permission matrices, **so that** I can control what each role can access across the portal.
+
+**Preconditions:**
+- User is logged in with Super Admin role
+
+**Business Rules:**
+| Rule ID | Rule Description | Priority |
+|---------|------------------|----------|
+| BR-323 | System has predefined roles: Super Admin, Admin, Leader, SP (Member) | P0 |
+| BR-324 | Super Admin can create custom roles with specific permission sets | P1 |
+| BR-325 | Permissions are per-module: SP Management, Commission, Payout, RFQ, Training, Disputes, Audit, User Management | P0 |
+| BR-326 | Permission levels per module: No Access, View Only, Edit, Full Control | P0 |
+| BR-327 | Role changes apply immediately to all users with that role | P0 |
+| BR-328 | At least one Super Admin must exist at all times (cannot remove last Super Admin) | P0 |
+
+**Acceptance Criteria:**
+| # | Given | When | Then |
+|---|-------|------|------|
+| AC-128 | Super Admin on role management page | Admin views roles | System displays role list with permission summary |
+| AC-129 | Super Admin edits role permissions | Admin toggles permission checkboxes | System saves changes, applies to all users with that role |
+| AC-130 | Super Admin tries to remove last Super Admin | Admin attempts action | System blocks with "ไม่สามารถลบ Super Admin คนสุดท้ายได้" |
+
+#### US-23: Role-Based Access Enforcement
+**As the** system, **I want to** enforce role-based access control across all portal features, **so that** users can only access what their role permits.
+
+**Business Rules:**
+| Rule ID | Rule Description | Priority |
+|---------|------------------|----------|
+| BR-329 | Every API endpoint must check user's role and permissions before processing | P0 |
+| BR-330 | UI must hide/disable features the user's role cannot access | P0 |
+| BR-331 | Unauthorized access attempts are logged for security audit | P0 |
+| BR-332 | Role-based access applies to both SP Portal and Admin Portal | P0 |
+
+**Acceptance Criteria:**
+| # | Given | When | Then |
+|---|-------|------|------|
+| AC-131 | User with "View Only" on Commission | User tries to edit commission policy | System shows "คุณไม่มีสิทธิ์ในการดำเนินการนี้" |
+| AC-132 | Leader user | Leader accesses SP network | System shows team members only, not all SPs |
+| AC-133 | Admin without Payout permission | Admin tries to create payout batch | System blocks access, shows permission error |
 
 ---
 

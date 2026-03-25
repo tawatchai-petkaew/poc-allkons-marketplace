@@ -94,6 +94,15 @@ Release (or back to Dev if bugs found)
 
 ```
 docs/
+├── architecture/                    # 🏗️ Global architecture & context
+│   ├── INFORMATION-ARCHITECTURE.md  # IA sitemap for all apps (UX owned)
+│   ├── APP-CONTEXT-GUIDE.md         # Per-app tech context & visual theme
+│   ├── STRUCTURE-SUMMARY.md         # Docs structure overview
+│   ├── VERSION-MANAGEMENT-GUIDE.md
+│   └── registries/                  # Per-app component catalogs
+│       ├── buyer-components.md
+│       ├── seller-components.md
+│       └── startup-partner-components.md
 ├── ai/                              # 🤖 AI agent documentation
 │   ├── workflows/                   # High-level workflow guides
 │   │   ├── TEAM-COLLABORATION.md    # This file (read first!)
@@ -214,12 +223,13 @@ docs/
 
 ### For UX Designers
 
-1. Read BRD + Epic + Tech Spec (after BRD is 🟢 Final)
-2. See template: [`docs/modules/template-module/01-Epic1/03-frontend-spec.md`](docs/modules/template-module/01-Epic1/03-frontend-spec.md) (Phase 1 sections)
-3. Design user flows, screens, states, interactions, accessibility & responsive concepts
-4. Create Figma mockups and add links to Section 1
-5. See role guide: [`docs/ai/roles/ux-designer.md`](docs/ai/roles/ux-designer.md)
-6. Tag UI Developer (Phase 1 approved, ready for Phase 2)
+1. Read global IA: [`docs/architecture/INFORMATION-ARCHITECTURE.md`](docs/architecture/INFORMATION-ARCHITECTURE.md)
+2. Read app context: [`docs/architecture/APP-CONTEXT-GUIDE.md`](docs/architecture/APP-CONTEXT-GUIDE.md)
+3. Read component registry for your app: [`docs/architecture/registries/[app]-components.md`](docs/architecture/registries/)
+4. Read BRD + Epic + Tech Spec (after BRD is 🟢 Final)
+5. Run `/write-ux-overview [module-name]` to create module-level UX overview
+6. Run `/write-ux-spec [module-name] [epic-name]` to design individual epics
+7. See role guide: [`docs/ai/roles/ux-designer.md`](docs/ai/roles/ux-designer.md)
 
 ### For UI Developers
 

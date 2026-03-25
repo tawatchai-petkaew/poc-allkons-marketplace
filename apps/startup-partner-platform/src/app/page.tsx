@@ -3,8 +3,7 @@
 import React from "react";
 import { useRouter } from "next/navigation";
 
-import Typography from "@/components/Typography";
-import Button from "@/components/Button";
+import { Typography, Button } from "@/design-system";
 
 const StartupPartnerLanding: React.FC = () => {
   const router = useRouter();
@@ -30,7 +29,7 @@ const StartupPartnerLanding: React.FC = () => {
             <div className="flex flex-col gap-3">
               <Button
                 dataTestId="btn--go-register"
-                color="primary"
+                variant="primary-brand"
                 fullWidth
                 onClick={() => router.push("/design-mocks/sp/register")}
               >
@@ -38,8 +37,7 @@ const StartupPartnerLanding: React.FC = () => {
               </Button>
               <Button
                 dataTestId="btn--go-apply"
-                color="primary"
-                variant="outlined"
+                variant="secondary-brand"
                 fullWidth
                 onClick={() => router.push("/design-mocks/sp/apply")}
               >
@@ -47,8 +45,7 @@ const StartupPartnerLanding: React.FC = () => {
               </Button>
               <Button
                 dataTestId="btn--go-status"
-                color="neutral"
-                variant="outlined"
+                variant="secondary-neutral"
                 fullWidth
                 onClick={() => router.push("/design-mocks/sp/status")}
               >
@@ -56,8 +53,7 @@ const StartupPartnerLanding: React.FC = () => {
               </Button>
               <Button
                 dataTestId="btn--go-home"
-                color="neutral"
-                variant="outlined"
+                variant="secondary-neutral"
                 fullWidth
                 onClick={() => router.push("/design-mocks/sp/home")}
               >
@@ -74,7 +70,7 @@ const StartupPartnerLanding: React.FC = () => {
             <div className="flex flex-col gap-3">
               <Button
                 dataTestId="btn--go-admin-list"
-                color="neutral"
+                variant="secondary-neutral"
                 fullWidth
                 onClick={() => router.push("/design-mocks/admin/sp/applications")}
               >

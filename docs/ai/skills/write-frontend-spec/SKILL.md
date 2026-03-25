@@ -82,6 +82,22 @@ Read:
 - `docs/ai/rules/ux-designer/02-ux-ui-patterns.md` - Reusable UX/UI pattern library
 - Scan `src/components/` and `src/components/shared/` to identify reusable components.
 
+**Step 2.5: Read App Context & Component Registry**
+Read:
+1. `docs/architecture/APP-CONTEXT-GUIDE.md` — Determine which app context applies and its **Visual Theme Direction**
+2. `docs/architecture/registries/[app]-components.md` — Complete component catalog and design system structure for this app
+   - buyer-platform → `docs/architecture/registries/buyer-components.md`
+   - seller-platform → `docs/architecture/registries/seller-components.md`
+   - startup-partner-platform → `docs/architecture/registries/startup-partner-components.md`
+3. `docs/modules/$1/MODULE-UX-OVERVIEW.md` — Shared layout, navigation pattern, cross-epic components
+
+**CRITICAL**: Different apps have fundamentally different component systems:
+- **buyer-platform**: Ant Design wrappers in `src/components/`, import via `@/components/`
+- **seller-platform**: Ant Design wrappers in `src/components/`, import via `@/components/`
+- **startup-partner-platform**: Custom design system (NO Ant Design), import via `@/design-system/components`
+
+Using components from the wrong app context will produce incorrect output.
+
 **Step 3: Analyze UX Spec** _(Cognitive Protocol Step 1: Component Mapping)_
 
 From Phase 1 sections, extract:
@@ -197,6 +213,16 @@ The mock must:
 - **Inline page components** directly in `page.tsx` (no separate `components/` subfolder per route)
 - **Shared components** go in `_shared/[module-name]/` and are imported via relative paths
 
+**Step 5.5: Ensure Prototype Continuity**
+Mocks must feel like one unified app, not isolated screens:
+
+1. **Shared Layout**: Check if `src/app/design-mocks/_shared/$1/layout.tsx` exists
+   - If not, create a shared layout that includes app-level navigation (sidebar/header matching the real app), module-level breadcrumbs, and consistent spacing/container widths
+   - Reference MODULE-UX-OVERVIEW.md Section 5 (Shared Layout) for the layout specification
+2. **All page.tsx files** in design-mocks MUST use this shared layout
+3. **Working Navigation**: Links between mock pages must use `router.push()` to navigate to other mock pages in the same module — not placeholder buttons
+4. **Visual Consistency**: Use the same container widths, padding, margins, and card styles as other epics' mock pages in the module
+
 **Step 6: Validation** _(Cognitive Protocol Step 3: Traceability & Quality Audit)_
 
 #### Phase 2 Validation Checklist
@@ -224,6 +250,25 @@ The mock must:
 - [ ] Responsive matches Phase 1 Section 6 breakpoints
 - [ ] Design tokens from `docs/ai/rules/developer/06-nextjs-antd-best-practices.md` (not hardcoded)
 
+### CI/Theme Compliance
+
+- [ ] Zero hardcoded hex colors in mock TSX — all reference design tokens or Tailwind config classes
+- [ ] Typography uses the app's Typography component (not raw HTML `<h1>`, `<p>` tags)
+- [ ] Spacing uses Tailwind classes (not inline px values)
+- [ ] Icons use the app's icon system (Remix Icon for buyer/seller, design-system icons for startup-partner)
+- [ ] Visual style matches the app's **Visual Theme Direction** from APP-CONTEXT-GUIDE.md
+
+### Storybook Requirement (startup-partner-platform only)
+
+- [ ] New shared components have Storybook stories in `src/stories/components/`
+- [ ] Stories demonstrate all variants and key states
+
+### Prototype Continuity
+
+- [ ] Mock pages use shared layout from `_shared/[module]/layout.tsx`
+- [ ] Navigation between mock pages works via `router.push()`
+- [ ] Visual consistency with other epics' mock pages in the same module
+
 **Step 6b: Update Shared Documentation**
 After validation passes, update these shared files if new items were introduced:
 
@@ -236,6 +281,12 @@ After validation passes, update these shared files if new items were introduced:
    - **Error Scenarios**: Extract from `01-epic.md` Section 2 error handling tables + edge cases
    - **Flow-Specific Behavior**: Extract from `01-epic.md` Section 2 state behavior tables (OTP rules, status transitions, etc.)
    - **Mock Preview URLs**: List all `design-mocks/` routes created in Step 5
+
+**Step 6c: Update Component Registry & Module Overview**
+After validation passes, update these documents:
+
+1. `docs/architecture/registries/[app]-components.md` — Add new shared components created in this epic to the Component Catalog section
+2. `docs/modules/$1/MODULE-UX-OVERVIEW.md` — Update the Shared Components table (Section 6) with new components and shared layout info
 
 **Step 7: Versioning & Iteration Rules**
 If updating an existing document:

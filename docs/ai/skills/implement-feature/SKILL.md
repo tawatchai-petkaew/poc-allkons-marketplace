@@ -246,7 +246,16 @@ After implementation, update these shared files if new items were introduced:
 2. `docs/shared/test-data/$1/test-data.md` — **Create (if not exists) or update** test data with new test scenarios, accounts, or edge cases found during implementation. If creating, use `docs/shared/test-data/_template.md` as format and populate from `01-epic.md` Section 2 + `mockData.ts` (if exists)
 3. `docs/shared/glossary.md` — Add any new UI terms or messages introduced in the implementation
 
-**Step 8: Provide Next Steps**
+**Step 8: Update Component Registry**
+If new shared/reusable components were created during implementation:
+
+1. Determine which app this module belongs to (buyer/seller/startup-partner)
+2. Update `docs/architecture/registries/[app]-components.md`:
+   - Add new components to Section 2 (Component Catalog)
+   - Update import paths from mock paths to production paths
+   - Add props interface, variants, and states
+
+**Step 9: Provide Next Steps**
 Tell the user:
 
 ```

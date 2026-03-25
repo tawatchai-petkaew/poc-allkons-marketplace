@@ -59,6 +59,22 @@ A 3-step systematic framework:
 - Are **Tailwind breakpoints** correct for responsive behavior?
 - Have I verified all **UI text matches** `docs/shared/glossary.md`? (no rogue Thai strings)
 - Have I **created/updated** `docs/shared/test-data/[module]/test-data.md` from `mockData.ts` + epic validation rules?
+- Am I using the correct **app context**? (buyer/seller use Ant Design, startup-partner uses custom design system)
+- Does my mock use the **shared layout** from MODULE-UX-OVERVIEW.md?
+- Have I updated the **component registry** with new shared components?
+- Are all colors from **design tokens** (not hardcoded hex)?
+- Have I created **Storybook stories** for new components? (startup-partner-platform)
+- Is the visual style consistent with the **Visual Theme Direction** from APP-CONTEXT-GUIDE.md?
+
+### Prototype Continuity Rules
+
+Mocks must feel like one unified app, not isolated pages:
+
+1. **Shared Layout**: Every mock page must use the module's shared layout (sidebar, header, breadcrumbs) from `_shared/[module]/layout.tsx`
+2. **Working Navigation**: Links between mock pages must use `router.push()` to navigate to other mock pages in the same module — not placeholder buttons or `alert()`
+3. **Consistent Spacing**: Use the same container widths, padding, and margins as other epics in the module
+4. **State Continuity**: If a user completes flow A (Epic 1) and enters flow B (Epic 2), the mock should show a realistic transition
+5. **Visual Consistency**: Shadow depth, border radius, card styles, and typography must be consistent across all epics in the module
 
 ---
 
@@ -66,6 +82,9 @@ A 3-step systematic framework:
 
 When working with AI, tell it to read:
 
+- `docs/architecture/APP-CONTEXT-GUIDE.md` — Which app context, component system, and **Visual Theme Direction**
+- `docs/architecture/registries/[app]-components.md` — Complete component catalog and design system structure for the target app
+- `docs/modules/[module-name]/MODULE-UX-OVERVIEW.md` — Shared layout, navigation pattern for prototype continuity
 - `docs/modules/[module-name]/[epic]/03-frontend-spec.md` - Phase 1 (UX spec, MUST be approved)
 - `docs/modules/[module-name]/[epic]/02-technical-spec.md` - Tech spec (API endpoints, data models)
 - `docs/modules/[module-name]/[epic]/01-epic.md` - Epic (Section 2: User Stories for traceability)

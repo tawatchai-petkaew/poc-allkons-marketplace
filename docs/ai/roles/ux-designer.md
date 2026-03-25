@@ -62,6 +62,24 @@ A 3-step systematic design framework:
 - Have I referenced the **validation rules** file? (`docs/ai/rules/ux-designer/01-validation-rules.md`)
 - Have I documented the **error handling pattern**? (`docs/shared/error-handling.md`)
 - Have I followed the **UX Writing rule**? (`docs/ai/rules/ux-designer/03-ux-writing.md`) — all UI text uses glossary templates
+- Have I checked the **IA sitemap** to understand where my screens fit in the app?
+- Does my **navigation design** match the existing app navigation pattern?
+- Am I **referencing existing components** from the component registry before inventing new UI?
+- Is my design consistent with the app's **Visual Theme Direction**?
+
+### Big Picture Protocol
+
+**Rule:** Before designing any screens for an epic, UX Designer must first understand the big picture:
+
+1. **What app context** does this module belong to? (buyer/seller/startup-partner) → Read `APP-CONTEXT-GUIDE.md`
+2. **What other modules** exist in this app? → Read `INFORMATION-ARCHITECTURE.md`
+3. **What other epics** exist in this module? → Read `MODULE-UX-OVERVIEW.md`
+4. **What navigation pattern** does the app use? (sidebar/top-nav/etc.) → Check app section in IA sitemap
+5. **What components already exist** that can be reused? → Read component registry for the app
+
+This ensures designs feel like part of one unified app, not isolated pages per epic.
+
+> **New module?** Run `/write-ux-overview [module-name]` first to create the module-level overview before designing individual epics.
 
 ---
 
@@ -69,6 +87,10 @@ A 3-step systematic design framework:
 
 When working with AI, tell it to read:
 
+- `docs/architecture/INFORMATION-ARCHITECTURE.md` — Global IA sitemap (where does this module sit in the app?)
+- `docs/architecture/APP-CONTEXT-GUIDE.md` — Which app context, what components exist, **Visual Theme Direction**
+- `docs/architecture/registries/[app]-components.md` — Existing component catalog for the target app (buyer/seller/startup-partner)
+- `docs/modules/[module-name]/MODULE-UX-OVERVIEW.md` — Cross-epic navigation, shared layouts, module screen map
 - `docs/modules/[module-name]/brd.md` - BRD (must be `🟢 Final / Approved`)
 - `docs/modules/[module-name]/[epic]/01-epic.md` - Epic spec, focus on:
   - **Section 2: User Stories** — AC, BR, validation rules, edge cases, state behavior

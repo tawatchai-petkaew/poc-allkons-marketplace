@@ -1,5 +1,12 @@
 # UX/UI Pattern Library
 
+> **Before creating a new pattern**, check these resources first:
+> 1. This file (existing UX/UI patterns below)
+> 2. The app's component registry: `docs/architecture/registries/[app]-components.md`
+> 3. The design system Storybook (startup-partner-platform only): `localhost:6006`
+>
+> Only create a new pattern if no existing component or pattern serves the same purpose.
+
 Central library of reusable UX/UI patterns used across the application. All frontend specs must reference existing patterns before creating new ones.
 
 > **Rule:** When a new UI pattern is introduced, add it here with a description, code example, and usage context. All modules should reuse patterns from this library.
