@@ -146,22 +146,20 @@ Sidebar Menu Items:
 
 | Module | Route Prefix | Screens | Status | MODULE-UX-OVERVIEW |
 |--------|-------------|---------|--------|-------------------|
-| SP Authentication & SSO | `/sp/login`, `/sp/register` | 4 | In Planning | `docs/modules/startup-partner-o2o/` |
-| SP Onboarding & KYC | `/sp/register/*`, `/sp/application-status`, `/sp/profile` | 5 | In Planning | `docs/modules/startup-partner-o2o/` |
-| Product Discovery | `/sp/products` | 3 | In Planning | `docs/modules/startup-partner-o2o/` |
-| RFQ Management | `/sp/rfq` | 4 | In Planning | `docs/modules/startup-partner-o2o/` |
-| Quote Comparison (Offer Hub) | `/sp/rfq/{id}/quotes` | 2 | In Planning | `docs/modules/startup-partner-o2o/` |
-| Magic Links | `/sp/magic-links` | 3 | In Planning | `docs/modules/startup-partner-o2o/` |
-| SP-Seller Messaging | `/sp/messages` | 2 | In Planning | `docs/modules/startup-partner-o2o/` |
-| Commission & Earnings | `/sp/commissions` | 5 | In Planning | `docs/modules/startup-partner-o2o/` |
-| Orders | `/sp/orders` | 2 | In Planning | `docs/modules/startup-partner-o2o/` |
-| Team Management (Leaders) | `/sp/team` | 4 | In Planning | `docs/modules/startup-partner-o2o/` |
-| Dispute Resolution | `/sp/disputes` | 3 | In Planning | `docs/modules/startup-partner-o2o/` |
-| Admin SP Management | `/admin/sp-partners` | 5 | In Planning | `docs/modules/startup-partner-o2o/` |
-| Admin Commission Mgmt | `/admin/commissions` | 10+ | In Planning | `docs/modules/startup-partner-o2o/` |
-| Admin Disputes | `/admin/disputes` | 2 | In Planning | `docs/modules/startup-partner-o2o/` |
+| SP Authentication & SSO | `/sp/login`, `/sp/callback` | 2 | In Planning | [MODULE-UX-OVERVIEW](docs/modules/startup-partner-o2o/MODULE-UX-OVERVIEW.md) |
+| SP Registration & Onboarding | `/sp/register/*`, `/sp/application-status`, `/sp/profile` | 9 | In Planning | [MODULE-UX-OVERVIEW](docs/modules/startup-partner-o2o/MODULE-UX-OVERVIEW.md) |
+| SP Training & Certification | `/sp/training/*` | 4 | In Planning | [MODULE-UX-OVERVIEW](docs/modules/startup-partner-o2o/MODULE-UX-OVERVIEW.md) |
+| Product Discovery | `/sp/products/*` | 3 | In Planning | [MODULE-UX-OVERVIEW](docs/modules/startup-partner-o2o/MODULE-UX-OVERVIEW.md) |
+| RFQ Management | `/sp/rfq/*` | 3 | In Planning | [MODULE-UX-OVERVIEW](docs/modules/startup-partner-o2o/MODULE-UX-OVERVIEW.md) |
+| Quote Comparison (Offer Hub) | `/sp/rfq/:id/compare`, `/sp/quotes` | 3 | In Planning | [MODULE-UX-OVERVIEW](docs/modules/startup-partner-o2o/MODULE-UX-OVERVIEW.md) |
+| SP-Seller Messaging | `/sp/rfq/:id/messages` | 1 | In Planning | [MODULE-UX-OVERVIEW](docs/modules/startup-partner-o2o/MODULE-UX-OVERVIEW.md) |
+| Magic Links | `/sp/magic-links/*` | 2 | In Planning | [MODULE-UX-OVERVIEW](docs/modules/startup-partner-o2o/MODULE-UX-OVERVIEW.md) |
+| Commission & Earnings | `/sp/commissions/*` | 5 | In Planning | [MODULE-UX-OVERVIEW](docs/modules/startup-partner-o2o/MODULE-UX-OVERVIEW.md) |
+| SP Orders | `/sp/orders` | 1 | In Planning | [MODULE-UX-OVERVIEW](docs/modules/startup-partner-o2o/MODULE-UX-OVERVIEW.md) |
+| Team Management (Leaders) | `/sp/team/*` | 4 | In Planning | [MODULE-UX-OVERVIEW](docs/modules/startup-partner-o2o/MODULE-UX-OVERVIEW.md) |
+| Dispute Resolution | `/sp/disputes/*` | 3 | In Planning | [MODULE-UX-OVERVIEW](docs/modules/startup-partner-o2o/MODULE-UX-OVERVIEW.md) |
 
-> **Total**: ~54 screens across 14 modules (SP Portal + Admin)
+> **Total**: ~40 SP Portal screens (see [MODULE-UX-OVERVIEW](docs/modules/startup-partner-o2o/MODULE-UX-OVERVIEW.md) for complete 66-screen map across all 4 apps)
 
 ### App-Level Navigation
 
